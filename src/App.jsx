@@ -1,12 +1,17 @@
-import Chatbox from './comp/chatbox.jsx'
+import Chat from './pages/chat.jsx' 
+import RouteView from './pages/routeview.jsx'
 import './App.css'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
-
   return (
     <>
-      <h1>Hello world!</h1>
-      <Chatbox />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Chat/>} />
+          <Route path="/routeview" element={<RouteView/> } />
+        </Routes>
+      </Router>  
     </>
   )
 }
