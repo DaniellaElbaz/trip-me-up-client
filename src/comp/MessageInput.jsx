@@ -17,11 +17,11 @@ export default function MessageInput({ onSend }) {
         placeholder="Type your message..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="flex-grow p-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex-grow p-2 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         onClick={handleSend}
-        className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-blue-200 hover:bg-blue-300 focus:outline-none"
+        className="ml-2 flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-all"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ export default function MessageInput({ onSend }) {
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="w-5 h-5 text-gray-800"
+          className="w-5 h-5"
         >
           <path
             strokeLinecap="round"

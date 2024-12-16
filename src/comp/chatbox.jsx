@@ -25,10 +25,11 @@ export default function Chatbox() {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md h-[600px] bg-white shadow-lg rounded-lg overflow-hidden border border-gray-300 mx-auto my-10">
-      {}
+    <div className="flex flex-col w-full h-screen bg-white shadow-lg overflow-hidden">
+      <div className="bg-gray-800 text-white text-center p-4 font-bold">
+        Chat Assistant
+      </div>
       <MessageList messages={messages} />
-      {}
       <MessageInput onSend={sendMessage} />
     </div>
   );
