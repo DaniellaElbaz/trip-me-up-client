@@ -6,7 +6,7 @@ export default function Chatbox() {
 
   const [messages, setMessages] = useState([
     { id: 1, type: 'incoming', text: 'Hello! How can I help you?' },
-    { id: 2, type: 'outgoing', text: 'I want to learn React!' },
+    { id: 2, type: 'outgoing', text: 'hii' },
   ]);
 
   const sendMessage = (text) => {
