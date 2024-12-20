@@ -10,7 +10,7 @@ function RouteViewPoc(){
 
     const startLocation = "Pardes Hanna-Karkur";
     const endLocation = "Heftsiba";
-    const stops = ["Hadera", "Haifa"];
+    const stops = ["Hadera", "Haifa", "Kiryat Ata"];
 
     return(
       <>

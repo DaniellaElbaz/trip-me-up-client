@@ -62,12 +62,22 @@ function Directions({ startLocation, endLocation, stops }) {
 
   return (
     <div className="directions" style={styles.directions}>
-      <h2 className='text-blue-500 text-lg'>{selected.summary}</h2>
-      <p className='text-amber-500'>
-        {leg.start_address.split(',')[0]} to {leg.end_address.split(',')[0]}
+      <p className='text-amber-500 text-lg'>
+        {leg.start_address.split(',')[0]} to {selected.legs[selected.legs.length - 1].end_address.split(',')[0]}
       </p>
-      <p>Distance: {leg.distance?.text}</p>
-      <p>Duration: {leg.duration?.text}</p>
+      <p>Distance: {calculateTotalDistance(selected.legs) / 1000} km</p> 
+      <p>Duration: {formatDuration(calculateTotalDuration(selected.legs))}</p>
+      <p className="text-blue-400 font-bold">Locations:</p>
+      <ul className="list-decimal pl-6">
+        {selected.legs.map((leg, index) => (
+        <li key={index} className='text-blue-500'>
+          {leg.start_address.split(',')[0]}
+        </li>
+        ))}
+        <li key={selected.legs.length - 1} className='text-blue-500'>
+          {selected.legs[selected.legs.length - 1].end_address.split(',')[0]}
+        </li>
+      </ul>
     </div>
   );
 }
@@ -79,5 +89,25 @@ Directions.propTypes = {
     PropTypes.string // An array of strings for the stops
   ).isRequired,
 };
+
+function calculateTotalDistance(legs) {
+  return legs.reduce((totalDistance, leg) => {
+    const distanceInMeters = leg.distance.value; 
+    return totalDistance + distanceInMeters;
+  }, 0);
+}
+
+function calculateTotalDuration(legs) {
+  return legs.reduce((totalDuration, leg) => {
+    const durationInSeconds = leg.duration.value; // duration in seconds
+    return totalDuration + durationInSeconds;
+  }, 0);
+}
+
+function formatDuration(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return `${hours}h ${minutes}m`;
+}
 
 export default Directions;
