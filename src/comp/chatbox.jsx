@@ -4,9 +4,8 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 
 export default function Chatbox() {
-  // TODO: change to no local address
   const [messageHistory, setMessageHistory] = useState([])
-  const [webSocketUrl,setWebSocketUrl] = useState('ws://localhost:9910/api/chat/conversation')
+  const [webSocketUrl,setWebSocketUrl] = useState("wss://trip-me-up-server.onrender.com/api/chat/conversation")
   const {sendMessage,lastMessage,readyState} = useWebSocket(webSocketUrl)
 
   // Recieve message and store it in messageHistory
