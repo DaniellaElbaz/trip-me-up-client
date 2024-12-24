@@ -47,8 +47,8 @@ function Directions({ startLocation, endLocation, stops }) {
         origin: startLocation,
         destination: endLocation,
         travelMode: google.maps.TravelMode.DRIVING,
-        waypoints: stops.map((location) => ({location, stopover:true }))
-        //provideRouteAlternatives: true,
+        waypoints: stops.map((location) => ({location, stopover:true })),
+        optimizeWaypoints: true
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
