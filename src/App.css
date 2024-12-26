@@ -3,9 +3,14 @@
 @tailwind utilities;
 
 #root {
+<<<<<<< HEAD
 
   padding: 2rem;
   
+=======
+  max-width: 1920px;
+  padding: 0;
+>>>>>>> routeview_dev
 }
 
 .logo {
@@ -43,3 +48,4 @@
 .read-the-docs {
   color: #888;
 }
+
