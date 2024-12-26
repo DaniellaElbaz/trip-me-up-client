@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect,useContext } from "react";
 import useWebSocket from "react-use-websocket";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 
 export default function Chatbox() {
+  let navigate = useNavigate();
+
   const [messageHistory, setMessageHistory] = useState([]);
   const [webSocketUrl, setWebSocketUrl] = useState(
     "wss://trip-me-up-server.onrender.com/api/chat/conversation",
@@ -24,7 +27,7 @@ export default function Chatbox() {
       if (msg.route !== null) {
         m.text = "Redirecting you to route...";
         m.locations = JSON.parse(msg.route).places;
-        console.log(m.locations);
+        navigate('/routeview_poc',{state:{routeData: m.locations}});
       }
       setMessageHistory((prev) => prev.concat(m));
     }
