@@ -11,27 +11,25 @@ function SideBarTimeline({ stops }) {
   return (
     <Box className="flex flex-col items-center w-full">
       <h2 className="text-xl font-bold mb-6">Trip Days</h2>
-      <div className="relative w-full">
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-[4px] bg-gray-800 h-full"></div>
+      <div className="w-full flex flex-col">
         {stops.map((stop, index) => (
-          <div key={index} className="flex justify-center items-center gap-4 relative z-10">
-            {/* שם התחנה */}
-            <span className="w-1/3 text-right pr-4 text-lg font-semibold">{stop}</span>
+          <div key={index} className="flex justify-between w-full">
+            {/* שם התחנה בצד שמאל */}
+            <span className="text-lg font-semibold w-1/3 text-right break-words">{stop}</span>
 
-            {/* נקודה */}
-            <div className="relative flex flex-col items-center">
+            {/* נקודה עם מספר היום והקו האנכי */}
+            <div className="flex flex-col items-center">
               <div className="w-8 h-8 bg-blue-600 rounded-full shadow-md flex justify-center items-center">
                 <span className="text-white font-bold">{index + 1}</span>
               </div>
-
-              {/* קו אנכי קצר מתחת לכל נקודה למעט האחרונה */}
+              {/* קו אנכי מתחת לנקודה */}
               {index < stops.length - 1 && (
-                <div className="w-[2px] bg-gray-800 h-20"></div>
+                <div className="w-[2px] bg-gray-800 flex-grow min-h-[3vh] sm:min-h-[5vh] md:min-h-[6vh] lg:min-h-[8vh]"></div>
               )}
             </div>
 
-            {/* היום */}
-            <span className="w-1/3 pl-4 text-left text-lg font-semibold">{`Day ${index + 1}`}</span>
+            {/* היום בצד ימין */}
+            <span className="text-lg font-semibold w-1/3">{`Day ${index + 1}`}</span>
           </div>
         ))}
       </div>
@@ -107,7 +105,6 @@ function RouteViewPoc() {
 
         {/* Station Sidebar */}
         <Box className="w-1/4 p-4 border-l border-gray-400">
-          <h2 className="text-center text-xl font-bold mb-6">Trip Days</h2>
           <SideBarTimeline stops={dummyData.stops} />
         </Box>
       </Box>
