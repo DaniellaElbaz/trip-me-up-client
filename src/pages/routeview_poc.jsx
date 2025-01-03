@@ -10,24 +10,27 @@ function SideBarTimeline({ stops }) {
 
   return (
     <Box className="flex flex-col items-center w-full">
-      <div className="flex flex-col items-center w-full">
+      <h2 className="text-xl font-bold mb-6">Trip Days</h2>
+      <div className="relative w-full">
+        <div className="absolute left-1/2 transform -translate-x-1/2 w-[4px] bg-gray-800 h-full"></div>
         {stops.map((stop, index) => (
-          <div key={index} className="flex items-center justify-center w-full gap-4 relative">
-            {/* תחנה בצד שמאל */}
+          <div key={index} className="flex justify-center items-center gap-4 relative z-10">
+            {/* שם התחנה */}
             <span className="w-1/3 text-right pr-4 text-lg font-semibold">{stop}</span>
 
-            {/* קו אנכי עם נקודה */}
-            <div className="flex flex-col items-center">
+            {/* נקודה */}
+            <div className="relative flex flex-col items-center">
               <div className="w-8 h-8 bg-blue-600 rounded-full shadow-md flex justify-center items-center">
                 <span className="text-white font-bold">{index + 1}</span>
               </div>
-              {/* קו אנכי שמחבר את הנקודות */}
+
+              {/* קו אנכי קצר מתחת לכל נקודה למעט האחרונה */}
               {index < stops.length - 1 && (
-                <div className="w-[2px] bg-gray-800 h-full my-2"></div>
+                <div className="w-[2px] bg-gray-800 h-20"></div>
               )}
             </div>
 
-            {/* היום בצד ימין */}
+            {/* היום */}
             <span className="w-1/3 pl-4 text-left text-lg font-semibold">{`Day ${index + 1}`}</span>
           </div>
         ))}
