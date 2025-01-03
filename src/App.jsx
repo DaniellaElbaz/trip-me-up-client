@@ -10,8 +10,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Chatbox/>} />
-          <Route path="/routeview" element={<RouteView/> } />
+         <Route path="/" element={<Chatbox/>} />
+         <Route path="/routeview" element={<RouteView/> } />
           <Route path="/routeview_poc" element={<RouteViewPoc/>} />
         </Routes>
       </Router>
