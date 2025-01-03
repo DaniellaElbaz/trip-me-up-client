@@ -4,17 +4,27 @@ import { useEffect, useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 function SideBarTimeline({ stops }) {
+  if (!Array.isArray(stops) || stops.length === 0) {
+    return <div>There are no stops to display.</div>;
+  }
+
   return (
     <Box className="flex flex-col items-center w-full">
-      <div className="w-full flex flex-col gap-8">
+      <div className="flex flex-col items-center w-full">
         {stops.map((stop, index) => (
-          <div key={index} className="flex items-center">
-            {/* שם התחנה בצד שמאל */}
-            <span className="w-1/3 text-right pr-4 text-lg font-semibold">{stop.name}</span>
+          <div key={index} className="flex items-center justify-center w-full gap-4 relative">
+            {/* תחנה בצד שמאל */}
+            <span className="w-1/3 text-right pr-4 text-lg font-semibold">{stop}</span>
 
-            {/* הנקודה */}
-            <div className="w-8 h-8 bg-blue-600 rounded-full shadow-md flex justify-center items-center">
-              <span className="text-white font-bold">{index + 1}</span>
+            {/* קו אנכי עם נקודה */}
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 bg-blue-600 rounded-full shadow-md flex justify-center items-center">
+                <span className="text-white font-bold">{index + 1}</span>
+              </div>
+              {/* קו אנכי שמחבר את הנקודות */}
+              {index < stops.length - 1 && (
+                <div className="w-[2px] bg-gray-800 h-full my-2"></div>
+              )}
             </div>
 
             {/* היום בצד ימין */}
@@ -30,11 +40,7 @@ function RouteViewPoc() {
   const dummyData = {
     startLocation: "Statue of Liberty, New York",
     endLocation: "Central Park, New York",
-    stops: [
-      { name: "Times Square", description: "Explore the heart of NYC!", day: 1 },
-      { name: "Rockefeller Center", description: "See the famous skating rink.", day: 2 },
-      { name: "Empire State Building", description: "Climb to the top!", day: 3 },
-    ],
+    stops: ["Times Square", "Rockefeller Center", "Empire State Building"],
     images: [
       "https://example.com/times-square.jpg",
       "https://example.com/rockefeller-center.jpg",
@@ -105,7 +111,6 @@ function RouteViewPoc() {
     </Box>
   );
 }
-
 export default RouteViewPoc;
 //function RouteViewPoc(){
    // const location = useLocation();
