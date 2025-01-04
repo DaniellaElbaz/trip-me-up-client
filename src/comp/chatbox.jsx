@@ -43,13 +43,20 @@ export default function Chatbox() {
     setMessageHistory((prev) => prev.concat(m));
   };
 
-  return (
-    <div className="flex flex-col w-full h-screen bg-white shadow-lg overflow-hidden">
-      <div className="bg-gray-800 text-white text-center p-4 font-bold">
-        Chat Assistant
+    return (
+      <div
+        className="flex flex-col w-full"
+        style={{ height: `calc(100vh - 64px)` }}
+      >
+        <div className="bg-gray-800 text-white text-center p-4 font-bold">
+          Chat Assistant
+        </div>
+        <div className="flex-grow overflow-y-auto">
+          <MessageList messages={messageHistory} />
+        </div>
+          <div className="p-2  border-gray-300 bg-white sticky bottom-0">
+          <MessageInput onSend={handleSendMessage} />
+        </div>
       </div>
-      <MessageList messages={messageHistory} />
-      <MessageInput onSend={handleSendMessage} />
-    </div>
-  );
-}
+    );
+  }
