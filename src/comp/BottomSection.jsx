@@ -15,7 +15,7 @@ export default function BottomSection({
       <Box
         className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300 "
         style={{
-            height: `${bottomHeight}%`,
+           // height: `${bottomHeight}%`,
             maxHeight: "50vh", // לא לעלות על חצי מסך
             zIndex: 10,
         }}

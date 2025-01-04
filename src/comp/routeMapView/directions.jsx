@@ -15,7 +15,6 @@ const styles = {
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
     zIndex: 1, 
     maxHeight: '90vh',
-    overflowY: 'auto', 
     width: '300px', 
   },
 };

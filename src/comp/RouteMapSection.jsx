@@ -6,13 +6,13 @@ export default function RouteMapSection({ startLocation, endLocation, stops, bot
     <Box
   className="relative"
   style={{
-    height: `${100 - bottomHeight}%`,
+    height: "100%",
     position: "fixed",
     top: 0,
     left: 0,
     width: "100%",
-    backgroundColor: "transparent", // רקע שקוף
-    zIndex: 1,
+    backgroundColor: "transparent",
+    zIndex: 10,
   }}
 >
       <RouteMapView startLocation={startLocation} endLocation={endLocation} stops={stops} />
