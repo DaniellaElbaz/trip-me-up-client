@@ -4,31 +4,31 @@ import RouteMapView from "../comp/routeMapView/routeMapView";
 
 
 function RouteViewPoc(){
-    const location = useLocation();
-    if(location.state !== null){
-      const routeData = location.state.routeData;
-    }
+    //const location = useLocation();
+    //if(location.state !== null){
+     // const routeData = location.state.routeData;
+    //}
   
     useEffect(() => {
         document.title = "Trip me up - POC"
     }, []);
 
-    console.log("Route data:")
+    //console.log("Route data:")
     //console.log(routeData)
 
-    const stopsData = routeData.slice(1,routeData.length - 1)
-    const stops = stopsData.map((x)=>{
-      return x.name
-    })
-    console.log("stops data")
-    console.log(stopsData)
+   // const stopsData = routeData.slice(1,routeData.length - 1)
+  //  const stops = stopsData.map((x)=>{
+   //   return x.name
+   // })
+  //  console.log("stops data")
+   // console.log(stopsData)
 
-    const startLocation = routeData[0].name;
-    const endLocation = routeData[routeData.length - 1].name
+   // const startLocation = routeData[0].name;
+    //const endLocation = routeData[routeData.length - 1].name
 
-    // const stops = []
-    // const startLocation = "Alamo Drafthouse Cinema"
-    // const endLocation = "Central Park"
+     const stops = []
+     const startLocation = "Alamo Drafthouse Cinema"
+    const endLocation = "Central Park"
 
     return(
       <>
