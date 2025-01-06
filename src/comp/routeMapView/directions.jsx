@@ -20,7 +20,6 @@ const styles = {
   },
 };
 
-
 function Directions({ startLocation, endLocation, stops }) {
   const map = useMap();
   const routesLibrary = useMapsLibrary('routes');
@@ -34,29 +33,37 @@ function Directions({ startLocation, endLocation, stops }) {
   // Initialize directions service and renderer
   useEffect(() => {
     if (!routesLibrary || !map) return;
-    setDirectionsService(new routesLibrary.DirectionsService());
-    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
+  
+    const service = new routesLibrary.DirectionsService();
+    const renderer = new routesLibrary.DirectionsRenderer({ map });
+  
+    setDirectionsService(service);
+    setDirectionsRenderer(renderer);
+  
+    return () => {
+      renderer.setMap(null);
+    };
   }, [routesLibrary, map]);
 
   // Use directions service
   useEffect(() => {
     if (!directionsService || !directionsRenderer) return;
-
-    directionsService
-      .route({
-        origin: startLocation,
-        destination: endLocation,
-        travelMode: google.maps.TravelMode.DRIVING,
-        waypoints: stops.map((location) => ({location, stopover:true })),
-        optimizeWaypoints: true
-      })
-      .then((response) => {
-        directionsRenderer.setDirections(response);
-        setRoutes(response.routes);
-      });
-
-    return () => directionsRenderer.setMap(null);
-  }, [directionsService, directionsRenderer, startLocation, endLocation, stops]);
+    //console.log(`start: ${startLocation}, end: ${endLocation}, stops: ${stops}`);
+    directionsService.route({
+      origin: startLocation,
+      destination: endLocation,
+      travelMode: google.maps.TravelMode.DRIVING,
+      waypoints: stops.map(location => ({ location, stopover: true })),
+      optimizeWaypoints: true
+    })
+    .then(response => {
+      directionsRenderer.setDirections(response);
+      setRoutes(response.routes);
+    })
+    .catch(error => {
+      console.error('Error fetching directions:', error);
+    });
+  }, [directionsService, directionsRenderer, startLocation, endLocation, stops]);  
 
   if (!leg) return null;
 
