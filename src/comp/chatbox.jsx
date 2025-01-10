@@ -26,8 +26,7 @@ export default function Chatbox() {
       };
       if (msg.route !== null) {
         m.text = "Redirecting you to route...";
-        m.locations = JSON.parse(msg.route).places;
-        navigate('/routeview_poc',{state:{routeData: m.locations}});
+        navigate('/routeview_poc',{state:{routeData: msg.places}});
       }
       setMessageHistory((prev) => prev.concat(m));
     }

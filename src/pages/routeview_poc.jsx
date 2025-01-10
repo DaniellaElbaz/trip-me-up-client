@@ -5,86 +5,138 @@ import { useLoadScript } from "@react-google-maps/api";
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const libraries = ["places"];
-const devMode = false;
-
 function RouteViewPoc() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: API_KEY,
     libraries: libraries,
   });
   const location = useLocation();
-  const [validatedRouteData, setValidatedRouteData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [routeData, setRouteData] = useState(null);
 
   useEffect(() => {
     document.title = "Trip me up - POC";
   }, []);
 
   useEffect(() => {
-    const validateLocations = async () => {
-      if (location.state && location.state.routeData && isLoaded) {
-        const routeData = location.state.routeData.map((r) => r.name);
-        const validatedData = [];
-
-        const map = new window.google.maps.Map(document.createElement("div"));
-        const placesService = new window.google.maps.places.PlacesService(map);
-
-        for (const place of routeData) {
-          try {
-            const request = {
-              query: place,
-              fields: ["name", "geometry"],
-            };
-
-            const result = await new Promise((resolve, reject) => {
-              placesService.findPlaceFromQuery(request, (results, status) => {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-                  resolve(results[0]);
-                } else {
-                  reject(`Location not found: ${place}`);
-                }
-              });
-            });
-
-            if (result) {
-              validatedData.push({
-                name: result.name,
-                location: result.geometry.location.toJSON(),
-              });
+    if(location.routeData == null){
+      setRouteData([
+        {
+          "formatted_address": "Nemal Tel Aviv St, Tel Aviv-Yafo, Israel",
+          "geometry": {
+            "location": {
+              "lat": 32.0972969,
+              "lng": 34.7737774
+            },
+            "viewport": {
+              "northeast": {
+                "lat": 32.09863777989272,
+                "lng": 34.77517067989272
+              },
+              "southwest": {
+                "lat": 32.09593812010728,
+                "lng": 34.77247102010728
+              }
             }
-          } catch (error) {
-            console.warn(error);
-          }
+          },
+          "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+          "name": "Tel Aviv Port",
+          "opening_hours": {
+            "open_now": true
+          },
+          "photos": [
+            {
+              "height": 3456,
+              "html_attributions": [
+                "<a href=\"https://maps.google.com/maps/contrib/116662672862060853074\">אורטל ירושלמי</a>"
+              ],
+              "photo_reference": "AWYs27wxa6G8yOjJh-cVFBlod8HBUTxNUGZ1TqAKbhPm-HMA86im024qt2Hvy-nn92sjuDlOVd1aAyDpHlNwW9qcD9DdqrXoLZx1rUsiCqPnBOyR_Ann0vrsMZFlTwieD6kgZuqm-Kus8AJoFL3wQhgNmnwuAPt_x0JWmA6lxVv7ayiHEItJ",
+              "width": 4608
+            }
+          ],
+          "rating": 4.5
+        },
+        {
+          "formatted_address": "Gordon Beach, Israel",
+          "geometry": {
+            "location": {
+              "lat": 32.0826977,
+              "lng": 34.7674219
+            },
+            "viewport": {
+              "northeast": {
+                "lat": 32.0848795,
+                "lng": 34.7687513
+              },
+              "southwest": {
+                "lat": 32.081417,
+                "lng": 34.7658959
+              }
+            }
+          },
+          "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+          "name": "Gordon Beach",
+          "photos": [
+            {
+              "height": 2268,
+              "html_attributions": [
+                "<a href=\"https://maps.google.com/maps/contrib/104080219373796678894\">Orosz Enid</a>"
+              ],
+              "photo_reference": "AWYs27xbcBND3JjlRB0ANJj-2ebXua1qB--jEjBwUWsO90N7n7FwGSpDkRlSU-7UFTbH48M_w0-51BQI4KIeN8SdiIjIhNo42wlQIzTy9hCTEtmjB3tTL5xQ8P-DbSFqHuDWIjZnNYYYHdT7VjmOm524RYyR11Oa2O5xrNirHrvuZWd1dXqW",
+              "width": 4032
+            }
+          ],
+          "rating": 4.6
+        },
+        {
+          "formatted_address": "Aluf Kalman Magen St 3, Tel Aviv-Yafo, Israel",
+          "geometry": {
+            "location": {
+              "lat": 32.0709839,
+              "lng": 34.7872963
+            },
+            "viewport": {
+              "northeast": {
+                "lat": 32.07230767989272,
+                "lng": 34.78844322989272
+              },
+              "southwest": {
+                "lat": 32.06960802010727,
+                "lng": 34.78574357010727
+              }
+            }
+          },
+          "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+          "name": "Sarona Market",
+          "opening_hours": {
+            "open_now": true
+          },
+          "photos": [
+            {
+              "height": 2988,
+              "html_attributions": [
+                "<a href=\"https://maps.google.com/maps/contrib/102034957881172912980\">Adam Ohayon</a>"
+              ],
+              "photo_reference": "AWYs27yHdfllfX3kdfy7OyQ6RI82b9GsQEAKiezSP8qbPxYcAHf3Z1gFNX-r79yvrqoWd2NMs0diwTb_bpvOLxLH4uXMaM3EzLbMeKlMrPymzeSpGJlqq7zYBhdTX7WO5hOczG0TQRkarlx5ZCSZbtjHsCIRc2Gztf5ZKhQJL61G94dl6GdX",
+              "width": 5312
+            }
+          ],
+          "rating": 4.3
         }
+      ]);
+    }
+    else{
+      setRouteData(location.routeData);
+    }
+  }, [isLoaded, location.routeData]);
 
-        if (validatedData.length > 0) {
-          setValidatedRouteData(validatedData);
-        }
-      }
-
-      if (devMode) {
-        setValidatedRouteData([
-          { name: "Aviv Beach", location: { lat: 32.0853, lng: 34.7818 } },
-          { name: "Sarona Market", location: { lat: 32.0718, lng: 34.7860 } },
-          { name: "Tel Aviv University", location: { lat: 32.1133, lng: 34.8044 } },
-        ]);
-      }
-    };
-
-    validateLocations();
-  }, [location.state, isLoaded]);
-
-  useEffect(() => {
-    setLoading(false);
-  }, [validatedRouteData]);
-
-  if (loading || !validatedRouteData || validatedRouteData.length < 2) {
+  if (!isLoaded) {
     return <p>Loading, please wait...</p>;
   }
 
-  const stops = validatedRouteData.slice(1, validatedRouteData.length - 1);
-  const startLocation = validatedRouteData[0];
-  const endLocation = validatedRouteData[validatedRouteData.length - 1];
+  const locationNames = routeData.map((x) => ({'name': x.name, 'location': {'lat': x.geometry.location.lat, 'lng': x.geometry.location.lng}}));
+  const stops = locationNames.slice(1, locationNames.length - 1);
+  const startLocation = locationNames[0];
+  const endLocation = locationNames[locationNames.length - 1];
 
   if (!isLoaded) return <div>Loading...</div>;
 
