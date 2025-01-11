@@ -18,7 +18,8 @@ function RouteViewPoc() {
   }, []);
 
   useEffect(() => {
-    if(location.routeData == null){
+    console.log(location.state.routeData);
+    if(location.state.routeData == null){
       setRouteData([
         {
           "formatted_address": "Nemal Tel Aviv St, Tel Aviv-Yafo, Israel",
@@ -125,7 +126,7 @@ function RouteViewPoc() {
       ]);
     }
     else{
-      setRouteData(location.routeData);
+      setRouteData(location.state.routeData);
     }
   }, [isLoaded, location.routeData]);
 
@@ -133,16 +134,15 @@ function RouteViewPoc() {
     return <p>Loading, please wait...</p>;
   }
 
-  const locationNames = routeData.map((x) => ({'name': x.name, 'location': {'lat': x.geometry.location.lat, 'lng': x.geometry.location.lng}}));
-  const stops = locationNames.slice(1, locationNames.length - 1);
-  const startLocation = locationNames[0];
-  const endLocation = locationNames[locationNames.length - 1];
+  const stops = routeData.slice(1, routeData.length - 1);
+  const startLocation = routeData[0];
+  const endLocation = routeData[routeData.length - 1];
 
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <div className="w-screen h-screen flex-col">
-      <p className="text-xl bg-gray-500">
+      <p className="text-xl  bg-gray-500">
         Your Trip from {startLocation.name} to {endLocation.name}
       </p>
 
