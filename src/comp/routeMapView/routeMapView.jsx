@@ -11,7 +11,6 @@ const mapContainerStyle = {
 export default function RouteMapView({ startLocation, endLocation, stops }) {
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
-  const center = useMemo(() => ({ lat: 32.03, lng: 34.78 }), []); // map default center
   const [routeReady, setRouteReady] = useState(false);
   const [directions, setDirections] = useState();
   const [selectedLocation, setSelectedLocation] = useState(null); // State for selected marker
@@ -23,17 +22,26 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
   }, [startLocation, endLocation, stops]);
 
   useEffect(() => {
-    if (!routeReady) return;
+    if (!routeReady || !mapRef.current) return;
+
+    // fit map to markers
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend(new google.maps.LatLng(startLocation.geometry.location.lat, startLocation.geometry.location.lng));
+    stops.forEach(stop => {
+      bounds.extend(new google.maps.LatLng(stop.geometry.location.lat, stop.geometry.location.lng));
+    });
+    bounds.extend(new google.maps.LatLng(endLocation.geometry.location.lat, endLocation.geometry.location.lng));
+    mapRef.current.fitBounds(bounds);
 
     const service = new google.maps.DirectionsService();
 
     service.route(
       {
-        origin: startLocation.geometry.location, 
-        destination: endLocation.geometry.location, 
+        origin: startLocation.geometry.location,
+        destination: endLocation.geometry.location,
         travelMode: google.maps.TravelMode.DRIVING,
-        waypoints: stops.map((stop) => ({
-          location: stop.geometry.location, 
+        waypoints: stops.map(stop => ({
+          location: stop.geometry.location,
           stopover: true,
         })),
         optimizeWaypoints: true,
@@ -51,12 +59,9 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
   return (
     <div className="h-screen w-screen">
       <GoogleMap
-        zoom={9}
-        center={center} 
         mapContainerStyle={mapContainerStyle}
         onLoad={onLoad}
       >
-        {/* directions rendering */}
         {directions && (
           <DirectionsRenderer
             directions={directions}
@@ -70,76 +75,57 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
             }}
           />
         )}
-        {/* markers rendering */}
         <Marker
-          position={startLocation.geometry.location} 
-          title={startLocation.name} 
+          position={startLocation.geometry.location}
+          title={startLocation.name}
           icon={{
             url: startLocation.icon,
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={() => setSelectedLocation(startLocation)}
         />
-        {stops.map(stop => 
-          <Marker 
-            key={stop.geometry.location.lat} 
-            position={stop.geometry.location} 
-            title={stop.name} 
+        {stops.map(stop => (
+          <Marker
+            key={stop.geometry.location.lat}
+            position={stop.geometry.location}
+            title={stop.name}
             icon={{
               url: stop.icon,
-              scaledSize: new google.maps.Size(30, 30)
+              scaledSize: new google.maps.Size(30, 30),
             }}
             onClick={() => setSelectedLocation(stop)}
           />
-        )}
-        <Marker 
-          position={endLocation.geometry.location} 
-          title={endLocation.name} 
+        ))}
+        <Marker
+          position={endLocation.geometry.location}
+          title={endLocation.name}
           icon={{
             url: endLocation.icon,
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={() => setSelectedLocation(endLocation)}
         />
-        {/* info window */}
         {selectedLocation && (
           <InfoWindow
-          position={selectedLocation.geometry.location}
-          onCloseClick={() => setSelectedLocation(null)}
-          title={selectedLocation.formatted_address}
-        >
-          <div style={{
-            maxWidth: "300px",
-            backgroundColor: "#F3F4F6", 
-            padding: "16px",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-            borderRadius: "8px", 
-          }}>
-            <h3 style={{
-              fontSize: "18px",
-              fontWeight: "600",
-              color: "black", 
-              margin: "0 0 8px 0",
-            }}>
-              {selectedLocation.name}
-            </h3>
-            <p style={{
-              fontSize: "14px",
-              color: "black", 
-              margin: "0",
-            }}>
-              {selectedLocation.formatted_address}
-            </p>
-          </div>
-        </InfoWindow>
+            position={selectedLocation.geometry.location}
+            onCloseClick={() => setSelectedLocation(null)}
+          >
+            <div style={{ maxWidth: "300px", padding: "16px", borderRadius: "8px", backgroundColor: "#F3F4F6", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: "600", color: "black", margin: "0 0 8px 0" }}>
+                {selectedLocation.name}
+              </h3>
+              <p style={{ fontSize: "14px", color: "black", margin: "0" }}>
+                {selectedLocation.formatted_address}
+              </p>
+            </div>
+          </InfoWindow>
         )}
       </GoogleMap>
     </div>
   );
 }
 
-// props
-
+// PropTypes
 const LocationPropTypes = PropTypes.shape({
   formatted_address: PropTypes.string.isRequired,
   geometry: PropTypes.shape({
@@ -157,11 +143,11 @@ const LocationPropTypes = PropTypes.shape({
       photo_reference: PropTypes.string.isRequired,
       width: PropTypes.number.isRequired,
     })
-  )
+  ),
 });
 
 RouteMapView.propTypes = {
   startLocation: LocationPropTypes.isRequired,
   stops: PropTypes.arrayOf(LocationPropTypes).isRequired,
-  endLocation: LocationPropTypes.isRequired
+  endLocation: LocationPropTypes.isRequired,
 };
