@@ -18,8 +18,7 @@ function RouteViewPoc() {
   }, []);
 
   useEffect(() => {
-    console.log(location.state.routeData);
-    if(location.state.routeData == null){
+    if(location.state == null){
       setRouteData([
         {
           "formatted_address": "Nemal Tel Aviv St, Tel Aviv-Yafo, Israel",
