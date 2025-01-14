@@ -1,13 +1,11 @@
-import { Box, IconButton } from "@mui/material";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import SideBarTimeline from "./SideBarTimeline";
+import ImageGallery from "./ImageGallery";
 
 export default function BottomSection({
+    startLocation,
     stops,
-    images,
-    currentStopIndex,
-    handlePrev,
-    handleNext,
+    endLocation,
     bottomHeight,
     handleScroll,
   }) {
@@ -23,31 +21,11 @@ export default function BottomSection({
       >
         <div className="flex bg-white p-6 gap-6 ">
           {/*left size*/}
-          <Box className="flex justify-center items-center" style={{ width: "70%" }}>
-            <div className="relative w-1/2 "> {/* imag 50% from the left size*/}
-              <img
-                src={images[currentStopIndex]}
-                alt={stops[currentStopIndex]}
-                className="w-full h-full rounded-lg shadow-md object-cover"
-              />
-              <IconButton
-                onClick={handlePrev}
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-blue-500 text-white hover:bg-blue-600 p-3"
-              >
-                <ArrowBack />
-              </IconButton>
-              <IconButton
-                onClick={handleNext}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-blue-500 text-white hover:bg-blue-600 p-3"
-              >
-                <ArrowForward />
-              </IconButton>
-            </div>
-          </Box>
+          {/*<ImageGallery imageReferences={startLocation.photos}/>*/}
   
           {/*time line*/}
           <Box className="w-3/10 p-4 border-l border-gray-400" style={{ width: "30%" }}>
-            <SideBarTimeline stops={stops} />
+            <SideBarTimeline stops={[startLocation.name].concat(stops.map(stop => stop.name)).concat(endLocation.name)} />
           </Box>
         </div>
       </Box>
