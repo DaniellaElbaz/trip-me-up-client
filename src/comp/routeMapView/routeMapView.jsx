@@ -110,10 +110,26 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
             position={selectedLocation.geometry.location}
             onCloseClick={() => setSelectedLocation(null)}
           >
-            <div style={{ maxWidth: "300px", padding: "16px", borderRadius: "8px", backgroundColor: "#F3F4F6", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
+            <div style={{ maxWidth: "200px", padding: "16px", marginTop: "3px", borderRadius: "8px", backgroundColor: "#F3F4F6", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
+              {/* title */}
               <h3 style={{ fontSize: "18px", fontWeight: "600", color: "black", margin: "0 0 8px 0" }}>
                 {selectedLocation.name}
               </h3>
+              {/* photo */}
+              {selectedLocation.photos && selectedLocation.photos.length > 0 && (
+                <img
+                  src={selectedLocation.photos[0]} 
+                  alt={selectedLocation.name}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    marginTop: "2px",
+                    marginBottom: "4px",
+                    borderRadius: "8px"
+                  }}
+                />
+              )}
+              {/* address */}
               <p style={{ fontSize: "14px", color: "black", margin: "0" }}>
                 {selectedLocation.formatted_address}
               </p>
