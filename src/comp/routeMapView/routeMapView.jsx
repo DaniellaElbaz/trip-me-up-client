@@ -135,15 +135,7 @@ const LocationPropTypes = PropTypes.shape({
     }).isRequired,
   }).isRequired,
   icon: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  photos: PropTypes.arrayOf(
-    PropTypes.shape({
-      height: PropTypes.number.isRequired,
-      html_attributions: PropTypes.arrayOf(PropTypes.string).isRequired,
-      photo_reference: PropTypes.string.isRequired,
-      width: PropTypes.number.isRequired,
-    })
-  ),
+  name: PropTypes.string.isRequired
 });
 
 RouteMapView.propTypes = {

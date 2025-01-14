@@ -21,7 +21,7 @@ export default function BottomSection({
       >
         <div className="flex bg-white p-6 gap-6 ">
           {/*left size*/}
-          {/*<ImageGallery imageReferences={startLocation.photos}/>*/}
+          <ImageGallery imageReferences={startLocation.photos}/>
   
           {/*time line*/}
           <Box className="w-3/10 p-4 border-l border-gray-400" style={{ width: "30%" }}>

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
-export default function ImageGallery(imageReferences){
+export default function ImageGallery({imageReferences}){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const handleNext = () => {
@@ -19,30 +17,14 @@ export default function ImageGallery(imageReferences){
         );
     };
 
-    const [photoUrls, setPhotoUrls] = useState([]);
-
-    const fetchPlacePhotos = () => {
-        console.log(imageReferences);
-        const urls = imageReferences.imageReferences.map((reference) => 
-            {return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${reference.photo_reference}&key=${API_KEY}`;}
-            );
-        setPhotoUrls(urls);
-        console.log(urls);
-    };
-
-    useEffect(() => {
-        if(imageReferences != null){
-            fetchPlacePhotos();
-        }
-    }, [imageReferences]);
-
     return(
         <Box className="flex justify-center items-center" style={{ width: "70%" }}>
             <div className="relative w-1/2 "> {/* imag 50% from the left size*/}
                 <img
-                    src={photoUrls[currentImageIndex]}
+                    src={imageReferences[currentImageIndex]}
                     alt={`image index ${currentImageIndex}`}
                     className="w-full h-full rounded-lg shadow-md object-cover"
+                    
                 />
                 <IconButton
                     onClick={handlePrev}

@@ -11,6 +11,7 @@ const libraries = ["places"];
 export default function RouteViewPoc() {
   const location = useLocation();
   const [routeData, setRouteData] = useState(null);
+  const [updatedRouteData, setUpdatedRouteData] = useState(null); // contains image URL's instead of references
   const [stops, setStops] = useState(["None"]);
   const [startLocation, setStartLocation] = useState("None");
   const [endLocation, setEndLocation] = useState("None");
@@ -27,11 +28,25 @@ export default function RouteViewPoc() {
     }
   }, [location.state]);
 
+  const getImageUrlFromReference = (photoReference) => {
+    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${photoReference}&key=${API_KEY}`;
+  };
+
   useEffect(() => {
-    if(routeData != null){
-      setStops(routeData.slice(1, routeData.length - 1));
-      setStartLocation(routeData[0]);
-      setEndLocation(routeData[routeData.length - 1]);
+    if (routeData != null) {
+      // Map over routeData to update photos
+      const updatedRouteData = routeData.map((place) => {
+        const updatedPhotos = place.photos
+          ? place.photos.map(photo => getImageUrlFromReference(photo.photo_reference))
+          : []; // Return an empty array if photos don't exist
+  
+        return { ...place, photos: updatedPhotos };
+      });
+
+      setUpdatedRouteData(updatedRouteData);
+      setStops(updatedRouteData.slice(1, updatedRouteData.length - 1));
+      setStartLocation(updatedRouteData[0]);
+      setEndLocation(updatedRouteData[updatedRouteData.length - 1]);
     }
   }, [routeData])
 
