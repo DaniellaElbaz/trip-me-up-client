@@ -26,35 +26,36 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
 
     // fit map to markers
     const bounds = new google.maps.LatLngBounds();
-    bounds.extend(new google.maps.LatLng(startLocation.geometry.location.lat, startLocation.geometry.location.lng));
+   bounds.extend(new google.maps.LatLng(startLocation.geometry.location.lat, startLocation.geometry.location.lng));
     stops.forEach(stop => {
-      bounds.extend(new google.maps.LatLng(stop.geometry.location.lat, stop.geometry.location.lng));
+     // bounds.extend(new google.maps.LatLng(stop.geometry.location.lat, stop.geometry.location.lng));
     });
-    bounds.extend(new google.maps.LatLng(endLocation.geometry.location.lat, endLocation.geometry.location.lng));
-    mapRef.current.fitBounds(bounds);
+    //bounds.extend(new google.maps.LatLng(endLocation.geometry.location.lat, endLocation.geometry.location.lng));
+   // mapRef.current.fitBounds(bounds);
 
-    const service = new google.maps.DirectionsService();
+   // const service = new google.maps.DirectionsService();
 
-    service.route(
-      {
-        origin: startLocation.geometry.location,
-        destination: endLocation.geometry.location,
-        travelMode: google.maps.TravelMode.DRIVING,
-        waypoints: stops.map(stop => ({
-          location: stop.geometry.location,
-          stopover: true,
-        })),
-        optimizeWaypoints: true,
-      },
-      (result, status) => {
-        if (status === "OK" && result) {
-          setDirections(result);
-        } else {
-          console.error(`Failed to fetch directions: ${status}`);
-        }
-      }
-    );
-  }, [routeReady]);
+    //service.route(
+      //{
+      //  origin: startLocation.geometry.location,
+      //  destination: endLocation.geometry.location,
+     //   travelMode: google.maps.TravelMode.DRIVING,
+      //  waypoints: stops.map(stop => ({
+       //   location: stop.geometry.location,
+       //   stopover: true,
+      //  })),
+      //  optimizeWaypoints: true,
+    //  },
+      //(result, status) => {
+     //   if (status === "OK" && result) {
+        //  setDirections(result);
+     //   } else {
+      //    console.error(`Failed to fetch directions: ${status}`);
+      //  }
+     // }
+    //);
+  //}, [routeReady]
+});
 
   return (
     <div className="h-screen w-screen">
