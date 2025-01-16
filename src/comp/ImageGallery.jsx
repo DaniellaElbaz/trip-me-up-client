@@ -1,45 +1,108 @@
 import React, { useState } from 'react';
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 
-export default function ImageGallery({imageReferences}){
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+export default function ImageGallery({ imageReferences }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const handleNext = () => {
-        setCurrentImageIndex((prev) =>
-            prev < imageReferences.length - 1 ? prev + 1 : 0
-        );
-    };
-    
-    const handlePrev = () => {
-        setCurrentImageIndex((prev) =>
-            prev > 0 ? prev - 1 : imageReferences.length - 1
-        );
-    };
+  const handleNext = () => {
+    setCurrentImageIndex((prev) =>
+      prev < imageReferences.length - 1 ? prev + 1 : 0
+    );
+  };
 
-    return(
-        <Box className="flex justify-center items-center" style={{ width: "70%" }}>
-            <div className="relative w-1/2 "> {/* imag 50% from the left size*/}
-                <img
-                    src={imageReferences[currentImageIndex]}
-                    alt={`image index ${currentImageIndex}`}
-                    className="w-full h-full rounded-lg shadow-md object-cover"
-                    
-                />
-                <IconButton
-                    onClick={handlePrev}
-                    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-blue-500 text-white hover:bg-blue-600 p-3"
-                >
-                    <ArrowBack />
-                </IconButton>
-                <IconButton
-                    onClick={handleNext}
-                    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-blue-500 text-white hover:bg-blue-600 p-3"
-                >
-                    <ArrowForward />
-                </IconButton>
-            </div>
-        </Box>
-    ); 
+  const handlePrev = () => {
+    setCurrentImageIndex((prev) =>
+      prev > 0 ? prev - 1 : imageReferences.length - 1
+    );
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+        left:"30%",
+        width: "40%",
+        height: "40vh",
+        overflow: "hidden",
+        backgroundColor: "#f4f4f4",
+      }}
+    >
+      {/* Gradient Overlay */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          width: "100%",
+          height: "100%",
+          background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1))",
+          zIndex: 1,
+        }}
+      />
+
+      {/* Image */}
+      <img
+        src={imageReferences[currentImageIndex]}
+        alt={`Image index ${currentImageIndex}`}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          position: "absolute",
+          aspectRatio: "1 / 1",
+        }}
+      />
+
+      {/* Navigation Buttons */}
+      <IconButton
+        onClick={handlePrev}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "20px",
+          transform: "translateY(-50%)",
+          zIndex: 2,
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+          '&:hover': { backgroundColor: "rgba(255, 255, 255, 0.8)" },
+        }}
+      >
+        <ArrowBack />
+      </IconButton>
+      <IconButton
+        onClick={handleNext}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          right: "20px",
+          transform: "translateY(-50%)",
+          zIndex: 2,
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+          '&:hover': { backgroundColor: "rgba(255, 255, 255, 0.8)" },
+        }}
+      >
+        <ArrowForward />
+      </IconButton>
+
+      {/* Image Caption */}
+      <Typography
+        variant="h6"
+        sx={{
+          position: "absolute",
+          bottom: "20px",
+          left: "20px",
+          color: "white",
+          zIndex: 2,
+          textShadow: "0px 0px 8px rgba(0, 0, 0, 0.7)",
+        }}
+      >
+        Image {currentImageIndex + 1} / {imageReferences.length}
+      </Typography>
+    </Box>
+  );
 }
 
+
+{/*in this part we need to add the info about the place */}
