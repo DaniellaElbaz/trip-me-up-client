@@ -1,7 +1,7 @@
-import { Timeline, TimelineItem, TimelineSeparator, TimelineDot } from "@mui/lab";
-import { Box, Typography, Tooltip } from "@mui/material";
+import React from "react";
+import { Box, Stepper, Step, StepLabel, Tooltip, Typography } from "@mui/material";
 
-export default function SideBarTimeline({ stops, onSelectStop, selectedIndex }) {
+export default function SideBarStepper({ stops, onSelectStop, selectedIndex }) {
   const maxNameLength = 15;
 
   const getShortName = (name) => {
@@ -22,50 +22,44 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex }) 
       <Typography variant="h5" component="h2" gutterBottom>
         Trip Timeline
       </Typography>
-      <Box
+      <Stepper
+        alternativeLabel
+        activeStep={selectedIndex}
         sx={{
-          display: "flex",
-          alignItems: "center",
+          width: "100%",
+          padding: "0",
         }}
       >
         {stops.map((stop, index) => (
-          <Box
+          <Step
             key={index}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              width: "150px",
-              flexShrink: 0,
-              position: "relative",
-              cursor: "pointer",
-            }}
+            completed={false}
             onClick={() => onSelectStop(index)}
+            sx={{
+              cursor: "pointer",
+              "& .MuiStepLabel-label": {
+                fontWeight: index === selectedIndex ? "bold" : "normal",
+                fontSize: index === selectedIndex ? "18px" : "14px",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              },
+            }}
           >
-            <Typography variant="body2" color="textSecondary">
-              {` ${index + 1}`}
-            </Typography>
-            <TimelineSeparator>
-              <TimelineDot color="primary" />
-            </TimelineSeparator>
-            <Tooltip title={stop} arrow>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontSize: index === selectedIndex ? "18px" : "14px",
-                  fontWeight: index === selectedIndex ? "bold" : "normal",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {getShortName(stop)}
-              </Typography>
-            </Tooltip>
-          </Box>
+            <StepLabel
+              StepIconProps={{
+                sx: {
+                  color: index === selectedIndex ? "primary.main" : "grey.500",
+                },
+              }}
+            >
+              <Tooltip title={stop} arrow>
+                <span>{getShortName(stop)}</span>
+              </Tooltip>
+            </StepLabel>
+          </Step>
         ))}
-      </Box>
+      </Stepper>
     </Box>
   );
 }
