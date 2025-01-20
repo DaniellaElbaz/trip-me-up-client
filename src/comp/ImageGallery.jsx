@@ -1,23 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import CustomCard from "./CustomCard";
 
-export default function ImageGallery({ imageReferences }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const handleNext = () => {
-    setCurrentImageIndex((prev) =>
-      prev < imageReferences.length - 1 ? prev + 1 : 0
-    );
-  };
-
-  const handlePrev = () => {
-    setCurrentImageIndex((prev) =>
-      prev > 0 ? prev - 1 : imageReferences.length - 1
-    );
-  };
-
+export default function ImageGallery({
+  imageReferences,
+  currentImageIndex,
+  onNext,
+  onPrev,
+}) {
   return (
     <Box
       sx={{
@@ -31,9 +22,8 @@ export default function ImageGallery({ imageReferences }) {
       }}
     >
       <IconButton
-        onClick={handlePrev}
+        onClick={onPrev}
         sx={{
-
           transform: "translateY(-50%)",
           zIndex: 2,
           backgroundColor: "rgba(255, 255, 255, 0.5)",
@@ -46,14 +36,13 @@ export default function ImageGallery({ imageReferences }) {
       {/* CustomCard for Image Display */}
       <CustomCard
         image={imageReferences[currentImageIndex]}
-        title="" // Title not provided
-        description="" // Description not provided
+        title=""
+        description=""
       />
 
       <IconButton
-        onClick={handleNext}
+        onClick={onNext}
         sx={{
-
           transform: "translateY(-50%)",
           zIndex: 2,
           backgroundColor: "rgba(255, 255, 255, 0.5)",
@@ -65,3 +54,4 @@ export default function ImageGallery({ imageReferences }) {
     </Box>
   );
 }
+
