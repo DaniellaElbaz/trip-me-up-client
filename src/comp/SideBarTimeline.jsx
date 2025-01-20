@@ -1,22 +1,9 @@
 import React from "react";
-import { Box, Stepper, Step, StepLabel, Tooltip, Typography, styled, StepConnector } from "@mui/material";
+import { Box, Stepper, Step, Typography } from "@mui/material";
+import CustomConnector from "./CustomConnector";
+import StepLabelWithTooltip from "./StepLabelWithTooltip";
 
-// Custom Connector without using StepConnector.classes
-const CustomConnector = styled(StepConnector)(({ theme }) => ({
-  line: {
-    minHeight: "10px", // Reduce the height of the connectors
-    borderTopWidth: 2,
-    borderColor: theme.palette.divider,
-  },
-}));
-
-export default function SideBarStepper({ stops, onSelectStop, selectedIndex }) {
-  const maxNameLength = 15;
-
-  const getShortName = (name) => {
-    return name.length > maxNameLength ? `${name.slice(0, maxNameLength)}...` : name;
-  };
-
+export default function SideBarTimeline({ stops, onSelectStop, selectedIndex }) {
   return (
     <Box
       sx={{
@@ -38,46 +25,15 @@ export default function SideBarStepper({ stops, onSelectStop, selectedIndex }) {
         sx={{
           width: "100%",
           padding: "0",
-          gap: "0", // Removes additional spacing between steps
         }}
       >
         {/* "+" at the start */}
         <Step
           completed={false}
           onClick={() => console.log("Add clicked at the beginning")}
-          sx={{
-            cursor: "pointer",
-            "& .MuiStepLabel-root": {
-              margin: "0",
-            },
-          }}
+          sx={{ cursor: "pointer" }}
         >
-          <StepLabel
-            StepIconProps={{
-              sx: {
-                color: "grey.400",
-                fontSize: "14px",
-              },
-            }}
-            icon={
-              <Box
-                sx={{
-                  width: "24px",
-                  height: "24px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  backgroundColor: "grey.400",
-                  color: "white",
-                  fontWeight: "bold",
-                  "&:hover": { backgroundColor: "primary.main" },
-                }}
-              >
-                +
-              </Box>
-            }
-          />
+          <StepLabelWithTooltip stop="+" index={-1} isSelected={false} isPlus />
         </Step>
 
         {/* Main Steps */}
@@ -86,50 +42,14 @@ export default function SideBarStepper({ stops, onSelectStop, selectedIndex }) {
             <Step
               completed={false}
               onClick={() => onSelectStop(index)}
-              sx={{
-                cursor: "pointer",
-                "& .MuiStepLabel-root": {
-                  margin: "0",
-                },
-              }}
+              sx={{ cursor: "pointer" }}
             >
-              <StepLabel
-                StepIconProps={{
-                  sx: {
-                    color: index === selectedIndex ? "primary.main" : "grey.500",
-                  },
-                }}
-                icon={
-                  <Box
-                    sx={{
-                      width: "24px",
-                      height: "24px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "50%",
-                      backgroundColor: index === selectedIndex ? "primary.main" : "grey.500",
-                      color: "white",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {index + 1}
-                  </Box>
-                }
-              >
-                <Tooltip title={stop} arrow>
-                  <span
-                    style={{
-                      fontWeight: index === selectedIndex ? "bold" : "normal",
-                      fontSize: index === selectedIndex ? "16px" : "14px",
-                      color: index === selectedIndex ? "#3f51b5" : "inherit",
-                    }}
-                  >
-                    {getShortName(stop)}
-                  </span>
-                </Tooltip>
-              </StepLabel>
+              <StepLabelWithTooltip
+                stop={stop}
+                index={index}
+                isSelected={index === selectedIndex}
+                isPlus={false}
+              />
             </Step>
 
             {/* "+" after each step */}
@@ -137,39 +57,9 @@ export default function SideBarStepper({ stops, onSelectStop, selectedIndex }) {
               <Step
                 completed={false}
                 onClick={() => console.log(`Add clicked after stop ${index + 1}`)}
-                sx={{
-                  cursor: "pointer",
-                  "& .MuiStepLabel-root": {
-                    margin: "0",
-                  },
-                }}
+                sx={{ cursor: "pointer" }}
               >
-                <StepLabel
-                  StepIconProps={{
-                    sx: {
-                      color: "grey.400",
-                      fontSize: "14px",
-                    },
-                  }}
-                  icon={
-                    <Box
-                      sx={{
-                        width: "24px",
-                        height: "24px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "50%",
-                        backgroundColor: "grey.400",
-                        color: "white",
-                        fontWeight: "bold",
-                        "&:hover": { backgroundColor: "primary.main" },
-                      }}
-                    >
-                      +
-                    </Box>
-                  }
-                />
+                <StepLabelWithTooltip stop="+" index={index + 1} isSelected={false} isPlus />
               </Step>
             )}
           </React.Fragment>
@@ -179,39 +69,9 @@ export default function SideBarStepper({ stops, onSelectStop, selectedIndex }) {
         <Step
           completed={false}
           onClick={() => console.log("Add clicked at the end")}
-          sx={{
-            cursor: "pointer",
-            "& .MuiStepLabel-root": {
-              margin: "0",
-            },
-          }}
+          sx={{ cursor: "pointer" }}
         >
-          <StepLabel
-            StepIconProps={{
-              sx: {
-                color: "grey.400",
-                fontSize: "14px",
-              },
-            }}
-            icon={
-              <Box
-                sx={{
-                  width: "24px",
-                  height: "24px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  backgroundColor: "grey.400",
-                  color: "white",
-                  fontWeight: "bold",
-                  "&:hover": { backgroundColor: "primary.main" },
-                }}
-              >
-                +
-              </Box>
-            }
-          />
+          <StepLabelWithTooltip stop="+" index={stops.length} isSelected={false} isPlus />
         </Step>
       </Stepper>
     </Box>
