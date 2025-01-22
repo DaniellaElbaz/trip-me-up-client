@@ -1,74 +1,94 @@
-import React, { useState } from 'react';
-import { Avatar, Menu, MenuItem, IconButton } from '@mui/material';
-import { Logout, Settings, AccountCircle, History, Map, Chat } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Close, Logout, Chat, Map } from "@mui/icons-material";
+import Header from "./Header";
 
-export default function UserMenu() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const navigate = useNavigate();
+const UserMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const closeMenu = () => {
+    setIsOpen(false);
   };
 
-  const handleLogout = () => {
-    handleClose();
-  };
-
-  const goToHistory = () => {
-    navigate('/history');
-    handleClose();
-  };
-
-  const goToMap = () => {
-    navigate('/routeview_poc');
-    handleClose();
-  };
-  const goToChat = () => {
-    navigate('/');
-    handleClose();
-  };
   return (
-    <div className="mb-5 sticky top-0">
-      <IconButton onClick={handleClick} size="large">
-        <Avatar
-          src="https://media.tacdn.com/media/attractions-splice-spp-674x446/12/61/b0/fd.jpg"
-          alt="User"
-          className="shadow-lg border-2 border-blue-500"
-        />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-      >
-        <MenuItem onClick={goToHistory}>
-          <History sx={{ marginRight: 1 }} />
-          history
-        </MenuItem>
-        <MenuItem onClick={goToMap}>
-          <Map sx={{ marginRight: 1 }} />
-          map
-        </MenuItem>
-        <MenuItem onClick={goToChat}>
-          <Chat sx={{ marginRight: 1 }} />
-         chat
-        </MenuItem>
-        <MenuItem>
-          <Settings sx={{ marginRight: 1 }} />
-          setting
-        </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          <Logout sx={{ marginRight: 1 }} />
-          log out
-        </MenuItem>
-      </Menu>
+    <div className="relative">
+      {/* Header */}
+      <Header toggleMenu={toggleMenu} />
+
+      {/* Sidebar */}
+      {isOpen && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={closeMenu}
+          ></div>
+
+          {/* Sidebar */}
+          <div
+            className={`fixed top-0 left-0 h-screen w-64 bg-gray-800 text-white shadow-lg transform ${
+              isOpen ? "translate-x-0" : "-translate-x-full"
+            } transition-transform duration-300 z-50`}
+          >
+            {/* Close Icon */}
+            <button
+              onClick={closeMenu}
+              className="absolute top-4 right-4 text-white bg-gray-600 p-2 rounded-full focus:outline-none"
+            >
+              <Close />
+            </button>
+
+            {/* User Section */}
+            <div className="flex flex-col items-center p-6 border-b border-gray-700">
+              <img
+                src="/path-to-placeholder-image.jpg"
+                alt="User"
+                className="w-16 h-16 rounded-full mb-2"
+              />
+              <p className="text-lg font-bold">User Name</p>
+            </div>
+
+            {/* Navigation Links */}
+            <nav className="flex-grow p-4">
+              <NavLink
+                to="/"
+                className="flex items-center px-4 py-2 mb-2 rounded hover:bg-gray-700"
+                activeClassName="bg-gray-700"
+              >
+                <Chat className="mr-2" /> Home
+              </NavLink>
+              <NavLink
+                to="/chat"
+                className="flex items-center px-4 py-2 mb-2 rounded hover:bg-gray-700"
+                activeClassName="bg-gray-700"
+              >
+                <Chat className="mr-2" /> Chat
+              </NavLink>
+              <NavLink
+                to="/routeview"
+                className="flex items-center px-4 py-2 mb-2 rounded hover:bg-gray-700"
+                activeClassName="bg-gray-700"
+              >
+                <Map className="mr-2" /> Route View
+              </NavLink>
+            </nav>
+
+            {/* Logout Button */}
+            <button
+              className="flex items-center justify-center w-full px-4 py-2 mt-auto bg-red-600 hover:bg-red-700"
+              onClick={() => console.log("Logout")}
+            >
+              <Logout className="mr-2" /> Logout
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
-}
+};
+
+export default UserMenu;

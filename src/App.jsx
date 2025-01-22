@@ -10,11 +10,13 @@ function App() {
   return (
     <Router>
       <UserMenu />
-      <Routes>
-        <Route path="/" element={<Chatbox />} />
-        <Route path="/routeview" element={<RouteView />} />
-        <Route path="/routeview_poc" element={<RouteViewPoc />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Chatbox />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/routeview" element={<RouteView />} />
+        </Routes>
+      </main>
     </Router>
   );
 }
