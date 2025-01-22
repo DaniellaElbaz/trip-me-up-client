@@ -13,8 +13,12 @@ const Header = ({ toggleMenu }) => {
         >
           <Menu />
         </button>
-        {/* Title */}
-        <h1 className="text-lg font-bold text-gray-800">App Name</h1>
+        {/* Logo */}
+        <img
+          src="/images/logo.png"
+          alt="App Logo"
+          className="h-16 w-auto"
+        />
       </div>
     </header>
   );
@@ -25,3 +29,4 @@ Header.propTypes = {
 };
 
 export default Header;
+

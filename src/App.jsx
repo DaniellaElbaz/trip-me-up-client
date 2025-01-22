@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Chatbox />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/routeview" element={<RouteView />} />
+          <Route path="/routeview_poc" element={<RouteViewPoc />} />
         </Routes>
       </main>
     </Router>
