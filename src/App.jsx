@@ -12,7 +12,7 @@ function App() {
         <Routes>
          <Route path="/" element={<Chatbox/>} />
          <Route path="/routeview" element={<RouteView/> } />
-          <Route path="/routeview_poc" element={<RouteViewPoc/>} />
+          <Route path="/routeview_poc/:routeId" element={<RouteViewPoc/>} />
         </Routes>
       </Router>
     </>

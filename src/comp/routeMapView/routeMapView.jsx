@@ -54,7 +54,7 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
        }
      }
     );
-  }, [routeReady]
+  }, [routeReady, startLocation, endLocation, stops]
 );
 
   return (

@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import useWebSocket from "react-use-websocket";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
+import CONFIG from "../config";
 
 export default function Chatbox() {
   let navigate = useNavigate();
 
   const [messageHistory, setMessageHistory] = useState([]);
+  const [userId, setUserId] = useState(1); // TODO: get from login
   const [webSocketUrl, setWebSocketUrl] = useState(
     "wss://trip-me-up-server.onrender.com/api/chat/conversation",
   );
@@ -17,16 +19,41 @@ export default function Chatbox() {
   useEffect(() => {
     if (lastMessage !== null) {
       const msg = JSON.parse(lastMessage.data);
-
+  
       const m = {
         id: Date.now(),
         type: "incoming",
         text: msg.message,
         locations: null,
       };
+  
       if (msg.route !== null) {
         m.text = "Redirecting you to route...";
-        navigate('/routeview_poc',{state:{routeData: msg.places}});
+        (async () => {
+          try {
+            const jsonBody = {
+              user_id: userId,
+              locations: msg.places,
+            }
+            const response = await fetch(CONFIG.SERVER_URL + "/route/add", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(jsonBody),
+            });
+  
+            if (!response.ok) {
+              console.error("Response was not ok");
+            } else {
+              const data = await response.json();
+              const routeId = data[0]?.id;
+              navigate(`/routeview_poc/${routeId}`);
+            }
+          } catch (error) {
+            console.error("Error posting data:", error);
+          }
+        })();
       }
       setMessageHistory((prev) => prev.concat(m));
     }
