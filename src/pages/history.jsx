@@ -8,21 +8,36 @@ function History() {
       name: "Trip to Italy",
       date: "2025-01-20",
       places: ["Rome", "Venice", "Florence"],
-      image: "https://via.placeholder.com/300x200?text=Italy",
+      images: [
+        "https://via.placeholder.com/300x200?text=Italy",
+        "https://via.placeholder.com/300x200?text=Rome",
+        "https://via.placeholder.com/300x200?text=Venice",
+        "https://via.placeholder.com/300x200?text=Florence",
+      ],
     },
     {
       id: 2,
       name: "Trip to Japan",
       date: "2025-02-15",
       places: ["Tokyo", "Kyoto", "Osaka"],
-      image: "https://via.placeholder.com/300x200?text=Japan",
+      images: [
+        "https://via.placeholder.com/300x200?text=Japan",
+        "https://via.placeholder.com/300x200?text=Tokyo",
+        "https://via.placeholder.com/300x200?text=Kyoto",
+        "https://via.placeholder.com/300x200?text=Osaka",
+      ],
     },
     {
       id: 3,
       name: "Trip to USA",
       date: "2025-03-10",
       places: ["New York", "Los Angeles", "San Francisco"],
-      image: "https://via.placeholder.com/300x200?text=USA",
+      images: [
+        "https://via.placeholder.com/300x200?text=USA",
+        "https://via.placeholder.com/300x200?text=New York",
+        "https://via.placeholder.com/300x200?text=Los Angeles",
+        "https://via.placeholder.com/300x200?text=San Francisco",
+      ],
     },
   ];
 
