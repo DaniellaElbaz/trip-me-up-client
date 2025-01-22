@@ -24,8 +24,7 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
 
   const handlePlaceSelect = async (place) => {
     if (!place) return;
-    console.log(`place: ${place}, index: ${popupIndex}`)
-    //onStopAdded(selectedPlace, popupIndex);
+    onStopAdded(place, popupIndex);
     clearSuggestions();
     setAnchorEl(null);
 

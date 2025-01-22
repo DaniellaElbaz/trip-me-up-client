@@ -8,7 +8,7 @@ const mapContainerStyle = {
   height: "100vh",
 };
 
-export default function RouteMapView({ startLocation, endLocation, stops }) {
+export default function RouteMapView({ startLocation, endLocation, stops, optimize }) {
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const [routeReady, setRouteReady] = useState(false);
@@ -44,7 +44,7 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
          location: stop.geometry.location,
          stopover: true,
        })),
-       optimizeWaypoints: true,
+       optimizeWaypoints: optimize,
      },
       (result, status) => {
        if (status === "OK" && result) {
@@ -160,4 +160,5 @@ RouteMapView.propTypes = {
   startLocation: LocationPropTypes.isRequired,
   stops: PropTypes.arrayOf(LocationPropTypes).isRequired,
   endLocation: LocationPropTypes.isRequired,
+  optimize: PropTypes.bool
 };

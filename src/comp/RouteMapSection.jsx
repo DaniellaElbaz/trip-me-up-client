@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
+import PropTypes from "prop-types";
 import RouteMapView from "./routeMapView/routeMapView";
 
-export default function RouteMapSection({ startLocation, endLocation, stops, bottomHeight }) {
+export default function RouteMapSection({ startLocation, endLocation, stops, bottomHeight, optimize }) {
 
   return (
     <Box
@@ -16,7 +17,27 @@ export default function RouteMapSection({ startLocation, endLocation, stops, bot
       zIndex: 10,
       }}
     >
-      <RouteMapView startLocation={startLocation} endLocation={endLocation} stops={stops} />
+      <RouteMapView startLocation={startLocation} endLocation={endLocation} stops={stops} optimize={optimize}/>
     </Box>
   );
 }
+
+// PropTypes
+const LocationPropTypes = PropTypes.shape({
+  formatted_address: PropTypes.string.isRequired,
+  geometry: PropTypes.shape({
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
+  }).isRequired,
+  icon: PropTypes.string,
+  name: PropTypes.string.isRequired
+});
+
+RouteMapSection.propTypes = {
+  startLocation: LocationPropTypes.isRequired,
+  stops: PropTypes.arrayOf(LocationPropTypes).isRequired,
+  endLocation: LocationPropTypes.isRequired,
+  optimize: PropTypes.bool
+};

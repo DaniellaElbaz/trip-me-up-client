@@ -17,6 +17,7 @@ export default function RouteViewPoc() {
   const [stops, setStops] = useState(["None"]);
   const [startLocation, setStartLocation] = useState("None");
   const [endLocation, setEndLocation] = useState("None");
+  const [optimizeRoute, setOptimizeRoute] = useState(true)
 
   useEffect(() => {
     document.title = "Trip View";
@@ -45,7 +46,6 @@ export default function RouteViewPoc() {
           rating: place.rating,
           photos: place.photo_ref
         }));
-        console.log(transformedData);
         setRouteData(transformedData);
       } catch (error) {
         console.error("Error fetching route data:", error);
@@ -55,8 +55,10 @@ export default function RouteViewPoc() {
 
     if (routeId) {
       fetchRouteData();
+      setOptimizeRoute(false);
     } else {
       setRouteData(dummyData);
+      setOptimizeRoute(false);
     }
   }, [routeId]);
 
@@ -117,15 +119,31 @@ export default function RouteViewPoc() {
     setRouteData(newRouteData);
   }
 
-  const handleAddStop = (place, index) => {
-    setRouteDataReady(false);
-    const newRouteData = [
-      ...routeData.slice(0, index),
-      place,
-      ...routeData.slice(index),
-    ];
-    console.log(newRouteData);
-    setRouteData(newRouteData);
+  const handleAddStop = async (place, index) => {
+    try {
+      const response = await fetch(`${CONFIG.SERVER_URL}/places?place=${encodeURIComponent(place.description)}`, {
+        method: "GET",
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        const newStop = data.places[0];
+        newStop.photos = newStop.photos.map(photo => photo.photo_reference);
+        const newRouteData = [
+          ...routeData.slice(0, index),
+          newStop,
+          ...routeData.slice(index),
+        ];
+        setRouteDataReady(false);
+        setRouteData(newRouteData);
+      } else {
+        console.error("add stop failed");
+        const errorData = await response.json();
+        console.error("Error details:", errorData);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   }
 
   const handleScroll = (e) => {
@@ -151,6 +169,7 @@ export default function RouteViewPoc() {
         endLocation={endLocation}
         stops={stops}
         bottomHeight={bottomHeight}
+        optimize={optimizeRoute}
       />
       <BottomSection
         startLocation={startLocation}
