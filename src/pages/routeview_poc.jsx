@@ -45,14 +45,10 @@ export default function RouteViewPoc() {
           rating: place.rating,
           photos: [] // TODO: add photo references from server
         }));
-          
-        console.log(transformedData);
         setRouteData(transformedData); 
-        setRouteDataReady(true);
       } catch (error) {
         console.error("Error fetching route data:", error);
         setRouteData(dummyData); // TODO: Fallback to dummy data for dev, handle differently for final build
-        setRouteDataReady(true);
       }
     };
 
@@ -82,6 +78,7 @@ export default function RouteViewPoc() {
       setStops(updatedRouteData.slice(1, updatedRouteData.length - 1));
       setStartLocation(updatedRouteData[0]);
       setEndLocation(updatedRouteData[updatedRouteData.length - 1]);
+      setRouteDataReady(true);
     }
   }, [routeData])
 
