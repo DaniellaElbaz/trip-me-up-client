@@ -24,7 +24,7 @@ function Login() {
                       <h4 className="mb-6 text-xl font-semibold">
                       Discover the future of personalized travel planning
                       </h4>
-                      <p className="text-sm">
+                      <p className="text-base">
                       Welcome to your personalized travel planning platform! Plan and organize perfect itineraries tailored to your preferences with the help of advanced technologies and smart services
                       </p>
                     </div>
