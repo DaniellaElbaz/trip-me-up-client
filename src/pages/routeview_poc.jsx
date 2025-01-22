@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import dummyData from '../dev/dummyRouteData.json';
@@ -43,9 +43,10 @@ export default function RouteViewPoc() {
           icon: place.icon_url,
           name: place.name,
           rating: place.rating,
-          photos: [] // TODO: add photo references from server
+          photos: place.photo_ref
         }));
-        setRouteData(transformedData); 
+        console.log(transformedData);
+        setRouteData(transformedData);
       } catch (error) {
         console.error("Error fetching route data:", error);
         setRouteData(dummyData); // TODO: Fallback to dummy data for dev, handle differently for final build
@@ -60,7 +61,7 @@ export default function RouteViewPoc() {
   }, [routeId]);
 
   const getImageUrlFromReference = (photoReference) => {
-    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${photoReference}&key=${API_KEY}`;
+    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${photoReference}&key=${API_KEY}`;
   };
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function RouteViewPoc() {
       // Map over routeData to update photos
       const updatedRouteData = routeData.map((place) => {
         const updatedPhotos = place.photos
-          ? place.photos.map(photo => getImageUrlFromReference(photo.photo_reference))
+          ? place.photos.map(photo => getImageUrlFromReference(photo))
           : []; // Return an empty array if photos don't exist
   
         return { ...place, photos: updatedPhotos };
@@ -83,6 +84,49 @@ export default function RouteViewPoc() {
   }, [routeData])
 
   const [bottomHeight, setBottomHeight] = useState(30);
+
+  const handleRouteUpdate = async () => {
+    const userId = localStorage.getItem("user_id");
+    try {
+      const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId, route_id: routeId, locations: routeData })
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("route updated")
+        console.log(data);
+      } else {
+        console.error("Login failed");
+        const errorData = await response.json();
+        console.error("Error details:", errorData);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+
+  const handleStopDeleted = (stopIndex) => {
+    console.log(`delete place in index ${stopIndex}`);
+    if(routeData.length <= 2){
+      return; // should change delete button to greyed out
+    }
+    const newRouteData = routeData.filter((_, index) => index !== stopIndex);
+    setRouteData(newRouteData);
+  }
+
+  const handleAddStop = (place, index) => {
+    setRouteDataReady(false);
+    const newRouteData = [
+      ...routeData.slice(0, index),
+      place,
+      ...routeData.slice(index),
+    ];
+    console.log(newRouteData);
+    setRouteData(newRouteData);
+  }
 
   const handleScroll = (e) => {
     const scrollDelta = e.deltaY;
@@ -100,7 +144,6 @@ export default function RouteViewPoc() {
   if (!isLoaded || !routeDataReady) {
     return <p>Loading, please wait...</p>;
   }
-
   return (
     <div className="w-screen h-screen flex flex-col overflow-hidden">
       <RouteMapSection
@@ -115,6 +158,9 @@ export default function RouteViewPoc() {
         endLocation={endLocation}
         bottomHeight={bottomHeight}
         handleScroll={handleScroll}
+        handleRouteUpdate={handleRouteUpdate}
+        handleStopAdded={handleAddStop}
+        handleStopDeleted={handleStopDeleted}
       />
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button  } from "@mui/material";
 import SideBarTimeline from "./SideBarTimeline";
 import ImageGallery from "./ImageGallery";
+import CONFIG from "../config";
 
 export default function BottomSection({
   startLocation,
@@ -9,6 +10,9 @@ export default function BottomSection({
   endLocation,
   bottomHeight,
   handleScroll,
+  handleRouteUpdate,
+  handleStopAdded,
+  handleStopDeleted
 }) {
   const allStops = [startLocation, ...stops, endLocation];
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -25,6 +29,10 @@ export default function BottomSection({
     );
   };
 
+  const handleButtonClick = () => {
+    handleRouteUpdate();
+  };
+
   return (
     <Box
       className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"
@@ -35,10 +43,19 @@ export default function BottomSection({
       onWheel={handleScroll}
     >
       <div className="flex flex-col bg-white p-6 gap-6 overflow-x-auto">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleButtonClick}
+          style={{ alignSelf: "center", marginBottom: "16px" }} // Center align and add spacing
+        >
+          Update Route
+        </Button>
         <SideBarTimeline
           stops={allStops.map((stop) => stop.name)}
           onSelectStop={setSelectedIndex}
           selectedIndex={selectedIndex}
+          onStopAdded={handleStopAdded}
         />
         <ImageGallery
           imageReferences={allStops.map(
@@ -47,6 +64,7 @@ export default function BottomSection({
           currentImageIndex={selectedIndex}
           onNext={handleNext} // Handle next image
           onPrev={handlePrev} // Handle previous image
+          onDelete={handleStopDeleted}
         />
       </div>
     </Box>

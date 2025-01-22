@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { TEInput, TERipple } from "tw-elements-react";
 import Avatar from "./Avatar";
+import CONFIG from "../config";
 
-function LoginForm() {
+function LoginForm({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+
+  const handleSubmit = async (e) => {
+  e.preventDefault(); // Prevent default form submission behavior
+
+  try {
+    const response = await fetch(`${CONFIG.SERVER_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      data.userId = 1; // TODO: temp until server returns userid, REMOVE!
+      if (onLogin) {
+        onLogin(data);
+      }
+    } else {
+      console.error("Login failed");
+      const errorData = await response.json();
+      console.error("Error details:", errorData);
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+};
+
+
   return (
     <div className="px-4 md:px-0 lg:w-6/12">
       <div className="md:mx-6 md:p-12">
@@ -14,7 +46,7 @@ function LoginForm() {
           </h4>
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <p className="mb-4">Please login to your account</p>
 
           {/* Username input */}
@@ -22,6 +54,8 @@ function LoginForm() {
             type="text"
             label="Username"
             className="mb-4"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           ></TEInput>
 
           {/* Password input */}
@@ -29,6 +63,8 @@ function LoginForm() {
             type="password"
             label="Password"
             className="mb-4"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           ></TEInput>
 
           {/* Submit button */}
@@ -36,7 +72,7 @@ function LoginForm() {
             <TERipple rippleColor="light" className="w-full">
               <button
                 className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
-                type="button"
+                type="submit"
                 style={{
                   background:
                     "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",

@@ -117,6 +117,7 @@ export default function RouteMapView({ startLocation, endLocation, stops }) {
                 {selectedLocation.name}
               </h3>
               {/* photo */}
+              {console.log(selectedLocation.photos[0])}
               {selectedLocation.photos && selectedLocation.photos.length > 0 && (
                 <img
                   src={selectedLocation.photos[0]} 

@@ -8,6 +8,7 @@ export default function ImageGallery({
   currentImageIndex,
   onNext,
   onPrev,
+  onDelete
 }) {
   return (
     <Box
@@ -38,6 +39,7 @@ export default function ImageGallery({
         image={imageReferences[currentImageIndex]}
         title=""
         description=""
+        onDelete={() => onDelete(currentImageIndex)}
       />
 
       <IconButton
