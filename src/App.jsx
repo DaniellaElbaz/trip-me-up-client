@@ -13,7 +13,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/chat" element={<Chat/>} />
           <Route path="/routeview" element={<RouteView/> } />
-          <Route path="/routeview_poc/:routeId" element={<RouteViewPoc/>} />
+          <Route path="/" element={<RouteViewPoc/>} />
         </Routes>
       </Router>
     </>
