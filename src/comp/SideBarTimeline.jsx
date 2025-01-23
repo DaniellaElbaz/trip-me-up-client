@@ -30,15 +30,6 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
 
   };
 
-  const handleKeyDown = async (e) => {
-    if (e.key === "Enter" && inputValue) {
-      e.preventDefault();
-      if (data.length > 0) {
-        await handlePlaceSelect(data[0]);
-      }
-    }
-  };
-
   const handleClickOutside = (event) => {
     if (
       (popperRef.current && popperRef.current.contains(event.target)) ||
@@ -146,7 +137,6 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
                 setInputValue(value);
                 setValue(value);
               }}
-              onKeyDown={handleKeyDown}
               placeholder="Search places"
             />
             {status === "OK" && data.length > 0 && (
