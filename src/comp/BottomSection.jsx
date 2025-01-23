@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button  } from "@mui/material";
 import SideBarTimeline from "./SideBarTimeline";
-import ImageGallery from "./ImageGallery";
+import PlaceGallery from "./PlaceGallery";
 import CONFIG from "../config";
 
 export default function BottomSection({
@@ -33,6 +33,11 @@ export default function BottomSection({
     handleRouteUpdate();
   };
 
+  const handleDelete = () => {
+    handleStopDeleted(selectedIndex);
+    handlePrev();
+  }
+
   return (
     <Box
       className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"
@@ -57,14 +62,12 @@ export default function BottomSection({
           selectedIndex={selectedIndex}
           onStopAdded={handleStopAdded}
         />
-        <ImageGallery
-          imageReferences={allStops.map(
-            (stop) => stop.photos?.[0] || "https://via.placeholder.com/150"
-          )}
-          currentImageIndex={selectedIndex}
-          onNext={handleNext} // Handle next image
-          onPrev={handlePrev} // Handle previous image
-          onDelete={handleStopDeleted}
+        <PlaceGallery
+          places={allStops}
+          currentPlaceIndex={selectedIndex}
+          onNextPlace={handleNext} 
+          onPrevPlace={handlePrev} 
+          onDelete={handleDelete}
         />
       </div>
     </Box>

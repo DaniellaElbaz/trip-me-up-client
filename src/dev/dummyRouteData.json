@@ -21,7 +21,8 @@
           "width": 4608
         }
       ],
-      "rating": 4.5
+      "rating": 4.5,
+      "desc": "some description"
     },
     {
       "formatted_address": "Gordon Beach, Israel",
@@ -44,7 +45,8 @@
           "width": 4032
         }
       ],
-      "rating": 4.6
+      "rating": 4.6,
+      "desc": "some description"
     },
     {
       "formatted_address": "Aluf Kalman Magen St 3, Tel Aviv-Yafo, Israel",
@@ -68,6 +70,7 @@
           "width": 5312
         }
       ],
-      "rating": 4.3
+      "rating": 4.3,
+      "desc": "some description"
     }
   ]
