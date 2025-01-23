@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stepper, Step, Typography } from "@mui/material";
+import { Box, Stepper, Step, Typography, StepLabel } from "@mui/material";
 import CustomConnector from "./CustomConnector";
 import StepLabelWithTooltip from "./StepLabelWithTooltip";
 
@@ -44,12 +44,37 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex }) 
               onClick={() => onSelectStop(index)}
               sx={{ cursor: "pointer" }}
             >
-              <StepLabelWithTooltip
-                stop={stop}
-                index={index}
-                isSelected={index === selectedIndex}
-                isPlus={false}
-              />
+              <StepLabel
+                icon={
+                  <Box
+                    onClick={() => onSelectStop(index)}
+                    sx={{
+                      width: "2rem", // Larger circle
+                      height: "2rem",
+                      borderRadius: "50%",
+                      backgroundColor: index === selectedIndex ? "blue" : "gray",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
+                  >
+                    {index + 1}
+                  </Box>
+                }
+              >        <span
+                  style={{
+                    color: index === selectedIndex ? "blue" : "black",
+                    fontWeight: index === selectedIndex ? "bold" : "normal",
+                    fontSize: index === selectedIndex ? "1.2rem" : "1rem",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => onSelectStop(index)}
+                >
+                  {stop}
+                </span>
+              </StepLabel>
             </Step>
 
             {/* "+" after each step */}
@@ -77,4 +102,3 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex }) 
     </Box>
   );
 }
-
