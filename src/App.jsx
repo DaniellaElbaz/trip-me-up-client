@@ -10,7 +10,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/chat" element={<Chat/>} />
           <Route path="/routeview" element={<RouteView/> } />
           <Route path="/routeview_poc/:routeId" element={<RouteViewPoc/>} />

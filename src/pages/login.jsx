@@ -19,7 +19,7 @@ function Login() {
           <div className="flex h-full items-center justify-center text-neutral-800 dark:text-neutral-200">
             <div className="w-full max-w-3xl">
               <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
-                <div className="g-0 lg:flex lg:flex-wrap">
+                <div className="g-0 lg:flex ">
                   {/* Left column */}
                   <LoginForm onLogin={handleLogin} />
   
