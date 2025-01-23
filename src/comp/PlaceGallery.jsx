@@ -11,6 +11,16 @@ export default function PlaceGallery({
   onDelete
 }) {
   const [imageIndex, setImageIndex] = useState(0);
+  const [deleteDisabled, setDeleteDisabled] = useState(false);
+
+  useEffect(() => {
+    if(places.length <= 2){
+      setDeleteDisabled(true);
+    }
+    else{
+      setDeleteDisabled(false);
+    }
+  }, [places])
 
   useEffect(() => {
     setImageIndex(0);
@@ -69,6 +79,7 @@ export default function PlaceGallery({
         //description={places[currentPlaceIndex].desc}
         description=""
         onDelete={() => onDelete(currentPlaceIndex)}
+        isDeleteDisabled={deleteDisabled}
       />
 
       <IconButton

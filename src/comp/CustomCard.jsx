@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, description, onDelete }) {
+export default function CustomCard({ image, title, description, onDelete, isDeleteDisabled }) {
   return (
     <Card
       sx={{
@@ -39,6 +39,7 @@ export default function CustomCard({ image, title, description, onDelete }) {
       </CardContent>
       <IconButton
         onClick={onDelete}
+        disabled={isDeleteDisabled}
         sx={{
           position: "absolute",
           bottom: "10px",

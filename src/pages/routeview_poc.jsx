@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import dummyData from '../dev/dummyRouteData.json';
 import RouteMapSection from "../comp/RouteMapSection";
@@ -18,6 +18,8 @@ export default function RouteViewPoc() {
   const [startLocation, setStartLocation] = useState("None");
   const [endLocation, setEndLocation] = useState("None");
   const [optimizeRoute, setOptimizeRoute] = useState(true)
+  const [saveState, setSaveState] = useState("saved");
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     document.title = "Trip View";
@@ -82,6 +84,12 @@ export default function RouteViewPoc() {
       setStartLocation(updatedRouteData[0]);
       setEndLocation(updatedRouteData[updatedRouteData.length - 1]);
       setRouteDataReady(true);
+      if(isFirstLoad.current == true){
+        isFirstLoad.current = false;
+      }
+      else{
+        setSaveState("unsaved");
+      }
     }
   }, [routeData])
 
@@ -90,6 +98,7 @@ export default function RouteViewPoc() {
   const handleRouteUpdate = async () => {
     const userId = localStorage.getItem("user_id");
     try {
+      setSaveState("saving");
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -98,15 +107,18 @@ export default function RouteViewPoc() {
   
       if (response.ok) {
         const data = await response.json();
+        setSaveState("saved");
         console.log("route updated")
         console.log(data);
       } else {
         console.error("Login failed");
         const errorData = await response.json();
         console.error("Error details:", errorData);
+        setSaveState("unsaved");
       }
     } catch (error) {
       console.error("An error occurred:", error);
+      setSaveState("unsaved");
     }
   }
 
@@ -162,6 +174,9 @@ export default function RouteViewPoc() {
   if (!isLoaded || !routeDataReady) {
     return <p>Loading, please wait...</p>;
   }
+
+  console.log(routeData);
+
   return (
     <div className="w-screen h-screen flex flex-col overflow-hidden">
       <RouteMapSection
@@ -180,6 +195,7 @@ export default function RouteViewPoc() {
         handleRouteUpdate={handleRouteUpdate}
         handleStopAdded={handleAddStop}
         handleStopDeleted={handleStopDeleted}
+        saveState={saveState}
       />
     </div>
   );

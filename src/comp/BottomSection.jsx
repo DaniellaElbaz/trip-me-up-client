@@ -3,14 +3,9 @@ import { Box, Button  } from "@mui/material";
 import SideBarTimeline from "./SideBarTimeline";
 import PlaceGallery from "./PlaceGallery";
 import CONFIG from "../config";
-import ButtonC from '@mui/material/Button';
 import BoxC from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import SaveIcon from '@mui/icons-material/Save';
-import SendIcon from '@mui/icons-material/Send';
-import LoadingButton from '@mui/lab/LoadingButton';
-import CheckIcon from "@mui/icons-material/Check";
+import StatefulSaveButton from "./SaveButton";
+
 export default function BottomSection({
   startLocation,
   stops,
@@ -19,11 +14,13 @@ export default function BottomSection({
   handleScroll,
   handleRouteUpdate,
   handleStopAdded,
-  handleStopDeleted
+  handleStopDeleted,
+  saveState
 }) {
   const allStops = [startLocation, ...stops, endLocation];
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = React.useState(true);
+
   const handleNext = () => {
     setSelectedIndex((prev) =>
       prev < allStops.length - 1 ? prev + 1 : 0
@@ -36,16 +33,14 @@ export default function BottomSection({
     );
   };
 
-  const handleButtonClick = () => {
-    handleRouteUpdate();
-  };
-  function handleClick() {
-    setLoading(true);
-  }
-
   const handleDelete = () => {
     handleStopDeleted(selectedIndex);
-    handlePrev();
+    if(selectedIndex == 0){
+      setSelectedIndex(0);
+    }
+    else{
+      handlePrev();
+    }
   }
 
   return (
@@ -62,46 +57,10 @@ export default function BottomSection({
 
       {/* buttons */}
       <BoxC sx={{ '& > button': { m: 1 } }}>
-        {/* saved*/}
-        <ButtonC
-        size="small"
-        variant="contained"
-        color="success"
-        startIcon={<CheckIcon />}
-        sx={{
-          backgroundColor: "green",
-          "&:hover": {
-            backgroundColor: "darkgreen",
-          },
-      }}
-    >
-      Saved
-    </ButtonC>
-      {/* saving*/}
-      <ButtonC
-        size="small"
-        loading
-        loadingPosition="end"
-        variant="outlined"
-      >
-        saving...
-      </ButtonC>
-
-        {/* save*/}
-        <ButtonC
-          size="small"
-          color="secondary"
-          onClick={handleClick}
-          startIcon={<SaveIcon />}
-          variant="contained"
-          sx={{
-            "&:hover": {
-              color: "black", // הטקסט יהפוך לשחור במעבר עם העכבר
-            },
-          }}
-        >
-          Save
-        </ButtonC>
+        <StatefulSaveButton 
+          buttonState={saveState}
+          onSave={handleRouteUpdate}
+        />
       </BoxC>
     </div>
         <SideBarTimeline
