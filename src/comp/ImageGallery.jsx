@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import CustomCard from "./CustomCard";
-
+import NoteBox from "./NoteBox";
 export default function ImageGallery({
   imageReferences,
   currentImageIndex,
@@ -39,7 +39,7 @@ export default function ImageGallery({
         title=""
         description=""
       />
-
+ <NoteBox />
       <IconButton
         onClick={onNext}
         sx={{
