@@ -1,17 +1,7 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../comp/LoginForm";
 
 function Login() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleLogin = (userData) => {
-    console.log("User logged in:", userData);
-    localStorage.setItem("user_id", userData.userId);
-    const redirectPath = location.state?.from?.pathname || "/";
-    navigate(redirectPath);
-  };
 
     return (
       <section className="flex items-center justify-center min-h-screen bg-neutral-200 dark:bg-neutral-700">
@@ -21,7 +11,7 @@ function Login() {
               <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
                 <div className="g-0 lg:flex lg:flex-wrap">
                   {/* Left column */}
-                  <LoginForm onLogin={handleLogin} />
+                  <LoginForm />
   
                   {/* Right column */}
                   <div

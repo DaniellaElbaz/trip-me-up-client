@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
 import Avatar from "./Avatar";
 import CONFIG from "../config";
 
-function LoginForm({ onLogin }) {
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
   e.preventDefault(); // Prevent default form submission behavior
@@ -14,23 +17,25 @@ function LoginForm({ onLogin }) {
   try {
     const response = await fetch(`${CONFIG.SERVER_URL}/login`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username:username, password:password}),
+      credentials: "include",
     });
 
     if (response.ok) {
-      const data = await response.json();
-      data.userId = 1; // TODO: temp until server returns userid, REMOVE!
-      if (onLogin) {
-        onLogin(data);
-      }
+      const userData = await response.json();
+      console.log(userData);
+      const redirectPath = location.state?.from?.pathname || "/";
+      navigate(redirectPath);
     } else {
-      console.error("Login failed");
-      const errorData = await response.json();
-      console.error("Error details:", errorData);
+      const error = await response.text();
+      alert(`Login failed: ${error}`);
     }
-  } catch (error) {
-    console.error("An error occurred:", error);
+  } catch (err) {
+    console.error("Error during login:", err);
+    alert("An error occurred. Please try again later.");
   }
 };
 
