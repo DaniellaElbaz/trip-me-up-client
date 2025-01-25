@@ -9,13 +9,15 @@ function ProtectedRoute({ children }) {
     useEffect(() => {
         const checkAuth = async () => {
         try {
-            const response = await fetch(`${CONFIG.SERVER_URL}/user`, { credentials: 'include' }); // Include cookies
+            const response = await fetch(`${CONFIG.SERVER_URL}/user`, { credentials: 'include' }); 
             if (response.ok) {
-            setIsAuthenticated(true);
+                setIsAuthenticated(true);
             } else {
-            setIsAuthenticated(false);
+                console.log(response);
+                setIsAuthenticated(false);
             }
-        } catch {
+        } catch (err){
+            console.log(err);
             setIsAuthenticated(false);
         }
         };
@@ -24,7 +26,7 @@ function ProtectedRoute({ children }) {
     }, []);
 
     if (isAuthenticated === null) {
-        return;
+        return <h1>Please Wait...</h1>;
     }
 
     if (!isAuthenticated) {

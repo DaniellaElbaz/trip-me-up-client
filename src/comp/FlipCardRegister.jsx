@@ -1,15 +1,38 @@
 import React, { useState } from "react";
 import { TEInput, TERipple } from "tw-elements-react";
 import Avatar from "./Avatar";
+import CONFIG from "../config";
 
-function FlipCard({ onBack }) {
+
+function FlipCardRegister({ onBack }) {
+  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    console.log("Register form submitted:", { username, password, email });
+    try {
+      const response = await fetch(`${CONFIG.SERVER_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name:name, email:email, username:username, password:password }),
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        console.log(userData);
+        onBack();
+      } else {
+        const error = await response.text();
+        alert(`Register failed: ${error}`);
+      }
+    } catch (err) {
+      console.error("Error during register:", err);
+      alert("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -21,6 +44,13 @@ function FlipCard({ onBack }) {
         </div>
         <form onSubmit={handleRegisterSubmit}>
           <p className="mb-4">Please register your account</p>
+          <TEInput
+            type="text"
+            label="Name"
+            className="mb-4"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <TEInput
             type="text"
             label="Username"
@@ -79,5 +109,5 @@ function FlipCard({ onBack }) {
   );
 }
 
-export default FlipCard;
+export default FlipCardRegister;
 
