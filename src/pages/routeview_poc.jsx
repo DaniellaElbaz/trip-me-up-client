@@ -11,6 +11,7 @@ const libraries = ["places"];
 
 export default function RouteViewPoc() {
   const { routeId } = useParams();
+  const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [routeData, setRouteData] = useState(null);
   const [routeDataReady, setRouteDataReady] = useState(false);
   const [updatedRouteData, setUpdatedRouteData] = useState(null); // contains image URL's instead of references
@@ -36,7 +37,8 @@ export default function RouteViewPoc() {
           throw new Error(response.status);
         }
         const data = await response.json();
-        const transformedData = data?.[0].places.map(place => ({
+        console.log(data);
+        const transformedData = data.route?.[0].places.map(place => ({
           formatted_address: place.address,
           geometry: {
             location: {
@@ -47,7 +49,9 @@ export default function RouteViewPoc() {
           icon: place.icon_url,
           name: place.name,
           rating: place.rating,
-          photos: place.photo_ref
+          photos: place.photo_ref,
+          desc: (place.description ? place.description : "No Description Provided."),
+          notes: (place.notes ? place.notes : [])
         }));
         setRouteData(transformedData);
       } catch (error) {
@@ -97,8 +101,8 @@ export default function RouteViewPoc() {
   const [bottomHeight, setBottomHeight] = useState(30);
 
   const handleRouteUpdate = async () => {
-    const userId = localStorage.getItem("user_id");
     try {
+      console.log(userId);
       setSaveState("saving");
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
@@ -108,14 +112,12 @@ export default function RouteViewPoc() {
       });
   
       if (response.ok) {
-        const data = await response.json();
         setSaveState("saved");
         console.log("route updated")
-        console.log(data);
       } else {
-        console.error("Login failed");
-        const errorData = await response.json();
-        console.error("Error details:", errorData);
+        console.error(response);
+        //const errorData = await response.json();
+        //console.error("Error details:", errorData);
         setSaveState("unsaved");
       }
     } catch (error) {
@@ -177,9 +179,7 @@ export default function RouteViewPoc() {
   if (!isLoaded || !routeDataReady) {
     return <p>Loading, please wait...</p>;
   }
-
-  console.log(routeData);
-
+  
   return (
     <div className="w-screen h-screen flex flex-col overflow-hidden">
       <RouteMapSection

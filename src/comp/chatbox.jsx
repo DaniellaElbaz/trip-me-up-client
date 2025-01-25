@@ -9,7 +9,7 @@ export default function Chatbox() {
   let navigate = useNavigate();
 
   const [messageHistory, setMessageHistory] = useState([]);
-  const [userId, setUserId] = useState(1); // TODO: get from login
+  const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [webSocketUrl, setWebSocketUrl] = useState(
     "wss://trip-me-up-server.onrender.com/api/chat/conversation",
   );

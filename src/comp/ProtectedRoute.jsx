@@ -6,11 +6,14 @@ function ProtectedRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const location = useLocation();
 
+
     useEffect(() => {
         const checkAuth = async () => {
         try {
             const response = await fetch(`${CONFIG.SERVER_URL}/user`, { credentials: 'include' }); 
             if (response.ok) {
+                const data = await response.json();
+                sessionStorage.setItem("userID", data.id);
                 setIsAuthenticated(true);
             } else {
                 console.log(response);

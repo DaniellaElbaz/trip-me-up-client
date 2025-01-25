@@ -22,8 +22,8 @@ function FlipCardRegister({ onBack }) {
       });
 
       if (response.ok) {
-        const userData = await response.json();
-        console.log(userData);
+        //const userData = await response.json();
+        //console.log(userData);
         onBack();
       } else {
         const error = await response.text();

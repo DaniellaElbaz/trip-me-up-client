@@ -24,9 +24,7 @@ function App() {
           <Route
             path="/routeview_poc/:routeId"
             element={
-              <ProtectedRoute>
-                <RouteViewPoc />
-              </ProtectedRoute>
+              <RouteViewPoc />
             }
           />
         </Routes>
