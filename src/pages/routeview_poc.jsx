@@ -30,6 +30,7 @@ export default function RouteViewPoc() {
       try {
         const response = await fetch(`${CONFIG.SERVER_URL}/route/${routeId}`, {
           method: "GET",
+          credentials: "include"
         });
         if (!response.ok) {
           throw new Error(response.status);
@@ -102,6 +103,7 @@ export default function RouteViewPoc() {
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ user_id: userId, route_id: routeId, locations: routeData })
       });
   
@@ -135,6 +137,7 @@ export default function RouteViewPoc() {
     try {
       const response = await fetch(`${CONFIG.SERVER_URL}/places?place=${encodeURIComponent(place.description)}`, {
         method: "GET",
+        credentials: "include"
       });
   
       if (response.ok) {

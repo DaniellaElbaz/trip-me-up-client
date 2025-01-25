@@ -41,11 +41,13 @@ export default function Chatbox() {
               headers: {
                 "Content-Type": "application/json",
               },
+              credentials: "include",
               body: JSON.stringify(jsonBody),
             });
   
             if (!response.ok) {
               console.error("Response was not ok");
+              console.log(response);
             } else {
               const data = await response.json();
               const routeId = data[0]?.id;
