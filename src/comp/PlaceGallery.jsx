@@ -67,6 +67,18 @@ export default function PlaceGallery({
         overflow: "hidden",
       }}
     >
+      <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+        maxWidth: "100%",
+        width: "80vh",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
       <IconButton
         onClick={handlePrev}
         sx={{
@@ -83,8 +95,7 @@ export default function PlaceGallery({
       <CustomCard
         image={places[currentPlaceIndex].photos[imageIndex]}
         title={places[currentPlaceIndex].name}
-        //description={places[currentPlaceIndex].desc}
-        description=""
+        description={places[currentPlaceIndex].desc}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
       />
@@ -100,6 +111,7 @@ export default function PlaceGallery({
       >
         <ArrowForward />
       </IconButton>
+    </Box>
     </Box>
   );
 }

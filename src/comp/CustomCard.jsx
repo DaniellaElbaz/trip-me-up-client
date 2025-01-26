@@ -9,7 +9,6 @@ export default function CustomCard({ image, title, description, onDelete, isDele
       sx={{
         maxWidth: "100%",
         width: "60vh",
-        height: "50vh",
         margin: "1rem",
         boxShadow: 3,
         display: "flex",
@@ -20,16 +19,20 @@ export default function CustomCard({ image, title, description, onDelete, isDele
     >
       <CardMedia
         component="img"
-        height="140"
         image={image}
         alt={title}
         sx={{
           width: "100%",
-          height: "40vh",
+          height: "40vh", // Keeps the image fixed
           objectFit: "cover",
         }}
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          width: "100%",
+          flexGrow: 1,
+        }}
+      >
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
@@ -49,7 +52,7 @@ export default function CustomCard({ image, title, description, onDelete, isDele
           "&:hover": {
             backgroundColor: "rgba(255, 0, 0, 0.8)",
             color: "white",
-          }
+          },
         }}
       >
         <Delete />
@@ -63,4 +66,5 @@ CustomCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
+  isDeleteDisabled: PropTypes.bool.isRequired,
 };
