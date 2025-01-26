@@ -12,12 +12,6 @@ export default function BottomSection({
 }) {
   const allStops = [startLocation, ...stops, endLocation];
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const [animationStyle, setAnimationStyle] = useState({
-    transform: "translateY(100%)",
-    opacity: 0,
-    transition: "all 0.5s ease-in-out",
-  });
 
   const handleNext = () => {
     setSelectedIndex((prev) =>
@@ -31,27 +25,14 @@ export default function BottomSection({
     );
   };
 
-  const handleScrollDirection = (e) => {
-    if (e.deltaY < 0 && !isVisible) {
-      setIsVisible(true);
-      setAnimationStyle({
-        transform: "translateY(0)",
-        opacity: 1,
-        transition: "all 0.5s ease-in-out",
-      });
-    }
-    handleScroll(e);
-  };
-
   return (
     <Box
-      className="absolute bottom-0 left-0 w-full bg-transparent"
+      className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"
       style={{
         maxHeight: "30vh",
         zIndex: 10,
-        ...animationStyle,
       }}
-      onWheel={handleScrollDirection}
+      onWheel={handleScroll}
     >
       <div className="flex flex-col bg-white p-6 gap-6 overflow-x-auto">
         <SideBarTimeline
@@ -64,8 +45,8 @@ export default function BottomSection({
             (stop) => stop.photos?.[0] || "https://via.placeholder.com/150"
           )}
           currentImageIndex={selectedIndex}
-          onNext={handleNext}
-          onPrev={handlePrev}
+          onNext={handleNext} // Handle next image
+          onPrev={handlePrev} // Handle previous image
         />
       </div>
     </Box>
