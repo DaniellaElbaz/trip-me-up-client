@@ -28,6 +28,7 @@ function App() {
               <RouteViewPoc />
             }
           />
+          <Route path="/history" element={<History />} />
         </Routes>
       </Router>
     </>
