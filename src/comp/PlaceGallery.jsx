@@ -95,6 +95,7 @@ export default function PlaceGallery({
       <CustomCard
         image={places[currentPlaceIndex].photos[imageIndex]}
         title={places[currentPlaceIndex].name}
+        subtitle={places[currentPlaceIndex].formatted_address}
         description={places[currentPlaceIndex].desc}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}

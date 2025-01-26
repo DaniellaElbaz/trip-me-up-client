@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, description, onDelete, isDeleteDisabled }) {
+export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled }) {
   return (
     <Card
       sx={{
@@ -36,6 +36,11 @@ export default function CustomCard({ image, title, description, onDelete, isDele
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
+        {subtitle && (
+          <Typography gutterBottom variant="subtitle1" color="text.secondary">
+            {subtitle}
+          </Typography>
+        )}
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
@@ -64,6 +69,7 @@ export default function CustomCard({ image, title, description, onDelete, isDele
 CustomCard.propTypes = {
   image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string, // New prop for subtitle
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool.isRequired,
