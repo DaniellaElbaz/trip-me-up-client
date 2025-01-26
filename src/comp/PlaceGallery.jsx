@@ -11,6 +11,7 @@ export default function PlaceGallery({
   onDelete
 }) {
   const [imageIndex, setImageIndex] = useState(0);
+  const [isPlaceSwappedHere, setIsPlaceSwappedHere] = useState(false);
   const [deleteDisabled, setDeleteDisabled] = useState(false);
 
   useEffect(() => {
@@ -23,7 +24,12 @@ export default function PlaceGallery({
   }, [places])
 
   useEffect(() => {
-    setImageIndex(0);
+    if(!isPlaceSwappedHere){
+      setImageIndex(0);
+    }
+    else{
+      setIsPlaceSwappedHere(false)
+    }
   }, [currentPlaceIndex])
 
   const handleNext = () => {
@@ -41,6 +47,7 @@ export default function PlaceGallery({
       let prevIndex = currentPlaceIndex > 0 ? currentPlaceIndex - 1 : places.length - 1;
       let prevLastImageIndex = places[prevIndex].photos.length - 1;
       setImageIndex(prevLastImageIndex);
+      setIsPlaceSwappedHere(true);
       onPrevPlace();
     }
     else{
