@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import NoteBox from "./NoteBox"; // ייבוא רכיב NoteBox
 
 export default function CustomCard({ image, title, description, onDelete }) {
   return (
@@ -37,6 +38,9 @@ export default function CustomCard({ image, title, description, onDelete }) {
           {description}
         </Typography>
       </CardContent>
+      {/* כפתור פתקים */}
+      <NoteBox />
+      {/* כפתור מחיקה */}
       <IconButton
         onClick={onDelete}
         sx={{
@@ -48,7 +52,7 @@ export default function CustomCard({ image, title, description, onDelete }) {
           "&:hover": {
             backgroundColor: "rgba(255, 0, 0, 0.8)",
             color: "white",
-          }
+          },
         }}
       >
         <Delete />

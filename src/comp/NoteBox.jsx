@@ -1,58 +1,48 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 
-const NoteBox = () => {
-  const [showNote, setShowNote] = useState(false);
+import { Box, IconButton, Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText, Button } from "@mui/material";
+
+export default function NoteBox() {
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+  const [notes, setNotes] = useState(["Note 1", "Note 2", "Note 3"]);
+
+  const toggleNotes = () => {
+    setIsNotesOpen(!isNotesOpen);
+  };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <motion.div
-        style={{
-          width: "200px",
-          height: "150px",
-          backgroundColor: "#f5f5f5",
-          border: "2px solid #ccc",
-          borderRadius: "10px",
-          position: "relative",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    <>
+      {/* Emoji Button for Notes */}
+      <IconButton
+        onClick={toggleNotes}
+        sx={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          zIndex: 3,
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+          "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.8)" },
         }}
-        onClick={() => setShowNote(!showNote)}
       >
-        {showNote && (
-          <motion.div
-            style={{
-              width: "120px",
-              height: "80px",
-              backgroundColor: "#ffeb3b",
-              borderRadius: "5px",
-              position: "absolute",
-              top: "-50px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-              fontSize: "16px",
-              fontWeight: "bold",
-            }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            פתק
-          </motion.div>
-        )}
-      </motion.div>
-    </div>
-  );
-};
+        📝
+      </IconButton>
 
-export default NoteBox;
+      {/* Notes Popup */}
+      <Dialog open={isNotesOpen} onClose={toggleNotes}>
+        <DialogTitle>Your Notes</DialogTitle>
+        <DialogContent>
+          <List>
+            {notes.map((note, index) => (
+              <ListItem key={index}>
+                <ListItemText primary={note} />
+              </ListItem>
+            ))}
+          </List>
+          <Button onClick={toggleNotes} variant="contained" color="primary" sx={{ mt: 2 }}>
+            Close
+          </Button>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}

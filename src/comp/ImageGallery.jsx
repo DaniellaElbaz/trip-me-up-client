@@ -39,7 +39,6 @@ export default function ImageGallery({
         title=""
         description=""
       />
- <NoteBox />
       <IconButton
         onClick={onNext}
         sx={{
