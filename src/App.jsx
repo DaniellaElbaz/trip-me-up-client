@@ -25,7 +25,7 @@ function App() {
           />
           <Route path="/routeview" element={<RouteView/> } />
           <Route
-            path="/routeview_poc/:routeId"
+            path="/"
             element={
               <RouteViewPoc />
             }

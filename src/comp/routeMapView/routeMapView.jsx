@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const mapContainerStyle = {
   width: "100%",
-  height: "100vh",
+  height: "70vh",
 };
 
 export default function RouteMapView({ startLocation, endLocation, stops, optimize, currentFocus }) {

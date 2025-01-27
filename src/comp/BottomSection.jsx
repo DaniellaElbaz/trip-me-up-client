@@ -54,7 +54,7 @@ export default function BottomSection({
     <Box
       className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"
       style={{
-        maxHeight: "30vh",
+        maxHeight: "20vh",
         zIndex: 10,
       }}
       onWheel={handleScroll}
