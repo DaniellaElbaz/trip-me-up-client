@@ -1,17 +1,19 @@
-import Chat from './pages/chat.jsx'
-import RouteView from './pages/routeview.jsx'
-import RouteViewPoc from './pages/routeview_poc.jsx'
-import Login from './pages/login.jsx'
-import History from './pages/history.jsx';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import ProtectedRoute from './comp/ProtectedRoute.jsx';
 import UserMenu from './comp/UserMenu.jsx';
-import './App.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import ProtectedRoute from './comp/ProtectedRoute.jsx'
+import Login from './pages/login.jsx';
+import RouteViewPoc from './pages/routeview_poc.jsx';
+import History from './pages/history.jsx';
+import Chat from './pages/chat.jsx';
+import './App.css';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const excludeHeaderPaths = ['/login']; 
+
   return (
-    <Router>
-      <UserMenu />
+    <div>
+      {!excludeHeaderPaths.includes(location.pathname) && <UserMenu />}
       <main>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -23,16 +25,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/routeview" element={<RouteView/> } />
-          <Route
-            path="/routeview_poc/:routeId"
-            element={
-              <RouteViewPoc />
-            }
-          />
+          <Route path="/routeview" element={<RouteViewPoc />} />
+          <Route path="/routeview_poc/:routeId" element={<RouteViewPoc />} />
           <Route path="/history" element={<History />} />
         </Routes>
       </main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
