@@ -45,14 +45,14 @@ export default function BottomSection({
 
   return (
     <Box
-      className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"
+      className="w-full bg-transparent transition-all duration-300"
       style={{
         maxHeight: "30vh",
         zIndex: 10,
       }}
       onWheel={handleScroll}
     >
-      <div className="flex flex-col bg-white p-6 gap-6 overflow-x-auto">
+      <div className="flex flex-col bg-white p-6 gap-6 pb-32 overflow-auto">
       <div className="h-full max-h-1/2 min-h-1/5 overflow-y-auto">
 
       {/* buttons */}

@@ -181,7 +181,7 @@ export default function RouteViewPoc() {
   }
   
   return (
-    <div className="w-screen h-screen flex flex-col overflow-hidden">
+    <div className="w-screen h-screen flex flex-col overflow-auto">
       <RouteMapSection
         startLocation={startLocation}
         endLocation={endLocation}

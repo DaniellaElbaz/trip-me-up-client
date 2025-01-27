@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const mapContainerStyle = {
   width: "100%",
-  height: "100vh",
+  height: "100%",
 };
 
 export default function RouteMapView({ startLocation, endLocation, stops, optimize }) {
@@ -58,7 +58,6 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
 );
 
   return (
-    <div className="h-screen w-screen">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         onLoad={onLoad}
@@ -138,7 +137,6 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
           </InfoWindow>
         )}
       </GoogleMap>
-    </div>
   );
 }
 
