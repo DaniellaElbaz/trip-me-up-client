@@ -8,12 +8,18 @@ const mapContainerStyle = {
   height: "100vh",
 };
 
-export default function RouteMapView({ startLocation, endLocation, stops, optimize }) {
+export default function RouteMapView({ startLocation, endLocation, stops, optimize, currentFocus }) {
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const [routeReady, setRouteReady] = useState(false);
   const [directions, setDirections] = useState();
   const [selectedLocation, setSelectedLocation] = useState(null); // State for selected marker
+
+  useEffect(() =>{
+    if (!mapRef.current || !currentFocus) return;
+    const { lat, lng } = currentFocus.geometry.location;
+    mapRef.current.panTo(new google.maps.LatLng(lat, lng));
+  }, [currentFocus])
 
   useEffect(() => {
     if (startLocation && endLocation && stops) {
