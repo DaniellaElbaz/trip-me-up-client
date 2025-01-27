@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button  } from "@mui/material";
 import SideBarTimeline from "./SideBarTimeline";
 import PlaceGallery from "./PlaceGallery";
@@ -15,16 +15,24 @@ export default function BottomSection({
   handleRouteUpdate,
   handleStopAdded,
   handleStopDeleted,
-  saveState
+  saveState,
+  onSelectStopIndex
 }) {
   const allStops = [startLocation, ...stops, endLocation];
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = React.useState(true);
 
+  useEffect(() => {
+    if (onSelectStopIndex) {
+      onSelectStopIndex(selectedIndex);
+    }
+  }, [selectedIndex, onSelectStopIndex])
+
   const handleNext = () => {
     setSelectedIndex((prev) =>
       prev < allStops.length - 1 ? prev + 1 : 0
     );
+    
   };
 
   const handlePrev = () => {
@@ -42,6 +50,8 @@ export default function BottomSection({
       handlePrev();
     }
   }
+
+
 
   return (
     <Box

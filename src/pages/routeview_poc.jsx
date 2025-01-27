@@ -21,6 +21,7 @@ export default function RouteViewPoc() {
   const [optimizeRoute, setOptimizeRoute] = useState(true)
   const [saveState, setSaveState] = useState("saved");
   const isFirstLoad = useRef(true);
+  const [selectedStopIndex, setSelectedStopIndex] = useState(0);
 
   useEffect(() => {
     document.title = "Trip View";
@@ -188,6 +189,7 @@ export default function RouteViewPoc() {
         stops={stops}
         bottomHeight={bottomHeight}
         optimize={optimizeRoute}
+        currentFocus={updatedRouteData[selectedStopIndex]}
       />
       <BottomSection
         startLocation={startLocation}
@@ -199,6 +201,7 @@ export default function RouteViewPoc() {
         handleStopAdded={handleAddStop}
         handleStopDeleted={handleStopDeleted}
         saveState={saveState}
+        onSelectStopIndex={(index) => setSelectedStopIndex(index)}
       />
     </div>
   );
