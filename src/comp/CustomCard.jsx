@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import NoteBox from "./NoteBox"; // ייבוא רכיב NoteBox
 
-export default function CustomCard({ image, title, description, onDelete, toggleNotes }) {
+export default function CustomCard({ image, title, description, onDelete }) {
   return (
     <Card
       sx={{
@@ -37,19 +38,9 @@ export default function CustomCard({ image, title, description, onDelete, toggle
           {description}
         </Typography>
       </CardContent>
-      <IconButton
-        onClick={toggleNotes}
-        sx={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 3,
-          backgroundColor: "rgba(255, 255, 255, 0.5)",
-          "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.8)" },
-        }}
-      >
-        📝
-      </IconButton>
+      {/* כפתור פתקים */}
+      <NoteBox />
+      {/* כפתור מחיקה */}
       <IconButton
         onClick={onDelete}
         sx={{
@@ -75,5 +66,4 @@ CustomCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
-  toggleNotes: PropTypes.func.isRequired,
 };
