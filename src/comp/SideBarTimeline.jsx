@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Box, Stepper, Step, Typography, Popper, TextField, Paper } from "@mui/material";
+import { Box, Stepper, Step, Typography, StepLabel, Popper, TextField, Paper } from "@mui/material";
 import CustomConnector from "./CustomConnector";
 import StepLabelWithTooltip from "./StepLabelWithTooltip";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
@@ -84,12 +84,37 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
               onClick={() => onSelectStop(index)}
               sx={{ cursor: "pointer" }}
             >
-              <StepLabelWithTooltip
-                stop={stop}
-                index={index}
-                isSelected={index === selectedIndex}
-                isPlus={false}
-              />
+              <StepLabel
+                icon={
+                  <Box
+                    onClick={() => onSelectStop(index)}
+                    sx={{
+                      width: "2rem", // Larger circle
+                      height: "2rem",
+                      borderRadius: "50%",
+                      backgroundColor: index === selectedIndex ? "blue" : "gray",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
+                  >
+                    {index + 1}
+                  </Box>
+                }
+              >        <span
+                  style={{
+                    color: index === selectedIndex ? "blue" : "black",
+                    fontWeight: index === selectedIndex ? "bold" : "normal",
+                    fontSize: index === selectedIndex ? "1.2rem" : "1rem",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => onSelectStop(index)}
+                >
+                  {stop}
+                </span>
+              </StepLabel>
             </Step>
             {index < stops.length - 1 && (
               <Step
