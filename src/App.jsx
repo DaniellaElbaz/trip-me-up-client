@@ -3,14 +3,16 @@ import RouteView from './pages/routeview.jsx'
 import RouteViewPoc from './pages/routeview_poc.jsx'
 import Login from './pages/login.jsx'
 import History from './pages/history.jsx';
+import UserMenu from './comp/UserMenu.jsx';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './comp/ProtectedRoute.jsx'
 
 function App() {
   return (
-    <>
-      <Router>
+    <Router>
+      <UserMenu />
+      <main>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
@@ -30,9 +32,9 @@ function App() {
           />
           <Route path="/history" element={<History />} />
         </Routes>
-      </Router>
-    </>
-  )
+      </main>
+    </Router>
+  );
 }
 
-export default App
+export default App;
