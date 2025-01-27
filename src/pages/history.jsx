@@ -9,10 +9,9 @@ function History() {
       date: "2025-01-20",
       places: ["Rome", "Venice", "Florence"],
       images: [
-        "https://via.placeholder.com/300x200?text=Italy",
-        "https://via.placeholder.com/300x200?text=Rome",
-        "https://via.placeholder.com/300x200?text=Venice",
-        "https://via.placeholder.com/300x200?text=Florence",
+        "https://media.istockphoto.com/id/496793764/photo/harbor-seal.jpg?s=612x612&w=0&k=20&c=DUopE8zbsWdofUcMBReLQCi2_g3vOzATl23PGwxUN1I=",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ2tuwgsEJHeh-QOLymZpzJGUWwNXQ5HIPSA&s",
+        "https://i.natgeofe.com/n/53129fb3-7738-4008-ac76-677787cd3765/thumbnail-seals-nationalgeographic_2199074_4x3.jpg",
       ],
     },
     {
@@ -21,7 +20,6 @@ function History() {
       date: "2025-02-15",
       places: ["Tokyo", "Kyoto", "Osaka"],
       images: [
-        "https://via.placeholder.com/300x200?text=Japan",
         "https://via.placeholder.com/300x200?text=Tokyo",
         "https://via.placeholder.com/300x200?text=Kyoto",
         "https://via.placeholder.com/300x200?text=Osaka",
@@ -33,7 +31,6 @@ function History() {
       date: "2025-03-10",
       places: ["New York", "Los Angeles", "San Francisco"],
       images: [
-        "https://via.placeholder.com/300x200?text=USA",
         "https://via.placeholder.com/300x200?text=New York",
         "https://via.placeholder.com/300x200?text=Los Angeles",
         "https://via.placeholder.com/300x200?text=San Francisco",

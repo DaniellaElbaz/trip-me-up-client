@@ -3,20 +3,20 @@ import PropTypes from "prop-types";
 import { Typography, Box, Card, CardContent, CardMedia, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
-function LocationImageGallery({ location, images }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+function LocationImageGallery({ location, locationIndex, image, onLocationSelect }) {
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 1);
+    if(onLocationSelect){
+      onLocationSelect(locationIndex - 1);
     }
   };
 
   const handleNext = () => {
-    if (currentIndex < images.length - 1) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+    if(onLocationSelect){
+      onLocationSelect(locationIndex + 1);
     }
   };
+
 
   return (
     <Box>
@@ -37,7 +37,6 @@ function LocationImageGallery({ location, images }) {
       >
         <IconButton
           onClick={handlePrev}
-          disabled={currentIndex === 0}
           sx={{
             position: "absolute",
             top: "50%",
@@ -59,8 +58,8 @@ function LocationImageGallery({ location, images }) {
         >
           <CardMedia
             component="img"
-            image={images[currentIndex]}
-            alt={`${location} image ${currentIndex + 1}`}
+            image={image}
+            alt={`${location} image`}
             sx={{
               height: 300,
               objectFit: "cover",
@@ -75,7 +74,6 @@ function LocationImageGallery({ location, images }) {
         </Card>
         <IconButton
           onClick={handleNext}
-          disabled={currentIndex === images.length - 1}
           sx={{
             position: "absolute",
             top: "50%",
@@ -93,10 +91,5 @@ function LocationImageGallery({ location, images }) {
     </Box>
   );
 }
-
-LocationImageGallery.propTypes = {
-  location: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
 
 export default LocationImageGallery;

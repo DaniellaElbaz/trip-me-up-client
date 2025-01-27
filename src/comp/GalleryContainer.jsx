@@ -2,60 +2,31 @@ import React, { useState, useEffect } from "react";
 import LocationImageGallery from "./LocationImageGallery";
 import LocationSelector from "./LocationSelector";
 import PropTypes from "prop-types";
-import { useLoadScript } from "@react-google-maps/api";
-
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const libraries = ["places"];
 
 export default function GalleryContainer({ trip }) {
   const [selectedLocation, setSelectedLocation] = useState(
     trip?.places?.[0] || null
   );
-  const [images, setImages] = useState([]);
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: API_KEY,
-    libraries: libraries,
-  });
-
-  const fetchImagesForLocation = (locationName) => {
-    const service = new window.google.maps.places.PlacesService(
-      document.createElement("div")
-    );
-
-    const request = {
-      query: locationName,
-      fields: ["photos"],
-    };
-
-    service.findPlaceFromQuery(request, (results, status) => {
-      if (
-        status === window.google.maps.places.PlacesServiceStatus.OK &&
-        results &&
-        results[0].photos
-      ) {
-        const photoUrls = results[0].photos.map((photo) =>
-          photo.getUrl({ maxWidth: 400 })
-        );
-        setImages(photoUrls);
-      } else {
-        console.error(`No photos found for ${locationName}`);
-        setImages(['https://via.placeholder.com/400']);
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (selectedLocation && isLoaded) {
-      fetchImagesForLocation(selectedLocation);
-    }
-  }, [selectedLocation, isLoaded]);
+  const [selectedLocationIndex, setSelectedLocationIndex] = useState(0);
 
   const handleLocationSelect = (location) => {
+    console.log(location);
     setSelectedLocation(location);
+    setSelectedLocationIndex(trip.places.indexOf(location));
   };
 
-  if (!isLoaded) return <div>Loading...</div>;
+  const handleLocationSelectIndex = (locationIndex) => {
+    let newIndex = locationIndex;
+    if(locationIndex < 0){
+      newIndex = trip.places.length - 1;
+    }
+    else if(locationIndex >= trip.places.length){
+      newIndex = 0;
+    }
+    setSelectedLocationIndex(newIndex);
+    setSelectedLocation(trip.places[newIndex]);
+  };
 
   return (
     <div>
@@ -64,7 +35,7 @@ export default function GalleryContainer({ trip }) {
         selectedLocation={selectedLocation}
         onLocationSelect={handleLocationSelect}
       />
-      <LocationImageGallery location={selectedLocation} images={images} />
+      <LocationImageGallery location={selectedLocation} locationIndex={selectedLocationIndex} image={trip.images[selectedLocationIndex]} onLocationSelect={handleLocationSelectIndex} />
     </div>
   );
 }
@@ -72,5 +43,6 @@ export default function GalleryContainer({ trip }) {
 GalleryContainer.propTypes = {
   trip: PropTypes.shape({
     places: PropTypes.arrayOf(PropTypes.string).isRequired,
+    images: PropTypes.arrayOf(PropTypes.string).isRequired
   }).isRequired,
 };
