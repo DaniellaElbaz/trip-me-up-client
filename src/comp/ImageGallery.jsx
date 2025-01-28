@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import CustomCard from "./CustomCard";
@@ -9,6 +10,11 @@ export default function ImageGallery({
   onNext,
   onPrev,
 }) {
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+
+  const toggleNotes = () => {
+    setIsNotesOpen(!isNotesOpen);
+  };
   return (
     <Box
       sx={{
@@ -37,7 +43,10 @@ export default function ImageGallery({
         image={imageReferences[currentImageIndex]}
         title=""
         description=""
+        toggleNotes={toggleNotes} // פונקציה לכפתור בפינה
       />
+  
+  <NoteBox isNotesOpen={isNotesOpen} toggleNotes={toggleNotes} />
       <IconButton
         onClick={onNext}
         sx={{
@@ -52,4 +61,3 @@ export default function ImageGallery({
     </Box>
   );
 }
-

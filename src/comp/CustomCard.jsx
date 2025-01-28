@@ -1,10 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
-import { Delete } from "@mui/icons-material";
-import NoteBox from "./NoteBox"; // ייבוא רכיב NoteBox
-
-export default function CustomCard({ image, title, description, onDelete }) {
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import { Delete, Close } from "@mui/icons-material";
+import { Note } from "@mui/icons-material";
+export default function CustomCard({
+  image,
+  title,
+  description,
+  onDelete,
+  toggleNotes ,
+}) {
   return (
     <Card
       sx={{
@@ -21,7 +32,6 @@ export default function CustomCard({ image, title, description, onDelete }) {
     >
       <CardMedia
         component="img"
-        height="140"
         image={image}
         alt={title}
         sx={{
@@ -30,6 +40,23 @@ export default function CustomCard({ image, title, description, onDelete }) {
           objectFit: "cover",
         }}
       />
+  <IconButton
+        onClick={toggleNotes}
+        sx={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          transition: "color 0.3s ease, background-color 0.3s ease",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            color: "white",
+          },
+        }}
+      >
+        <Note />
+      </IconButton>
+
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
@@ -38,9 +65,8 @@ export default function CustomCard({ image, title, description, onDelete }) {
           {description}
         </Typography>
       </CardContent>
-      {/* כפתור פתקים */}
-      <NoteBox />
-      {/* כפתור מחיקה */}
+
+      {/* כפתור מחיקה בפינה התחתונה הימנית */}
       <IconButton
         onClick={onDelete}
         sx={{
@@ -66,4 +92,5 @@ CustomCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
+  toggleNotes: PropTypes.func.isRequired,
 };
