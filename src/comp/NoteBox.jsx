@@ -95,7 +95,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
         notesLength={notes.length}
         maxNotes={maxNotes}
       />
-      <NoteList notes={notes} handleEdit={handleEdit} />
+      <NoteList notes={notes} handleEdit={handleEdit} fixedHeight />
       {editingNote && (
         <NoteEditor
           editingNote={editingNote}

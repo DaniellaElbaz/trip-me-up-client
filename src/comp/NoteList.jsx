@@ -2,16 +2,15 @@ import React from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
-export default function NoteList({ notes, handleEdit, maxNotes }) {
+export default function NoteList({ notes, handleEdit }) {
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, justifyContent: 'center', paddingBottom: 3 }}>
       {notes.map((note, index) => (
         <Box
           key={index}
           sx={{
-            minWidth: 150,
-            maxWidth: 200,
-            minHeight: 150,
+            width: 200,
+            height: 250,
             padding: 2,
             backgroundColor: '#ffeb3b',
             borderRadius: '10px',
@@ -38,17 +37,21 @@ export default function NoteList({ notes, handleEdit, maxNotes }) {
           >
             📌
           </span>
-          <Typography
+          <Box
             sx={{
+              flex: 1,
+              overflowY: 'auto',
               width: '100%',
               textAlign: 'center',
               wordWrap: 'break-word',
               whiteSpace: 'pre-wrap',
+              padding: '5px',
             }}
           >
-            {note}
-          </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <Typography>{note}</Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', paddingTop: 1 }}>
             <IconButton onClick={() => handleEdit(note)}>
               <Edit fontSize="small" />
             </IconButton>
