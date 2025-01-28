@@ -44,7 +44,6 @@ export default function BottomSection({
     }
   }
 
-  console.log(isEditPermission);
   return (
     <Box
       className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"

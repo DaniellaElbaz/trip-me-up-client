@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
-import { Delete } from "@mui/icons-material";
 import { Delete, Close } from "@mui/icons-material";
 import { Note } from "@mui/icons-material";
 
@@ -93,6 +92,5 @@ CustomCard.propTypes = {
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool.isRequired,
-  toggleNotes: PropTypes.func.isRequired,
 };
 

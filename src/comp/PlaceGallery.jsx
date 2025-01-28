@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import CustomCard from "./CustomCard";
+import NoteBox from "./NoteBox";
 
 export default function PlaceGallery({
   places,
@@ -13,6 +14,11 @@ export default function PlaceGallery({
   const [imageIndex, setImageIndex] = useState(0);
   const [isPlaceSwappedHere, setIsPlaceSwappedHere] = useState(false);
   const [deleteDisabled, setDeleteDisabled] = useState(false);
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+  
+  const toggleNotes = () => {
+    setIsNotesOpen(!isNotesOpen);
+  };
 
   useEffect(() => {
     if(places.length <= 2){
@@ -99,7 +105,10 @@ export default function PlaceGallery({
         description={places[currentPlaceIndex].desc}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
+        toggleNotes={toggleNotes}
       />
+
+      <NoteBox isNotesOpen={isNotesOpen} toggleNotes={toggleNotes}  currentLocation={places[currentPlaceIndex]?.name}  />
 
       <IconButton
         onClick={handleNext}
