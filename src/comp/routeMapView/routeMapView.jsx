@@ -68,6 +68,10 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         onLoad={onLoad}
+        options={{
+          gestureHandling: "greedy",
+          zoomControl: true, 
+        }}
       >
         {directions && (
           <DirectionsRenderer
