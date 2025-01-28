@@ -4,27 +4,49 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  ListItemText,
+  TextField,
   Button,
   IconButton,
   Box,
+  Slide,
+  ListItemText,
 } from "@mui/material";
 import { Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 
 export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const [notes, setNotes] = useState([]);
+  const [editingNote, setEditingNote] = useState(null);
+  const [editingContent, setEditingContent] = useState("");
 
   useEffect(() => {
     const locationData = dummyData.find((place) => place.name === currentLocation);
     setNotes(locationData ? locationData.notes || [] : []);
   }, [currentLocation]);
 
+  const handleEdit = (note) => {
+    setEditingNote(note);
+    setEditingContent(note);
+  };
+
+  const handleSaveEdit = () => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) => (note === editingNote ? editingContent : note))
+    );
+    setEditingNote(null);
+    setEditingContent("");
+  };
+
+  const handleCloseEdit = () => {
+    setEditingNote(null);
+    setEditingContent("");
+  };
+
   return (
     <Dialog open={isNotesOpen} onClose={toggleNotes} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ textAlign: "center", fontWeight: "bold" }}>
         📌 Notes for {currentLocation}
       </DialogTitle>
-      <DialogContent sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center",overflowY:"visible" }}>
+      <DialogContent sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center" }}>
         {/* Add New Note Button */}
         <Box
           sx={{
@@ -99,7 +121,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
             />
 
             <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-              <IconButton>
+              <IconButton onClick={() => handleEdit(note)}>
                 <Edit fontSize="small" />
               </IconButton>
               <IconButton>
@@ -113,10 +135,50 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
         onClick={toggleNotes}
         variant="contained"
         color="primary"
-        sx={{ margin: "16px auto", display: "block" }}
+        sx={{ margin: "16px auto", display: "block" ,"&:hover": {
+                    color: "black", // Text turns black on hover
+                  }, }}
       >
         Close
       </Button>
+
+      {/* Editing Note Dialog */}
+      {editingNote && (
+        <Dialog
+          open={Boolean(editingNote)}
+          onClose={handleCloseEdit}
+          maxWidth="sm"
+          fullWidth
+          TransitionComponent={Slide}
+          TransitionProps={{ direction: "up" }}
+        >
+          <DialogTitle>Edit Note</DialogTitle>
+          <DialogContent>
+            <TextField
+              value={editingContent}
+              onChange={(e) => setEditingContent(e.target.value)}
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              sx={{ backgroundColor: "#fff", borderRadius: "5px" }}
+            />
+            <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
+              <Button onClick={handleSaveEdit} variant="contained" color="primary"sx={{
+                  "&:hover": {
+                    color: "black", // Text turns black on hover
+                  },
+                }}
+              >
+                Save
+              </Button>
+              <Button onClick={handleCloseEdit} variant="outlined" color="secondary">
+                Cancel
+              </Button>
+            </Box>
+          </DialogContent>
+        </Dialog>
+      )}
     </Dialog>
   );
 }
