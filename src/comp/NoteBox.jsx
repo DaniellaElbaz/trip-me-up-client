@@ -10,8 +10,8 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const [notes, setNotes] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
   const [editingContent, setEditingContent] = useState('');
-  const [wordCount, setWordCount] = useState(0);
-  const maxWords = 50;
+  const [charCount, setCharCount] = useState(0);
+  const maxChars = 200;
   const maxNotes = 30;
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const handleEdit = (note) => {
     setEditingNote(note);
     setEditingContent(note);
-    setWordCount(note.split(' ').length);
+    setCharCount(note.length);
   };
 
   const handleSaveEdit = () => {
@@ -31,34 +31,33 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
     );
     setEditingNote(null);
     setEditingContent('');
-    setWordCount(0);
+    setCharCount(0);
   };
 
   const handleAddNote = () => {
     setEditingNote('new');
     setEditingContent('');
-    setWordCount(0);
+    setCharCount(0);
   };
 
   const handleSaveNewNote = () => {
     setNotes((prevNotes) => [...prevNotes, editingContent]);
     setEditingNote(null);
     setEditingContent('');
-    setWordCount(0);
+    setCharCount(0);
   };
 
   const handleCloseEdit = () => {
     setEditingNote(null);
     setEditingContent('');
-    setWordCount(0);
+    setCharCount(0);
   };
 
   const handleContentChange = (e) => {
     const content = e.target.value;
-    const words = content.trim().split(/\s+/);
-    if (words.length <= maxWords) {
+    if (content.length <= maxChars) {
       setEditingContent(content);
-      setWordCount(words.length);
+      setCharCount(content.length);
     }
   };
 
@@ -104,8 +103,8 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
           editingContent={editingContent}
           handleSave={editingNote === 'new' ? handleSaveNewNote : handleSaveEdit}
           handleClose={handleCloseEdit}
-          wordCount={wordCount}
-          maxWords={maxWords}
+          charCount={charCount}
+          maxChars={maxChars}
         />
       )}
     </Dialog>

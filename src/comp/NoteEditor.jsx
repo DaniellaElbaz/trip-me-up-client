@@ -16,8 +16,8 @@ export default function NoteEditor({
   editingContent,
   handleSave,
   handleClose,
-  wordCount,
-  maxWords,
+  charCount,
+  maxChars,
 }) {
   return (
     <Dialog
@@ -41,17 +41,17 @@ export default function NoteEditor({
         />
         <Typography
           variant="body2"
-          color={wordCount > maxWords ? 'error' : 'textSecondary'}
+          color={charCount > maxChars ? 'error' : 'textSecondary'}
           sx={{ textAlign: 'right', marginTop: 1 }}
         >
-          {wordCount}/{maxWords} words
+          {charCount}/{maxChars} characters
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
           <Button
             onClick={handleSave}
             variant="contained"
             color="primary"
-            disabled={wordCount > maxWords}
+            disabled={charCount > maxChars}
             sx={{
               '&:hover': {
                 color: 'black',
