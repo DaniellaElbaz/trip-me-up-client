@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ArrowForward } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const images = [
@@ -12,6 +11,7 @@ const images = [
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -61,7 +61,6 @@ const Home = () => {
         <h1>Welcome to your personalized travel planning platform!</h1>
         <h2>Discover the future of personalized travel planning</h2>
       </div>
-
       <div
         style={{
           display: "flex",
@@ -76,34 +75,47 @@ const Home = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
-            backgroundColor: "#007BFF",
+            gap: "12px",
+            backgroundColor: "#1E90FF",
             color: "white",
             border: "none",
-            borderRadius: "24px",
-            padding: "12px 24px",
-            fontSize: "16px",
+            borderRadius: "50px",
+            padding: "16px 32px",
+            fontSize: "18px",
             fontWeight: "bold",
             cursor: "pointer",
-            transition: "background-color 0.3s ease",
+            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)",
+            position: "relative",
+            overflow: "hidden",
+            transition: "all 0.4s ease",
           }}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#0056b3")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#007BFF")}
+          onMouseOver={(e) => (e.target.style.backgroundColor = "#007BFF")}
+          onMouseOut={(e) => (e.target.style.backgroundColor = "#1E90FF")}
         >
           Trip Me Up Now
-          <IconButton
+          <span
             style={{
-              backgroundColor: "white",
-              color: "#007BFF",
-              borderRadius: "50%",
-              padding: "4px",
-              fontSize: "inherit",
+              display: "inline-block",
+              animation: "arrowBounce 1s infinite",
+              transition: "transform 0.3s ease",
             }}
           >
             <ArrowForward />
-          </IconButton>
+          </span>
         </button>
       </div>
+      <style>
+        {`
+          @keyframes arrowBounce {
+            0%, 100% {
+              transform: translateX(0);
+            }
+            50% {
+              transform: translateX(10px);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
