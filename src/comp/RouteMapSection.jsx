@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import PropTypes from "prop-types";
 import RouteMapView from "./routeMapView/routeMapView";
 
-export default function RouteMapSection({ startLocation, endLocation, stops, bottomHeight, optimize, currentFocus }) {
+export default function RouteMapSection({ startLocation, endLocation, stops, bottomHeight, optimize, selectedLocation, setSelectedLocation }) {
 
   return (
     <Box
@@ -16,7 +16,14 @@ export default function RouteMapSection({ startLocation, endLocation, stops, bot
       zIndex: 10,
       }}
     >
-      <RouteMapView startLocation={startLocation} endLocation={endLocation} stops={stops} optimize={optimize} currentFocus={currentFocus}/>
+      <RouteMapView
+        startLocation={startLocation}
+        endLocation={endLocation}
+        stops={stops} 
+        optimize={optimize} 
+        selectedLocation={selectedLocation} 
+        setSelectedLocation={setSelectedLocation}
+      />
     </Box>
   );
 }

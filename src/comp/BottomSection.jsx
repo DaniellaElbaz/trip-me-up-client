@@ -16,17 +16,11 @@ export default function BottomSection({
   handleStopAdded,
   handleStopDeleted,
   saveState,
-  onSelectStopIndex
+  selectedIndex,
+  setSelectedIndex
 }) {
   const allStops = [startLocation, ...stops, endLocation];
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = React.useState(true);
-
-  useEffect(() => {
-    if (onSelectStopIndex) {
-      onSelectStopIndex(selectedIndex);
-    }
-  }, [selectedIndex, onSelectStopIndex])
 
   const handleNext = () => {
     setSelectedIndex((prev) =>

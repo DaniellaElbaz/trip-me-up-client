@@ -181,6 +181,8 @@ export default function RouteView() {
     return <p>Loading, please wait...</p>;
   }
   
+  console.log(selectedStopIndex);
+
   return (
     <div className="w-screen h-screen flex flex-col overflow-visible">
       <RouteMapSection
@@ -189,7 +191,8 @@ export default function RouteView() {
         stops={stops}
         bottomHeight={bottomHeight}
         optimize={optimizeRoute}
-        currentFocus={updatedRouteData[selectedStopIndex]}
+        selectedLocation={updatedRouteData[selectedStopIndex]}
+        setSelectedLocation={setSelectedStopIndex}
       />
       <BottomSection
         startLocation={startLocation}
@@ -201,7 +204,8 @@ export default function RouteView() {
         handleStopAdded={handleAddStop}
         handleStopDeleted={handleStopDeleted}
         saveState={saveState}
-        onSelectStopIndex={(index) => setSelectedStopIndex(index)}
+        selectedIndex={selectedStopIndex}
+        setSelectedIndex={setSelectedStopIndex}
       />
     </div>
   );

@@ -8,18 +8,18 @@ const mapContainerStyle = {
   height: "70vh",
 };
 
-export default function RouteMapView({ startLocation, endLocation, stops, optimize, currentFocus }) {
+export default function RouteMapView({ startLocation, endLocation, stops, optimize, selectedLocation, setSelectedLocation }) {
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const [routeReady, setRouteReady] = useState(false);
   const [directions, setDirections] = useState();
-  const [selectedLocation, setSelectedLocation] = useState(null); // State for selected marker
+  const [selectedLocationLocal, setSelectedLocationLocal] = useState(null);
 
   useEffect(() =>{
-    if (!mapRef.current || !currentFocus) return;
-    const { lat, lng } = currentFocus.geometry.location;
+    if (!mapRef.current || !selectedLocation) return;
+    const { lat, lng } = selectedLocation.geometry.location;
     mapRef.current.panTo(new google.maps.LatLng(lat, lng));
-  }, [currentFocus])
+  }, [selectedLocation])
 
   useEffect(() => {
     if (startLocation && endLocation && stops) {
@@ -89,9 +89,12 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
             url: startLocation.icon,
             scaledSize: new google.maps.Size(30, 30),
           }}
-          onClick={() => setSelectedLocation(startLocation)}
+          onClick={() => {
+            setSelectedLocation(0); // sets selected place index to first
+            setSelectedLocationLocal(startLocation);
+          }} 
         />
-        {stops.map(stop => (
+        {stops.map((stop, index) => (
           <Marker
             key={stop.geometry.location.lat}
             position={stop.geometry.location}
@@ -100,7 +103,10 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
               url: stop.icon,
               scaledSize: new google.maps.Size(30, 30),
             }}
-            onClick={() => setSelectedLocation(stop)}
+            onClick={() => {
+              setSelectedLocation(index + 1);
+              setSelectedLocationLocal(stop);
+            }}
           />
         ))}
         <Marker
@@ -110,23 +116,29 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
             url: endLocation.icon,
             scaledSize: new google.maps.Size(30, 30),
           }}
-          onClick={() => setSelectedLocation(endLocation)}
+          onClick={() => {
+            setSelectedLocation(stops.length + 1) // sets selected place index to last
+            setSelectedLocationLocal(endLocation);
+          }} 
         />
-        {selectedLocation && (
+        {selectedLocationLocal && (
           <InfoWindow
-            position={selectedLocation.geometry.location}
-            onCloseClick={() => setSelectedLocation(null)}
+          position={{
+            lat: selectedLocationLocal.geometry.location.lat + 0.005, // move upwards from exact marker
+            lng: selectedLocationLocal.geometry.location.lng,
+          }}
+            onCloseClick={() => setSelectedLocationLocal(null)}
           >
             <div style={{ maxWidth: "200px", padding: "16px", marginTop: "3px", borderRadius: "8px", backgroundColor: "#F3F4F6", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
               {/* title */}
               <h3 style={{ fontSize: "18px", fontWeight: "600", color: "black", margin: "0 0 8px 0" }}>
-                {selectedLocation.name}
+                {selectedLocationLocal.name}
               </h3>
               {/* photo */}
-              {selectedLocation.photos && selectedLocation.photos.length > 0 && (
+              {selectedLocationLocal.photos && selectedLocationLocal.photos.length > 0 && (
                 <img
-                  src={selectedLocation.photos[0]} 
-                  alt={selectedLocation.name}
+                  src={selectedLocationLocal.photos[0]} 
+                  alt={selectedLocationLocal.name}
                   style={{
                     width: "100%",
                     height: "auto",
@@ -138,7 +150,7 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
               )}
               {/* address */}
               <p style={{ fontSize: "14px", color: "black", margin: "0" }}>
-                {selectedLocation.formatted_address}
+                {selectedLocationLocal.formatted_address}
               </p>
             </div>
           </InfoWindow>
