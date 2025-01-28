@@ -51,7 +51,7 @@ export default function Chatbox() {
             } else {
               const data = await response.json();
               const routeId = data[0]?.id;
-              navigate(`/routeview_poc/${routeId}`);
+              navigate(`/routeview/${routeId}`);
             }
           } catch (error) {
             console.error("Error posting data:", error);

@@ -2,14 +2,14 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import ProtectedRoute from './comp/ProtectedRoute.jsx';
 import UserMenu from './comp/UserMenu.jsx';
 import Login from './pages/login.jsx';
-import RouteViewPoc from './pages/routeview_poc.jsx';
+import RouteView from './pages/routeview.jsx';
 import History from './pages/history.jsx';
 import Chat from './pages/chat.jsx';
 import './App.css';
 
 function AppContent() {
   const location = useLocation();
-  const excludeHeaderPaths = ['/login']; 
+  const excludeHeaderPaths = ['/login']; // pages that will exclude the header
 
   return (
     <div>
@@ -25,8 +25,7 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
-          <Route path="/routeview" element={<RouteViewPoc />} />
-          <Route path="/routeview_poc/:routeId" element={<RouteViewPoc />} />
+          <Route path="/routeview/:routeId" element={<RouteView />} />
           <Route path="/history" element={<History />} />
         </Routes>
       </main>
