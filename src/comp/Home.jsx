@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { ArrowForward } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 const images = [
   "https://tse1.mm.bing.net/th?id=OIP.lZTrdupLPv_fqNFiUh1z5AHaE8&w=316&h=316&c=7",
@@ -16,13 +18,21 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleButtonClick = () => {
+    alert("Redirecting to your next adventure!");
+  };
+
   return (
     <div
       style={{
-        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
         height: "100vh",
         width: "100%",
         overflow: "hidden",
+        position: "relative",
       }}
     >
       <div
@@ -30,7 +40,7 @@ const Home = () => {
           backgroundImage: `url(${images[currentImageIndex]})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "brightness(50%)",
+          filter: "brightness(30%)",
           height: "100%",
           width: "100%",
           position: "absolute",
@@ -39,20 +49,59 @@ const Home = () => {
           transition: "background-image 1s ease-in-out",
         }}
       ></div>
-
       <div
         style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          color: "white",
           textAlign: "center",
+          color: "white",
+          padding: "20px",
           zIndex: 2,
         }}
       >
-        <h1>הטקסט שלי</h1>
-        <p>תיאור קצר</p>
+        <h1>Welcome to your personalized travel planning platform!</h1>
+        <h2>Discover the future of personalized travel planning</h2>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 2,
+          paddingTop: "20px",
+        }}
+      >
+        <button
+          onClick={handleButtonClick}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            backgroundColor: "#007BFF",
+            color: "white",
+            border: "none",
+            borderRadius: "24px",
+            padding: "12px 24px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            transition: "background-color 0.3s ease",
+          }}
+          onMouseOver={(e) => (e.target.style.backgroundColor = "#0056b3")}
+          onMouseOut={(e) => (e.target.style.backgroundColor = "#007BFF")}
+        >
+          Trip Me Up Now
+          <IconButton
+            style={{
+              backgroundColor: "white",
+              color: "#007BFF",
+              borderRadius: "50%",
+              padding: "4px",
+              fontSize: "inherit",
+            }}
+          >
+            <ArrowForward />
+          </IconButton>
+        </button>
       </div>
     </div>
   );
