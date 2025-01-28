@@ -11,7 +11,7 @@ import {
   Slide,
   Typography,
 } from "@mui/material";
-import { Edit, Delete, AddCircleOutline } from "@mui/icons-material";
+import { Edit, Delete, AddCircleOutline, Close } from "@mui/icons-material";
 
 export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const [notes, setNotes] = useState([]);
@@ -19,7 +19,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const [editingContent, setEditingContent] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const maxWords = 50; // Maximum allowed words for a note
-  const maxNotes = 7; // Maximum allowed notes
+  const maxNotes = 30; // Maximum allowed notes
 
   useEffect(() => {
     const locationData = dummyData.find((place) => place.name === currentLocation);
@@ -71,8 +71,26 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
 
   return (
     <Dialog open={isNotesOpen} onClose={toggleNotes} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ textAlign: "center", fontWeight: "bold" }}>
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         📌 Notes for {currentLocation}
+        <IconButton
+          onClick={toggleNotes}
+          sx={{
+            color: "inherit",
+            transition: "color 0.3s ease",
+            "&:hover": {
+              color: "red",
+            },
+          }}
+        >
+          <Close />
+        </IconButton>
       </DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, justifyContent: "center" }}>
         <Typography
@@ -177,20 +195,6 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
           ))}
         </Box>
       </DialogContent>
-      <Button
-        onClick={toggleNotes}
-        variant="contained"
-        color="primary"
-        sx={{
-          margin: "16px auto",
-          display: "block",
-          "&:hover": {
-            color: "black", // Text turns black on hover
-          },
-        }}
-      >
-        Close
-      </Button>
 
       {/* Editing or Adding Note Dialog */}
       {editingNote && (
@@ -218,7 +222,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
               color={wordCount > maxWords ? "error" : "textSecondary"}
               sx={{ textAlign: "right", marginTop: 1 }}
             >
-              {wordCount}/{maxWords} words
+              {maxWords}/{wordCount} words
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
               <Button
