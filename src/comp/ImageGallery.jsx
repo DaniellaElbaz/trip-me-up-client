@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import PropTypes from "prop-types";
 import { Box, IconButton } from "@mui/material";
 import CustomCard from "./CustomCard";
 import NoteBox from "./NoteBox";
@@ -40,13 +41,13 @@ export default function ImageGallery({
 
       {/* CustomCard for Image Display */}
       <CustomCard
-        image={imageReferences[currentImageIndex]}
+       image={imageReferences[currentImageIndex]?.photos}
         title=""
         description=""
         toggleNotes={toggleNotes} // פונקציה לכפתור בפינה
       />
   
-  <NoteBox isNotesOpen={isNotesOpen} toggleNotes={toggleNotes} />
+  <NoteBox isNotesOpen={isNotesOpen} toggleNotes={toggleNotes}  currentLocation={imageReferences[currentImageIndex]?.name}  />
       <IconButton
         onClick={onNext}
         sx={{
@@ -61,3 +62,14 @@ export default function ImageGallery({
     </Box>
   );
 }
+ImageGallery.propTypes = {
+  imageReferences: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      photos: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  currentImageIndex: PropTypes.number.isRequired,
+  onNext: PropTypes.func.isRequired,
+  onPrev: PropTypes.func.isRequired,
+};

@@ -41,9 +41,10 @@ export default function BottomSection({
           selectedIndex={selectedIndex}
         />
         <ImageGallery
-          imageReferences={allStops.map(
-            (stop) => stop.photos?.[0] || "https://via.placeholder.com/150"
-          )}
+          imageReferences={allStops.map((stop) => ({
+            photos: stop.photos?.[0] || "https://via.placeholder.com/150",
+            name: stop.name,
+          }))}
           currentImageIndex={selectedIndex}
           onNext={handleNext} // Handle next image
           onPrev={handlePrev} // Handle previous image

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import dummyData from "../dev/dummyRouteData.json";
 import {
   Dialog,
   DialogContent,
@@ -10,24 +11,20 @@ import {
 } from "@mui/material";
 import { Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 
-export default function NoteBox({ isNotesOpen, toggleNotes }) {
-  const [notes, setNotes] = useState([
-    "This is a sample note",
-    "Another example note",
-    "Testing a longer note to check spacing uygfvulyvfguogypuyfvputfytvlutf",
-    "Testing a longer note to check spacing uygfvulyvfguogypuyfvputfytvlutf",
-    "Testing a longer note to check spacing uygfvulyvfguogypuyfvputfytvlutf",
-    "Testing a longer note to check spacing uygfvulyvfguogypuyfvputfytvlutf",
-    "Testing a longer note to check spacing uygfvulyvfguogypuyfvputfytvlutf",
-    "Testing a longer note to check spacing uygfvulyvfguogypuyfvputfytvytgfvygvtuyifutrdutrdutrdurdutrdrdiydydydydydytfytfytdydyddylutf",
-  ]);
+export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    const locationData = dummyData.find((place) => place.name === currentLocation);
+    setNotes(locationData ? locationData.notes || [] : []);
+  }, [currentLocation]);
 
   return (
     <Dialog open={isNotesOpen} onClose={toggleNotes} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ textAlign: "center", fontWeight: "bold" }}>
-        📌 Your Notes
+        📌 Notes for {currentLocation}
       </DialogTitle>
-      <DialogContent sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center" ,overflowY:"visible"}}>
+      <DialogContent sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center",overflowY:"visible" }}>
         {/* Add New Note Button */}
         <Box
           sx={{

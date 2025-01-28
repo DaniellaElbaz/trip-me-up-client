@@ -10,6 +10,11 @@
       },
       "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
       "name": "Tel Aviv Port",
+      "notes": [
+        "Great place to walk in the evening!",
+        "Try the seafood restaurant by the water.",
+        "Amazing sunset views!"
+      ],
       "opening_hours": { "open_now": true },
       "photos": [
         {
@@ -34,6 +39,11 @@
       },
       "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
       "name": "Gordon Beach",
+      "notes": [
+      "Perfect for morning runs.",
+      "Crowded on weekends, come early!",
+      "Best spot for beach volleyball."
+    ],
       "photos": [
         {
           "height": 2268,
@@ -57,6 +67,11 @@
       },
       "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
       "name": "Sarona Market",
+      "notes": [
+      "Huge variety of food stalls!",
+      "Try the handmade chocolates.",
+      "Best coffee shop inside!"
+    ],
       "opening_hours": { "open_now": true },
       "photos": [
         {
