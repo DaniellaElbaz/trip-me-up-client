@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowForward } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const images = [
   "https://tse1.mm.bing.net/th?id=OIP.lZTrdupLPv_fqNFiUh1z5AHaE8&w=316&h=316&c=7",
@@ -10,7 +11,7 @@ const images = [
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -19,7 +20,7 @@ const Home = () => {
   }, []);
 
   const handleButtonClick = () => {
-    alert("Redirecting to your next adventure!");
+    navigate("/chat");
   };
 
   return (
