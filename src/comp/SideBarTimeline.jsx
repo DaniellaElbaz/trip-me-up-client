@@ -4,7 +4,7 @@ import CustomConnector from "./CustomConnector";
 import StepLabelWithTooltip from "./StepLabelWithTooltip";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 
-export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, onStopAdded }) {
+export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, onStopAdded, isEditPermission }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popupIndex, setPopupIndex] = useState(null);
   const [inputValue, setInputValue] = useState("");
@@ -70,13 +70,16 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
           padding: "0",
         }}
       >
-        <Step
+        {isEditPermission && (
+          <Step
           completed={false}
           onClick={(event) => handleAddClick(event, 0)}
           sx={{ cursor: "pointer" }}
-        >
+          >
           <StepLabelWithTooltip stop="+" index={-1} isSelected={false} isPlus />
-        </Step>
+          </Step>
+        )}
+        
         {stops.map((stop, index) => (
           <React.Fragment key={index}>
             <Step
@@ -116,7 +119,7 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
                 </span>
               </StepLabel>
             </Step>
-            {index < stops.length - 1 && (
+            {isEditPermission && (index < stops.length - 1) && (
               <Step
                 completed={false}
                 onClick={(event) => handleAddClick(event, index + 1)}
@@ -127,13 +130,15 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
             )}
           </React.Fragment>
         ))}
-        <Step
+        {isEditPermission && (
+          <Step
           completed={false}
           onClick={(event) => handleAddClick(event, stops.length)}
           sx={{ cursor: "pointer" }}
-        >
+          >
           <StepLabelWithTooltip stop="+" index={stops.length} isSelected={false} isPlus />
-        </Step>
+          </Step>
+        )}
       </Stepper>
 
       <Popper

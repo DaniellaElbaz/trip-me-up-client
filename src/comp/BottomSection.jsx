@@ -17,10 +17,10 @@ export default function BottomSection({
   handleStopDeleted,
   saveState,
   selectedIndex,
-  setSelectedIndex
+  setSelectedIndex,
+  isEditPermission
 }) {
   const allStops = [startLocation, ...stops, endLocation];
-  const [loading, setLoading] = React.useState(true);
 
   const handleNext = () => {
     setSelectedIndex((prev) =>
@@ -44,6 +44,7 @@ export default function BottomSection({
     }
   }
 
+  console.log(isEditPermission);
   return (
     <Box
       className="absolute bottom-0 left-0 w-full bg-transparent transition-all duration-300"
@@ -56,19 +57,22 @@ export default function BottomSection({
       <div className="flex flex-col bg-white p-6 gap-6 overflow-x-auto">
       <div className="h-full max-h-1/2 min-h-1/5 overflow-y-auto">
 
-      {/* buttons */}
-      <BoxC sx={{ '& > button': { m: 1 } }}>
-        <StatefulSaveButton 
-          buttonState={saveState}
-          onSave={handleRouteUpdate}
-        />
-      </BoxC>
+    {/* buttons */}
+    {isEditPermission && 
+    <BoxC sx={{ '& > button': { m: 1 } }}>
+    <StatefulSaveButton 
+      buttonState={saveState}
+      onSave={handleRouteUpdate}
+    />
+    </BoxC>
+    }
     </div>
         <SideBarTimeline
           stops={allStops.map((stop) => stop.name)}
           onSelectStop={setSelectedIndex}
           selectedIndex={selectedIndex}
           onStopAdded={handleStopAdded}
+          isEditPermission={isEditPermission}
         />
         <PlaceGallery
           places={allStops}

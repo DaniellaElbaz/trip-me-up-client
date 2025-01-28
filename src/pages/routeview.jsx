@@ -20,8 +20,9 @@ export default function RouteView() {
   const [endLocation, setEndLocation] = useState("None");
   const [optimizeRoute, setOptimizeRoute] = useState(true)
   const [saveState, setSaveState] = useState("saved");
-  const isFirstLoad = useRef(true);
   const [selectedStopIndex, setSelectedStopIndex] = useState(0);
+  const [permission, setPermission] = useState("view");
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     document.title = "Trip View";
@@ -39,6 +40,7 @@ export default function RouteView() {
         }
         const data = await response.json();
         console.log(data);
+        setPermission(data.permission);
         const transformedData = data.route?.[0].places.map(place => ({
           formatted_address: place.address,
           geometry: {
@@ -58,6 +60,7 @@ export default function RouteView() {
       } catch (error) {
         console.error("Error fetching route data:", error);
         setRouteData(dummyData); // TODO: Fallback to dummy data for dev, handle differently for final build
+        setPermission("edit");
       }
     };
 
@@ -66,6 +69,7 @@ export default function RouteView() {
       setOptimizeRoute(false);
     } else {
       setRouteData(dummyData);
+      setPermission("edit");
       setOptimizeRoute(false);
     }
   }, [routeId]);
@@ -206,6 +210,7 @@ export default function RouteView() {
         saveState={saveState}
         selectedIndex={selectedStopIndex}
         setSelectedIndex={setSelectedStopIndex}
+        isEditPermission={(permission == "view" ? false : true)}
       />
     </div>
   );
