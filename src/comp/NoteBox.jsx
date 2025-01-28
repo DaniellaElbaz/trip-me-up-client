@@ -9,6 +9,7 @@ import {
   IconButton,
   Box,
   Slide,
+  Typography,
   ListItemText,
 } from "@mui/material";
 import { Edit, Delete, AddCircleOutline } from "@mui/icons-material";
@@ -17,6 +18,8 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const [notes, setNotes] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
   const [editingContent, setEditingContent] = useState("");
+  const [wordCount, setWordCount] = useState(0);
+  const maxWords = 50; // Maximum allowed words
 
   useEffect(() => {
     const locationData = dummyData.find((place) => place.name === currentLocation);
@@ -26,6 +29,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const handleEdit = (note) => {
     setEditingNote(note);
     setEditingContent(note);
+    setWordCount(note.split(" ").length);
   };
 
   const handleSaveEdit = () => {
@@ -34,11 +38,22 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
     );
     setEditingNote(null);
     setEditingContent("");
+    setWordCount(0);
   };
 
   const handleCloseEdit = () => {
     setEditingNote(null);
     setEditingContent("");
+    setWordCount(0);
+  };
+
+  const handleContentChange = (e) => {
+    const content = e.target.value;
+    const words = content.trim().split(/\s+/);
+    if (words.length <= maxWords) {
+      setEditingContent(content);
+      setWordCount(words.length);
+    }
   };
 
   return (
@@ -135,9 +150,13 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
         onClick={toggleNotes}
         variant="contained"
         color="primary"
-        sx={{ margin: "16px auto", display: "block" ,"&:hover": {
-                    color: "black", // Text turns black on hover
-                  }, }}
+        sx={{
+          margin: "16px auto",
+          display: "block",
+          "&:hover": {
+            color: "black", // Text turns black on hover
+          },
+        }}
       >
         Close
       </Button>
@@ -156,15 +175,27 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
           <DialogContent>
             <TextField
               value={editingContent}
-              onChange={(e) => setEditingContent(e.target.value)}
+              onChange={handleContentChange}
               fullWidth
               multiline
               rows={4}
               variant="outlined"
               sx={{ backgroundColor: "#fff", borderRadius: "5px" }}
             />
+            <Typography
+              variant="body2"
+              color={wordCount > maxWords ? "error" : "textSecondary"}
+              sx={{ textAlign: "right", marginTop: 1 }}
+            >
+              {wordCount}/{maxWords} words
+            </Typography>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-              <Button onClick={handleSaveEdit} variant="contained" color="primary"sx={{
+              <Button
+                onClick={handleSaveEdit}
+                variant="contained"
+                color="primary"
+                disabled={wordCount > maxWords} // Disable if over max words
+                sx={{
                   "&:hover": {
                     color: "black", // Text turns black on hover
                   },
