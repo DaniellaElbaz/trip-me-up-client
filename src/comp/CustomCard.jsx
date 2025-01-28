@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { Delete, Close } from "@mui/icons-material";
+import { Note } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled }) {
+export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled, toggleNotes }) {
   return (
     <Card
       sx={{
@@ -27,12 +29,29 @@ export default function CustomCard({ image, title, subtitle, description, onDele
           objectFit: "cover",
         }}
       />
+      <IconButton
+        onClick={toggleNotes}
+        sx={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          transition: "color 0.3s ease, background-color 0.3s ease",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            color: "white",
+          },
+        }}
+      >
+      <Note/>
+      </IconButton>
+
       <CardContent
         sx={{
           width: "100%",
           flexGrow: 1,
         }}
-      >
+        >
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
@@ -45,6 +64,7 @@ export default function CustomCard({ image, title, subtitle, description, onDele
           {description}
         </Typography>
       </CardContent>
+
       <IconButton
         onClick={onDelete}
         disabled={isDeleteDisabled}
@@ -73,4 +93,6 @@ CustomCard.propTypes = {
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool.isRequired,
+  toggleNotes: PropTypes.func.isRequired,
 };
+

@@ -34,12 +34,12 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
     const bounds = new google.maps.LatLngBounds();
     bounds.extend(new google.maps.LatLng(startLocation.geometry.location.lat, startLocation.geometry.location.lng));
     stops.forEach(stop => {
-     bounds.extend(new google.maps.LatLng(stop.geometry.location.lat, stop.geometry.location.lng));
+    bounds.extend(new google.maps.LatLng(stop.geometry.location.lat, stop.geometry.location.lng));
     });
     bounds.extend(new google.maps.LatLng(endLocation.geometry.location.lat, endLocation.geometry.location.lng));
     mapRef.current.fitBounds(bounds);
 
-   const service = new google.maps.DirectionsService();
+    const service = new google.maps.DirectionsService();
 
     service.route(
       {

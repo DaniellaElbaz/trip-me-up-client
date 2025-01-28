@@ -10,6 +10,11 @@
       },
       "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
       "name": "Tel Aviv Port",
+      "notes": [
+        "Great place to walk in the evening!",
+        "Try the seafood restaurant by the water.",
+        "Amazing sunset views!"
+      ],
       "opening_hours": { "open_now": true },
       "photos": ["AWYs27wxa6G8yOjJh-cVFBlod8HBUTxNUGZ1TqAKbhPm-HMA86im024qt2Hvy-nn92sjuDlOVd1aAyDpHlNwW9qcD9DdqrXoLZx1rUsiCqPnBOyR_Ann0vrsMZFlTwieD6kgZuqm-Kus8AJoFL3wQhgNmnwuAPt_x0JWmA6lxVv7ayiHEItJ"],
       "rating": 4.5,
@@ -41,6 +46,11 @@
       },
       "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
       "name": "Sarona Market",
+      "notes": [
+      "Huge variety of food stalls!",
+      "Try the handmade chocolates.",
+      "Best coffee shop inside!"
+    ],
       "opening_hours": { "open_now": true },
       "photos": ["AWYs27yHdfllfX3kdfy7OyQ6RI82b9GsQEAKiezSP8qbPxYcAHf3Z1gFNX-r79yvrqoWd2NMs0diwTb_bpvOLxLH4uXMaM3EzLbMeKlMrPymzeSpGJlqq7zYBhdTX7WO5hOczG0TQRkarlx5ZCSZbtjHsCIRc2Gztf5ZKhQJL61G94dl6GdX"],
       "rating": 4.3,
