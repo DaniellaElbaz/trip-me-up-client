@@ -44,7 +44,7 @@ export default function ImageGallery({
        image={imageReferences[currentImageIndex]?.photos}
         title=""
         description=""
-        toggleNotes={toggleNotes} // פונקציה לכפתור בפינה
+        toggleNotes={toggleNotes}
       />
   
   <NoteBox isNotesOpen={isNotesOpen} toggleNotes={toggleNotes}  currentLocation={imageReferences[currentImageIndex]?.name}  />

@@ -66,7 +66,6 @@ export default function CustomCard({
         </Typography>
       </CardContent>
 
-      {/* כפתור מחיקה בפינה התחתונה הימנית */}
       <IconButton
         onClick={onDelete}
         sx={{
