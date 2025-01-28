@@ -50,6 +50,7 @@ const Home = () => {
           transition: "background-image 1s ease-in-out",
         }}
       ></div>
+
       <div
         style={{
           textAlign: "center",
@@ -61,6 +62,7 @@ const Home = () => {
         <h1>Welcome to your personalized travel planning platform!</h1>
         <h2>Discover the future of personalized travel planning</h2>
       </div>
+
       <div
         style={{
           display: "flex",
