@@ -1,7 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TripCard from "../comp/TripCard";
+import CONFIG from "../config";
+import { useNavigate } from "react-router-dom";
+
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 function History() {
+  let navigate = useNavigate();
+
+  const [trips, setTrips] = useState(null);
+
+  useEffect(() => {
+    const fetchTrips = async () =>{
+      try {
+        const response = await fetch(`${CONFIG.SERVER_URL}/route/all`, {
+          method: "GET",
+          credentials: "include"
+        });
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        const data = await response.json();
+        data.routes = data.routes.map(route => ({
+          ...route, 
+          images: route.images.map(image => getImageUrlFromReference(image)),
+          name: `Trip from ${route.places[0]} to ${route.places[route.places.length - 1]}`
+        }));
+        console.log(data);
+        setTrips(data.routes);
+      } catch (error) {
+        console.error("Error fetching route data:", error);
+      }
+    }
+
+    fetchTrips();
+  }, []);
+
+  const getImageUrlFromReference = (photoReference) => {
+    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${photoReference}&key=${API_KEY}`;
+  };
+
   const fakeTrips = [
     {
       id: 1,
@@ -38,9 +76,13 @@ function History() {
     },
   ];
 
-  const handleViewRoute = (tripName) => {
-    alert(`Viewing route for ${tripName}`);
+  const handleViewRoute = (tripId) => {
+    navigate(`/routeview/${tripId}`);
   };
+
+  if(!trips){
+    return (<h1>Loading data, please wait...</h1>);
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen p-8">
@@ -48,7 +90,7 @@ function History() {
         My Vacation History
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {fakeTrips.map((trip) => (
+        {trips.map((trip) => (
           <TripCard key={trip.id} trip={trip} onViewRoute={handleViewRoute} />
         ))}
       </div>

@@ -11,7 +11,7 @@ function TripCard({ trip, onViewRoute }) {
       <div className="p-4">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{trip.name}</h2>
         <p className="text-gray-500 text-sm mb-4 flex items-center">
-          <EventIcon className="mr-2" /> {trip.date}
+          {/*<EventIcon className="mr-2" /> {trip.date} */}
         </p>
         <p className="text-gray-700 font-semibold flex items-center">
           <PlaceIcon className="mr-2" /> Places:
@@ -23,7 +23,7 @@ function TripCard({ trip, onViewRoute }) {
         </ul>
         <button
           className="mt-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-shadow shadow-lg flex items-center"
-          onClick={() => onViewRoute(trip.name)}
+          onClick={() => onViewRoute(trip.id)}
         >
           View Route
         </button>
@@ -38,6 +38,7 @@ TripCard.propTypes = {
     name: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     places: PropTypes.arrayOf(PropTypes.string).isRequired,
+    id: PropTypes.number
   }).isRequired,
   onViewRoute: PropTypes.func.isRequired, // Validate 'onViewRoute' as a function
 };

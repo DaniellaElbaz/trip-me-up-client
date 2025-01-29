@@ -26,7 +26,12 @@ function AppContent() {
             }
           />
           <Route path="/routeview/:routeId" element={<RouteView />} />
-          <Route path="/history" element={<History />} />
+          <Route path="/history" element={
+            <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
     </div>
