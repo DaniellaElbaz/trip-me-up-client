@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
-export default function NoteList({ notes, handleEdit }) {
+export default function NoteList({ notes, handleEdit, handleDelete }) {
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, justifyContent: 'center', paddingBottom: 3 }}>
       {notes.map((note, index) => (
@@ -54,8 +54,8 @@ export default function NoteList({ notes, handleEdit }) {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', paddingTop: 1 }}>
             <IconButton onClick={() => handleEdit(note)}>
               <Edit fontSize="small" />
-            </IconButton>
-            <IconButton>
+            </IconButton >
+            <IconButton onClick={() => handleDelete(index)}>
               <Delete fontSize="small" />
             </IconButton>
           </Box>

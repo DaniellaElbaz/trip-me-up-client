@@ -9,7 +9,10 @@ export default function PlaceGallery({
   currentPlaceIndex,
   onNextPlace,
   onPrevPlace,
-  onDelete
+  onDelete,
+  isEditPermission,
+  notesArray,
+  setNotesArray
 }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isPlaceSwappedHere, setIsPlaceSwappedHere] = useState(false);
@@ -106,9 +109,19 @@ export default function PlaceGallery({
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
         toggleNotes={toggleNotes}
+        isEditPermission={isEditPermission}
       />
 
-      <NoteBox isNotesOpen={isNotesOpen} toggleNotes={toggleNotes}  currentLocation={places[currentPlaceIndex]?.name}  />
+      {isEditPermission &&
+        <NoteBox 
+          isNotesOpen={isNotesOpen} 
+          toggleNotes={toggleNotes} 
+          currentLocationIndex={currentPlaceIndex} 
+          currentLocationName={places[currentPlaceIndex].name}
+          notesArray={notesArray} 
+          setNotesArray={setNotesArray}
+        />
+      }
 
       <IconButton
         onClick={handleNext}

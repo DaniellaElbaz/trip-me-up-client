@@ -11,7 +11,6 @@ export default function GalleryContainer({ trip }) {
   const [selectedLocationIndex, setSelectedLocationIndex] = useState(0);
 
   const handleLocationSelect = (location) => {
-    console.log(location);
     setSelectedLocation(location);
     setSelectedLocationIndex(trip.places.indexOf(location));
   };

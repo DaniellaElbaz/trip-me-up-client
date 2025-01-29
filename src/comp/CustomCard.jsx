@@ -4,7 +4,7 @@ import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/mater
 import { Delete, Close } from "@mui/icons-material";
 import { Note } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled, toggleNotes }) {
+export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
   return (
     <Card
       sx={{
@@ -28,7 +28,8 @@ export default function CustomCard({ image, title, subtitle, description, onDele
           objectFit: "cover",
         }}
       />
-      <IconButton
+      {isEditPermission &&
+        <IconButton
         onClick={toggleNotes}
         sx={{
           position: "absolute",
@@ -41,10 +42,10 @@ export default function CustomCard({ image, title, subtitle, description, onDele
             color: "white",
           },
         }}
-      >
-      <Note/>
-      </IconButton>
-
+        >
+          <Note/>
+        </IconButton>
+      }
       <CardContent
         sx={{
           width: "100%",
@@ -63,8 +64,9 @@ export default function CustomCard({ image, title, subtitle, description, onDele
           {description}
         </Typography>
       </CardContent>
-
-      <IconButton
+      
+      {isEditPermission &&
+        <IconButton
         onClick={onDelete}
         disabled={isDeleteDisabled}
         sx={{
@@ -78,9 +80,11 @@ export default function CustomCard({ image, title, subtitle, description, onDele
             color: "white",
           },
         }}
-      >
-        <Delete />
-      </IconButton>
+        >
+          <Delete />
+        </IconButton>
+      }
+      
     </Card>
   );
 }

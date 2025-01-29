@@ -15,6 +15,7 @@ export default function RouteView() {
   const [routeData, setRouteData] = useState(null);
   const [routeDataReady, setRouteDataReady] = useState(false);
   const [updatedRouteData, setUpdatedRouteData] = useState(null); // contains image URL's instead of references
+  const [notesArray, setNotesArray] = useState([]);
   const [stops, setStops] = useState(["None"]);
   const [startLocation, setStartLocation] = useState("None");
   const [endLocation, setEndLocation] = useState("None");
@@ -57,6 +58,7 @@ export default function RouteView() {
           notes: (place.notes ? place.notes : [])
         }));
         setRouteData(transformedData);
+        setNotesArray(transformedData.map(place => place.notes));
       } catch (error) {
         console.error("Error fetching route data:", error);
         setRouteData(dummyData); // TODO: Fallback to dummy data for dev, handle differently for final build
@@ -73,6 +75,10 @@ export default function RouteView() {
       setOptimizeRoute(false);
     }
   }, [routeId]);
+
+  useEffect(() => {
+    setSaveState("unsaved");
+  }, [notesArray])
 
   const getImageUrlFromReference = (photoReference) => {
     return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${photoReference}&key=${API_KEY}`;
@@ -107,13 +113,17 @@ export default function RouteView() {
 
   const handleRouteUpdate = async () => {
     try {
-      console.log(userId);
       setSaveState("saving");
+      const routeDataWithNotes = routeData.map((obj, index) => ({
+        ...obj, 
+        notes: notesArray[index] 
+      }));
+      console.log(routeDataWithNotes);
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ user_id: userId, route_id: routeId, locations: routeData })
+        body: JSON.stringify({ user_id: userId, route_id: routeId, locations: routeDataWithNotes })
       });
   
       if (response.ok) {
@@ -121,8 +131,6 @@ export default function RouteView() {
         console.log("route updated")
       } else {
         console.error(response);
-        //const errorData = await response.json();
-        //console.error("Error details:", errorData);
         setSaveState("unsaved");
       }
     } catch (error) {
@@ -138,6 +146,8 @@ export default function RouteView() {
     }
     const newRouteData = routeData.filter((_, index) => index !== stopIndex);
     setRouteData(newRouteData);
+    const newNotesData = notesArray.filter((_, index) => index !== stopIndex);
+    setNotesArray(newNotesData);
   }
 
   const handleAddStop = async (place, index) => {
@@ -151,13 +161,20 @@ export default function RouteView() {
         const data = await response.json();
         const newStop = data.places[0];
         newStop.photos = newStop.photos.map(photo => photo.photo_reference);
+        newStop.notes = [];
         const newRouteData = [
           ...routeData.slice(0, index),
           newStop,
           ...routeData.slice(index),
         ];
+        const newNotesData = [
+          ...notesArray.slice(0, index),
+          [],
+          ...routeData.slice(index)
+        ]
         setRouteDataReady(false);
         setRouteData(newRouteData);
+        setNotesArray(newNotesData);
       } else {
         console.error("add stop failed");
         const errorData = await response.json();
@@ -209,6 +226,8 @@ export default function RouteView() {
         selectedIndex={selectedStopIndex}
         setSelectedIndex={setSelectedStopIndex}
         isEditPermission={(permission == "view" ? false : true)}
+        notesArray={notesArray}
+        setNotesArray={setNotesArray}
       />
     </div>
   );

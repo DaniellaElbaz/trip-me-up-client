@@ -36,7 +36,7 @@ function TripCard({ trip, onViewRoute }) {
 TripCard.propTypes = {
   trip: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
+    //date: PropTypes.string.isRequired,
     places: PropTypes.arrayOf(PropTypes.string).isRequired,
     id: PropTypes.number
   }).isRequired,

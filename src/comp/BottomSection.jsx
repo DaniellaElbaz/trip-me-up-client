@@ -18,7 +18,9 @@ export default function BottomSection({
   saveState,
   selectedIndex,
   setSelectedIndex,
-  isEditPermission
+  isEditPermission,
+  notesArray,
+  setNotesArray
 }) {
   const allStops = [startLocation, ...stops, endLocation];
 
@@ -79,6 +81,9 @@ export default function BottomSection({
           onNextPlace={handleNext} 
           onPrevPlace={handlePrev} 
           onDelete={handleDelete}
+          isEditPermission={isEditPermission}
+          notesArray={notesArray}
+          setNotesArray={setNotesArray}
         />
       </div>
     </Box>

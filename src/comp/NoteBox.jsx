@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import dummyData from '../dev/dummyRouteData.json';
 import NoteList from './NoteList';
 import NoteEditor from './NoteEditor';
@@ -6,7 +6,7 @@ import AddNoteButton from './AddNoteButton';
 import { Dialog, DialogTitle, IconButton, Typography } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
-export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
+export default function NoteBox({ isNotesOpen, toggleNotes, currentLocationName, currentLocationIndex, notesArray, setNotesArray }) {
   const [notes, setNotes] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
   const [editingContent, setEditingContent] = useState('');
@@ -15,15 +15,28 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
   const maxNotes = 30;
 
   useEffect(() => {
-    const locationData = dummyData.find((place) => place.name === currentLocation);
-    setNotes(locationData ? locationData.notes || [] : []);
-  }, [currentLocation]);
+    setNotes(notesArray[currentLocationIndex]);
+  }, [currentLocationIndex]);
+
+  useEffect(() => {  
+    if (setNotesArray) {
+      setNotesArray(notesArray.map((obj, i) =>
+        i === currentLocationIndex ? notes : obj
+      ));
+    }
+  }, [notes]);
 
   const handleEdit = (note) => {
     setEditingNote(note);
     setEditingContent(note);
     setCharCount(note.length);
   };
+
+  const handleDelete = (index) => {
+    setEditingNote(null);
+    setEditingContent('');
+    setNotes(notes.filter((_, i) => i !== index))
+  }
 
   const handleSaveEdit = () => {
     setNotes((prevNotes) =>
@@ -70,7 +83,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
           alignItems: 'center',
         }}
       >
-        📌 Notes for {currentLocation}
+        📌 Notes for {currentLocationName}
         <IconButton
           onClick={toggleNotes}
           sx={{
@@ -95,7 +108,7 @@ export default function NoteBox({ isNotesOpen, toggleNotes, currentLocation }) {
         notesLength={notes.length}
         maxNotes={maxNotes}
       />
-      <NoteList notes={notes} handleEdit={handleEdit} fixedHeight />
+      <NoteList notes={notes} handleEdit={handleEdit} handleDelete={handleDelete} fixedHeight />
       {editingNote && (
         <NoteEditor
           editingNote={editingNote}
