@@ -26,8 +26,8 @@ function LoginForm() {
       });
 
       if (response.ok) {
-        //const userData = await response.json();
-        //console.log(userData);
+        const userData = await response.json();
+        sessionStorage.setItem("userData", JSON.stringify(userData.userdata));
         const redirectPath = location.state?.from?.pathname || "/";
         navigate(redirectPath);
       } else {

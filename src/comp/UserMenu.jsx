@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Close, Logout, Chat, Map } from "@mui/icons-material";
 import Header from "./Header";
+import CONFIG from "../config";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const storedData = sessionStorage.getItem("userData");
+  let userData = null;
+  if(storedData){
+    userData = JSON.parse(storedData);
+  }
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -13,6 +20,27 @@ const UserMenu = () => {
   const closeMenu = () => {
     setIsOpen(false);
   };
+
+  const handleLogout = async () => {
+    sessionStorage.setItem("userData", null);
+    sessionStorage.setItem("userID", null);
+    try {
+      const response = await fetch(`${CONFIG.SERVER_URL}/logout`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.ok) {
+        navigate("/login");
+      } else {
+        alert(`Logout failed...`);
+      }
+    } catch (error) {
+      alert(`Logout failed...`);
+    }
+  }
 
   return (
     <div
@@ -50,42 +78,51 @@ const UserMenu = () => {
             {/* User Section */}
             <div className="flex flex-col items-center p-6 border-b border-gray-200">
               <img
-                src="/path-to-placeholder-image.jpg"
+                src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1738228136~exp=1738231736~hmac=d3a6c9419ba248eb49cefe19ab3e179d2545a5419124be159feb98aeaef6aad0&w=1800"
                 alt="User"
                 className="w-16 h-16 rounded-full mb-2 shadow-md"
               />
-              <p className="text-lg font-bold">User Name</p>
+              <p className="text-lg font-bold">{userData ? userData.name : "User Name"}</p>
             </div>
 
             {/* Navigation Links */}
             <nav className="flex-grow p-4">
               <NavLink
                 to="/"
-                className="flex items-center px-4 py-2 mb-2 rounded-lg hover:bg-gray-100 shadow-sm"
-                activeClassName="bg-gray-200"
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 mb-2 rounded-lg hover:bg-gray-100 shadow-sm ${
+                    isActive ? "bg-gray-200" : ""
+                  }`
+                }
               >
                 <Chat className="mr-2" /> Home
               </NavLink>
               <NavLink
                 to="/chat"
-                className="flex items-center px-4 py-2 mb-2 rounded-lg hover:bg-gray-100 shadow-sm"
-                activeClassName="bg-gray-200"
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 mb-2 rounded-lg hover:bg-gray-100 shadow-sm ${
+                    isActive ? "bg-gray-200" : ""
+                  }`
+                }
               >
                 <Chat className="mr-2" /> Chat
               </NavLink>
               <NavLink
-                to="/routeview"
-                className="flex items-center px-4 py-2 mb-2 rounded-lg hover:bg-gray-100 shadow-sm"
-                activeClassName="bg-gray-200"
+                to="/history"
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 mb-2 rounded-lg hover:bg-gray-100 shadow-sm ${
+                    isActive ? "bg-gray-200" : ""
+                  }`
+                }
               >
-                <Map className="mr-2" /> Route View
+                <Map className="mr-2" /> Trip History
               </NavLink>
             </nav>
 
             {/* Logout Button */}
             <button
               className="flex items-center justify-center w-full px-4 py-2 mt-auto bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg"
-              onClick={() => console.log("Logout")}
+              onClick={handleLogout}
             >
               <Logout className="mr-2" /> Logout
             </button>
