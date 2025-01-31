@@ -7,13 +7,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 function TripCard({ trip, onViewRoute }) {
   return (
     <div className="flex flex-row justify-between w-full bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-      {/* גלריה בצד ימין */}
-      <div className="w-2/5">
-        <GalleryContainer trip={trip} />
-      </div>
-      
-      {/* תוכן בצד שמאל */}
-      <div className="w-3/5 p-6 flex flex-col justify-center">
+          <div className="w-3/5 p-6 flex flex-col justify-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">{trip.name}</h2>
         <p className="text-gray-500 text-lg mb-4 flex items-center">
           {/*<EventIcon className="mr-2" /> {trip.date} */}
@@ -32,6 +26,10 @@ function TripCard({ trip, onViewRoute }) {
         >
           View Route
         </button>
+      </div>
+       {/* גלריה בצד ימין */}
+       <div className="w-2/5">
+        <GalleryContainer trip={trip} />
       </div>
     </div>
   );
