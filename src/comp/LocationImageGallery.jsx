@@ -23,7 +23,7 @@ function LocationImageGallery({ location, locationIndex, image, onLocationSelect
       <Typography
         variant="h5"
         component="h2"
-        sx={{ textAlign: "center", fontWeight: "bold", mb: 2 }}
+        sx={{ marginLeft:"75px", fontWeight: "bold", mb: 2 }}
       >
         Gallery for {location}
       </Typography>
@@ -31,7 +31,7 @@ function LocationImageGallery({ location, locationIndex, image, onLocationSelect
         sx={{
           position: "relative",
           maxWidth: 400,
-          margin: "0 auto",
+          marginLeft: "70px",
           padding: "16px",
         }}
       >

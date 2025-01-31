@@ -5,7 +5,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 
 function LocationSelector({ locations, selectedLocation, onLocationSelect }) {
   return (
-    <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mb: 4 }}>
+    <Box sx={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: 2, justifyContent: "center", mb: 4, maxWidth: "50%", margin: "0 auto" }}>
       {locations.map((location, index) => (
         <Button
           key={index}
@@ -13,6 +13,7 @@ function LocationSelector({ locations, selectedLocation, onLocationSelect }) {
           color="primary"
           onClick={() => onLocationSelect(location)}
           startIcon={<PlaceIcon />}
+          sx={{ width: "100%" }}
         >
           {location}
         </Button>
