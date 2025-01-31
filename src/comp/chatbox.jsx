@@ -11,7 +11,7 @@ export default function Chatbox() {
   const [messageHistory, setMessageHistory] = useState([]);
   const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [webSocketUrl, setWebSocketUrl] = useState(
-    "wss://trip-me-up-server.onrender.com/api/chat/conversation",
+    "ws://localhost:9910/api/chat/conversation",
   );
   const { sendMessage, lastMessage, readyState } = useWebSocket(webSocketUrl);
 

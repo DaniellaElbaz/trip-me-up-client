@@ -14,7 +14,6 @@ export default function RouteView() {
   const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [routeData, setRouteData] = useState(null);
   const [routeDataReady, setRouteDataReady] = useState(false);
-  const [updatedRouteData, setUpdatedRouteData] = useState(null); // contains image URL's instead of references
   const [notesArray, setNotesArray] = useState([]);
   const [stops, setStops] = useState(["None"]);
   const [startLocation, setStartLocation] = useState("None");
@@ -80,25 +79,12 @@ export default function RouteView() {
     setSaveState("unsaved");
   }, [notesArray])
 
-  const getImageUrlFromReference = (photoReference) => {
-    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${photoReference}&key=${API_KEY}`;
-  };
 
   useEffect(() => {
     if (routeData != null) {
-      // Map over routeData to update photos
-      const updatedRouteData = routeData.map((place) => {
-        const updatedPhotos = place.photos
-          ? place.photos.map(photo => getImageUrlFromReference(photo))
-          : []; // Return an empty array if photos don't exist
-  
-        return { ...place, photos: updatedPhotos };
-      });
-
-      setUpdatedRouteData(updatedRouteData);
-      setStops(updatedRouteData.slice(1, updatedRouteData.length - 1));
-      setStartLocation(updatedRouteData[0]);
-      setEndLocation(updatedRouteData[updatedRouteData.length - 1]);
+      setStops(routeData.slice(1, routeData.length - 1));
+      setStartLocation(routeData[0]);
+      setEndLocation(routeData[routeData.length - 1]);
       setRouteDataReady(true);
       if(isFirstLoad.current == true){
         isFirstLoad.current = false;
@@ -210,7 +196,7 @@ export default function RouteView() {
         stops={stops}
         bottomHeight={bottomHeight}
         optimize={optimizeRoute}
-        selectedLocation={updatedRouteData[selectedStopIndex]}
+        selectedLocation={routeData[selectedStopIndex]}
         setSelectedLocation={setSelectedStopIndex}
       />
       <BottomSection
