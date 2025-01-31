@@ -146,7 +146,6 @@ export default function RouteView() {
       if (response.ok) {
         const data = await response.json();
         const newStop = data.places[0];
-        newStop.photos = newStop.photos.map(photo => photo.photo_reference);
         newStop.notes = [];
         const newRouteData = [
           ...routeData.slice(0, index),
