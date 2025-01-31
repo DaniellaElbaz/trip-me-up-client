@@ -29,7 +29,7 @@ function TripCard({ trip, onViewRoute }) {
         </button>
       </div>
       {/* גלריה בצד ימין */}
-      <div className="w-2/5">
+      <div >
         <GalleryContainer trip={trip} />
       </div>
     </div>

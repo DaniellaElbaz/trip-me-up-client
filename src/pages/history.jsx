@@ -85,7 +85,7 @@ function History() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen p-8">
+    <div className=" min-h-screen p-8">
       <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
         My Vacation History
       </h1>
