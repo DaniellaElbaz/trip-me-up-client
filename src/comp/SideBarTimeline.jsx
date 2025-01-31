@@ -102,7 +102,7 @@ export default function SideBarTimeline({ stops, onSelectStop, selectedIndex, on
           }}
         >
           <Typography variant="h5" component="h2" gutterBottom>
-            Trip Timeline (Edit Mode)
+            Trip Timeline
           </Typography>
           <Stepper alternativeLabel activeStep={selectedIndex} connector={<CustomConnector />} sx={{ width: "100%" }}>
             <Step completed={false} onClick={(event) => handleAddClick(event, 0)} sx={{ cursor: "pointer" }}>
