@@ -7,15 +7,16 @@ import PlaceIcon from "@mui/icons-material/Place";
 function TripCard({ trip, onViewRoute }) {
   return (
     <div className="flex flex-row justify-between w-full bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-          <div className="w-3/5 p-6 flex flex-col justify-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">{trip.name}</h2>
-        <p className="text-gray-500 text-lg mb-4 flex items-center">
+      {/* תוכן בצד שמאל */}
+      <div className="w-3/5 p-8 flex flex-col justify-center">
+        <h2 className="text-xl font-extrabold text-gray-900 mb-6 font-serif">{trip.name}</h2>
+        <p className="text-gray-600 text-xl mb-6 flex items-center font-light italic">
           {/*<EventIcon className="mr-2" /> {trip.date} */}
         </p>
-        <p className="text-gray-700 font-semibold flex items-center text-lg">
-          <PlaceIcon className="mr-2" /> Places:
+        <p className="text-gray-800 font-semibold flex items-center text-xl font-mono">
+          <PlaceIcon className="mr-3" /> Places:
         </p>
-        <ul className="list-disc list-inside text-gray-600 mb-6 text-lg">
+        <ul className="list-disc list-inside text-gray-700 mb-8 text-xl font-sans">
           {trip.places.map((place, index) => (
             <li key={index}>{place}</li>
           ))}
@@ -27,8 +28,8 @@ function TripCard({ trip, onViewRoute }) {
           View Route
         </button>
       </div>
-       {/* גלריה בצד ימין */}
-       <div className="w-2/5">
+      {/* גלריה בצד ימין */}
+      <div className="w-2/5">
         <GalleryContainer trip={trip} />
       </div>
     </div>
