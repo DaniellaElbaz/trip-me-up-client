@@ -104,12 +104,14 @@ export default function RouteView() {
         ...obj, 
         notes: notesArray[index] 
       }));
+      console.log(notesArray);
       console.log(routeDataWithNotes);
+      console.log(routeId);
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ user_id: userId, route_id: routeId, locations: routeDataWithNotes })
+        body: JSON.stringify({ route_id: routeId, locations: routeDataWithNotes })
       });
   
       if (response.ok) {
@@ -146,7 +148,6 @@ export default function RouteView() {
       if (response.ok) {
         const data = await response.json();
         const newStop = data.places[0];
-        newStop.photos = newStop.photos.map(photo => photo.photo_reference);
         newStop.notes = [];
         const newRouteData = [
           ...routeData.slice(0, index),
@@ -156,7 +157,7 @@ export default function RouteView() {
         const newNotesData = [
           ...notesArray.slice(0, index),
           [],
-          ...routeData.slice(index)
+          ...notesArray.slice(index)
         ]
         setRouteDataReady(false);
         setRouteData(newRouteData);
