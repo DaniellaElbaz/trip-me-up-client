@@ -31,7 +31,7 @@ function LocationImageGallery({ location, locationIndex, image, onLocationSelect
         sx={{
           position: "relative",
           maxWidth: 400,
-          margin: "0 auto",
+          margin: "50px",
           padding: "16px",
         }}
       >
