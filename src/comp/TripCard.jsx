@@ -9,7 +9,7 @@ function TripCard({ trip, onViewRoute }) {
     <div className="flex flex-row justify-between w-full bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105">
       {/* תוכן בצד שמאל */}
       <div className="w-3/5 p-8 flex flex-col justify-center">
-        <h2 className="text-xl font-extrabold text-gray-900 mb-6 font-serif">{trip.name}</h2>
+        <h2 className="text-xl font-extrabold text-gray-900 mb-6 font-serif">Trip from {trip.places[0]} to {trip.places[trip.places.length - 1]}</h2>
         <p className="text-gray-600 text-xl mb-6 flex items-center font-light italic">
           {/*<EventIcon className="mr-2" /> {trip.date} */}
         </p>
@@ -38,7 +38,6 @@ function TripCard({ trip, onViewRoute }) {
 
 TripCard.propTypes = {
   trip: PropTypes.shape({
-    name: PropTypes.string.isRequired,
     places: PropTypes.arrayOf(PropTypes.string).isRequired,
     id: PropTypes.number
   }).isRequired,

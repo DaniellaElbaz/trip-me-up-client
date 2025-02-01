@@ -39,7 +39,6 @@ export default function RouteView() {
           throw new Error(response.status);
         }
         const data = await response.json();
-        console.log(data);
         setPermission(data.permission);
         const transformedData = data.route?.[0].places.map(place => ({
           formatted_address: place.address,
@@ -104,9 +103,6 @@ export default function RouteView() {
         ...obj, 
         notes: notesArray[index] 
       }));
-      console.log(notesArray);
-      console.log(routeDataWithNotes);
-      console.log(routeId);
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -116,7 +112,6 @@ export default function RouteView() {
   
       if (response.ok) {
         setSaveState("saved");
-        console.log("route updated")
       } else {
         console.error(response);
         setSaveState("unsaved");
@@ -128,7 +123,6 @@ export default function RouteView() {
   }
 
   const handleStopDeleted = (stopIndex) => {
-    console.log(`delete place in index ${stopIndex}`);
     if(routeData.length <= 2){
       return; // should change delete button to greyed out
     }
