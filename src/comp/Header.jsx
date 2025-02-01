@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Menu } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 const Header = ({ toggleMenu, isLoggedIn }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
   return (
-    <header className="w-full bg-white shadow-md z-50">
+    <header className={`w-full z-50 ${isHomePage ? "bg-transparent absolute top-0 left-0" : "bg-white shadow-md"}`}>
       <div className="flex items-center justify-between p-2">
         {/* Hamburger Icon */}
         {isLoggedIn &&
@@ -40,10 +42,10 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
         `}
       </style>
         {/* Logo */}
-        <img
-          src="/images/logo.png"
-          alt="App Logo"
-          className="h-16 w-auto"
+        <img 
+          src={isHomePage ? "/images/logo-2.png" : "/images/logo.png"} 
+          alt="App Logo" 
+          className={`${isHomePage ? "h-12" : "h-16"} w-auto `}
         />
       </div>
     </header>

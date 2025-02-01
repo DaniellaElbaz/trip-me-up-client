@@ -1,5 +1,4 @@
 import Home from "../comp/Home";
-
 const HomePage = () => {
   return (
     <div>
