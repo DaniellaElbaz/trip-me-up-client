@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, IconButton, Rating } from "@mui/material";
 import { Delete, Close } from "@mui/icons-material";
 import { Note } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
+export default function CustomCard({ image, title, subtitle, description,rating, openNow, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
   return (
     <Card
       sx={{
@@ -63,6 +63,23 @@ export default function CustomCard({ image, title, subtitle, description, onDele
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
+        <Typography 
+          variant="body2" 
+          color="text.primary"
+          sx={{ display: "flex", alignItems: "center", gap: "8px",marginTop:"4px" }}
+        >
+          Rating: {rating ? rating : "No rating available"}
+          <Rating
+            name="read-only-rating"
+            value={rating || 0}
+            precision={0.5}
+            readOnly
+            sx={{ fontSize: "1.5rem" }}
+          />
+        </Typography>
+        <Typography variant="body2" color={openNow ? "green" : "red"}>
+          {openNow ? "🟢 Open Now" : "🔴 Closed"}
+        </Typography>
       </CardContent>
       
       {isEditPermission &&
@@ -94,6 +111,8 @@ CustomCard.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string, // New prop for subtitle
   description: PropTypes.string.isRequired,
+  rating: PropTypes.number,
+  openNow: PropTypes.bool,
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool.isRequired,
 };

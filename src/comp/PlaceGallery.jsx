@@ -106,6 +106,8 @@ export default function PlaceGallery({
         title={places[currentPlaceIndex].name}
         subtitle={places[currentPlaceIndex].formatted_address}
         description={places[currentPlaceIndex].desc}
+        rating={places[currentPlaceIndex].rating}
+        openNow={places[currentPlaceIndex].opening_hours?.open_now} 
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
         toggleNotes={toggleNotes}
