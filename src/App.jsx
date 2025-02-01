@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import ProtectedRoute from './comp/ProtectedRoute.jsx';
 import UserMenu from './comp/UserMenu.jsx';
@@ -9,6 +10,10 @@ import HomePage from './pages/homepage.jsx';
 import './App.css';
 
 function AppContent() {
+  useEffect(() => {
+    document.title = 'Trip me up!';
+  }, []);
+
   const location = useLocation();
   const excludeHeaderPaths = ['/login']; // pages that will exclude the header
 
