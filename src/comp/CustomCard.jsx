@@ -4,7 +4,11 @@ import { Card, CardMedia, CardContent, Typography, IconButton, Rating } from "@m
 import { Delete, Close } from "@mui/icons-material";
 import { Note } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, subtitle, description,rating, openNow, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
+export default function CustomCard({ image, title, subtitle, description,rating, openNow,openingHours, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
+  const isOpen24Hours = openingHours && openingHours.length === 7 &&
+    openingHours.every(day => day.includes("Open 24 hours"));
+
+   console.log("Opening Hours Data:", openingHours);
   return (
     <Card
       sx={{
@@ -77,9 +81,24 @@ export default function CustomCard({ image, title, subtitle, description,rating,
             sx={{ fontSize: "1.5rem" }}
           />
         </Typography>
+        
         <Typography variant="body2" color={openNow ? "green" : "red"}>
           {openNow ? "🟢 Open Now" : "🔴 Closed"}
         </Typography>
+        <div style={{ textAlign: "left", marginTop: "8px" }}>
+          <Typography variant="body2" sx={{ fontWeight: "bold" }}>Opening Hours:</Typography>
+          {isOpen24Hours ? (
+            <Typography variant="body2" color="text.secondary">Open 24/7</Typography>
+          ) : (
+            (openingHours && openingHours.length > 0) ? 
+              openingHours.map((day, index) => (
+                <Typography key={index} variant="body2" color="text.secondary">
+                  {day}
+                </Typography>
+              )) 
+              : <Typography variant="body2" color="text.secondary">Opening hours not available</Typography>
+          )}
+        </div>
       </CardContent>
       
       {isEditPermission &&
@@ -113,6 +132,7 @@ CustomCard.propTypes = {
   description: PropTypes.string.isRequired,
   rating: PropTypes.number,
   openNow: PropTypes.bool,
+  openingHours: PropTypes.arrayOf(PropTypes.string),
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool.isRequired,
 };

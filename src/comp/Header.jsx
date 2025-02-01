@@ -45,7 +45,7 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
         <img 
           src={isHomePage ? "/images/logo-2.png" : "/images/logo.png"} 
           alt="App Logo" 
-          className={`${isHomePage ? "h-12" : "h-16"} w-auto `}
+          className={`${isHomePage ? "h-16" : "h-16"} w-auto `}
         />
       </div>
     </header>
