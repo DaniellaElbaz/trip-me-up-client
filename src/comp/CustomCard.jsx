@@ -66,23 +66,23 @@ export default function CustomCard({ image, title, subtitle, description, onDele
       </CardContent>
       
       {isEditPermission &&
-        <IconButton
-        onClick={onDelete}
-        disabled={isDeleteDisabled}
-        sx={{
-          position: "absolute",
-          bottom: "10px",
-          right: "10px",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          transition: "color 0.3s ease, background-color 0.3s ease",
-          "&:hover": {
-            backgroundColor: "rgba(255, 0, 0, 0.8)",
-            color: "white",
-          },
-        }}
-        >
-          <Delete />
-        </IconButton>
+       <div className="flex justify-end w-full">
+       <IconButton
+         onClick={onDelete}
+         disabled={isDeleteDisabled}
+         sx={{
+           margin: "10px",
+           backgroundColor: "rgba(255, 255, 255, 0.8)",
+           transition: "color 0.3s ease, background-color 0.3s ease",
+           "&:hover": {
+             backgroundColor: "rgba(255, 0, 0, 0.8)",
+             color: "white",
+           },
+         }}
+       >
+         <Delete />
+       </IconButton>
+     </div>
       }
       
     </Card>
