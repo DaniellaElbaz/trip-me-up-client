@@ -1,22 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Box } from "@mui/material";
+import { Box, MenuItem, FormControl, Select } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 
 function LocationSelector({ locations, selectedLocation, onLocationSelect }) {
   return (
-    <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mb: 4 }}>
-      {locations.map((location, index) => (
-        <Button
-          key={index}
-          variant={selectedLocation === location ? "contained" : "outlined"}
-          color="primary"
-          onClick={() => onLocationSelect(location)}
-          startIcon={<PlaceIcon />}
+    <Box sx={{ maxWidth: "50%", margin: "0 auto", mb: 4 ,marginTop:"10px"}}>
+      <FormControl fullWidth>
+        <Select
+          value={selectedLocation}
+          onChange={(event) => onLocationSelect(event.target.value)}
+          displayEmpty
+          startAdornment={<PlaceIcon sx={{ mr: 1 }} />}
         >
-          {location}
-        </Button>
-      ))}
+          {locations.map((location, index) => (
+            <MenuItem key={index} value={location}>
+              {location}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Box>
   );
 }

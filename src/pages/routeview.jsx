@@ -14,7 +14,6 @@ export default function RouteView() {
   const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [routeData, setRouteData] = useState(null);
   const [routeDataReady, setRouteDataReady] = useState(false);
-  const [updatedRouteData, setUpdatedRouteData] = useState(null); // contains image URL's instead of references
   const [notesArray, setNotesArray] = useState([]);
   const [stops, setStops] = useState(["None"]);
   const [startLocation, setStartLocation] = useState("None");
@@ -40,7 +39,6 @@ export default function RouteView() {
           throw new Error(response.status);
         }
         const data = await response.json();
-        console.log(data);
         setPermission(data.permission);
         const transformedData = data.route?.[0].places.map(place => ({
           formatted_address: place.address,
@@ -80,25 +78,12 @@ export default function RouteView() {
     setSaveState("unsaved");
   }, [notesArray])
 
-  const getImageUrlFromReference = (photoReference) => {
-    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${photoReference}&key=${API_KEY}`;
-  };
 
   useEffect(() => {
     if (routeData != null) {
-      // Map over routeData to update photos
-      const updatedRouteData = routeData.map((place) => {
-        const updatedPhotos = place.photos
-          ? place.photos.map(photo => getImageUrlFromReference(photo))
-          : []; // Return an empty array if photos don't exist
-  
-        return { ...place, photos: updatedPhotos };
-      });
-
-      setUpdatedRouteData(updatedRouteData);
-      setStops(updatedRouteData.slice(1, updatedRouteData.length - 1));
-      setStartLocation(updatedRouteData[0]);
-      setEndLocation(updatedRouteData[updatedRouteData.length - 1]);
+      setStops(routeData.slice(1, routeData.length - 1));
+      setStartLocation(routeData[0]);
+      setEndLocation(routeData[routeData.length - 1]);
       setRouteDataReady(true);
       if(isFirstLoad.current == true){
         isFirstLoad.current = false;
@@ -118,17 +103,15 @@ export default function RouteView() {
         ...obj, 
         notes: notesArray[index] 
       }));
-      console.log(routeDataWithNotes);
       const response = await fetch(`${CONFIG.SERVER_URL}/route/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ user_id: userId, route_id: routeId, locations: routeDataWithNotes })
+        body: JSON.stringify({ route_id: routeId, locations: routeDataWithNotes })
       });
   
       if (response.ok) {
         setSaveState("saved");
-        console.log("route updated")
       } else {
         console.error(response);
         setSaveState("unsaved");
@@ -140,7 +123,6 @@ export default function RouteView() {
   }
 
   const handleStopDeleted = (stopIndex) => {
-    console.log(`delete place in index ${stopIndex}`);
     if(routeData.length <= 2){
       return; // should change delete button to greyed out
     }
@@ -160,7 +142,6 @@ export default function RouteView() {
       if (response.ok) {
         const data = await response.json();
         const newStop = data.places[0];
-        newStop.photos = newStop.photos.map(photo => photo.photo_reference);
         newStop.notes = [];
         const newRouteData = [
           ...routeData.slice(0, index),
@@ -170,7 +151,7 @@ export default function RouteView() {
         const newNotesData = [
           ...notesArray.slice(0, index),
           [],
-          ...routeData.slice(index)
+          ...notesArray.slice(index)
         ]
         setRouteDataReady(false);
         setRouteData(newRouteData);
@@ -210,7 +191,7 @@ export default function RouteView() {
         stops={stops}
         bottomHeight={bottomHeight}
         optimize={optimizeRoute}
-        selectedLocation={updatedRouteData[selectedStopIndex]}
+        selectedLocation={routeData[selectedStopIndex]}
         setSelectedLocation={setSelectedStopIndex}
       />
       <BottomSection

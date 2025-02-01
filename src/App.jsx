@@ -5,6 +5,7 @@ import Login from './pages/login.jsx';
 import RouteView from './pages/routeview.jsx';
 import History from './pages/history.jsx';
 import Chat from './pages/chat.jsx';
+import HomePage from './pages/homepage.jsx';
 import './App.css';
 
 function AppContent() {
@@ -16,6 +17,7 @@ function AppContent() {
       {!excludeHeaderPaths.includes(location.pathname) && <UserMenu />}
       <main>
         <Routes>
+          <Route path="/" element={<HomePage/>} />
           <Route path="/login" element={<Login />} />
           <Route
             path="/chat"

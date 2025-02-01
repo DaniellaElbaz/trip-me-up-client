@@ -75,7 +75,7 @@ export default function Chatbox() {
     return (
       <div
         className="flex flex-col w-full"
-        style={{ height: `calc(100vh - 64px)` }}
+        style={{ height: `calc(100vh - 80px)` }}
       >
         <div className="bg-gray-800 text-white text-center p-4 font-bold">
           Chat Assistant

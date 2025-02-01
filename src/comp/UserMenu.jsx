@@ -48,7 +48,7 @@ const UserMenu = () => {
   style={{ zIndex: 100, position: 'relative' }}
 >
       {/* Header */}
-      <Header toggleMenu={toggleMenu} />
+      <Header toggleMenu={toggleMenu} isLoggedIn={userData ? true : false}/>
 
       {/* Sidebar */}
       {isOpen && (
