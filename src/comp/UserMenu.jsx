@@ -6,6 +6,7 @@ import CONFIG from "../config";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [closing, setClosing] = useState(false)
   const storedData = sessionStorage.getItem("userData");
   let userData = null;
   if(storedData){
@@ -18,9 +19,12 @@ const UserMenu = () => {
   };
 
   const closeMenu = () => {
-    setIsOpen(false);
+    setClosing(true);
+    setTimeout(() => {
+      setIsOpen(false);
+      setClosing(false);
+    }, 1);
   };
-
   const handleLogout = async () => {
     sessionStorage.setItem("userData", null);
     sessionStorage.setItem("userID", null);
@@ -43,10 +47,7 @@ const UserMenu = () => {
   }
 
   return (
-    <div
-  className="relative"
-  style={{ zIndex: 100, position: 'relative' }}
->
+    <div className="relative" style={{ zIndex: 100, position: 'relative' }}>
       {/* Header */}
       <Header toggleMenu={toggleMenu} isLoggedIn={userData ? true : false}/>
 
@@ -54,19 +55,15 @@ const UserMenu = () => {
       {isOpen && (
         <>
           {/* Overlay */}
-          <div
-        className="fixed inset-0 bg-black bg-opacity-50"
-        style={{ zIndex: 99 }}
-        onClick={closeMenu}
-      ></div>
+          <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out" style={{ zIndex: 99 }} onClick={closeMenu}></div>
 
           {/* Sidebar */}
           <div
-        className={`fixed top-0 left-0 h-screen w-64 bg-white text-gray-800 shadow-lg transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300`}
-        style={{ zIndex: 100 }}
-      >
+            className={`fixed top-0 left-0 h-screen w-64 bg-white text-gray-800 shadow-lg transform ${
+              isOpen ? 'translate-x-0' : '-translate-x-full'
+            } transition-transform duration-300`}
+            style={{ zIndex: 100 }}
+          >
             {/* Close Icon */}
             <button
               onClick={closeMenu}
@@ -94,6 +91,7 @@ const UserMenu = () => {
                     isActive ? "bg-gray-200" : ""
                   }`
                 }
+                onClick={closeMenu}
               >
                 <Chat className="mr-2" /> Home
               </NavLink>
@@ -104,6 +102,7 @@ const UserMenu = () => {
                     isActive ? "bg-gray-200" : ""
                   }`
                 }
+                onClick={closeMenu}
               >
                 <Chat className="mr-2" /> Chat
               </NavLink>
@@ -114,6 +113,7 @@ const UserMenu = () => {
                     isActive ? "bg-gray-200" : ""
                   }`
                 }
+                onClick={closeMenu}
               >
                 <Map className="mr-2" /> Trip History
               </NavLink>
