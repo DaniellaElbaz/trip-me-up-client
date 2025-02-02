@@ -11,7 +11,6 @@ const libraries = ["places"];
 
 export default function RouteView() {
   const { routeId } = useParams();
-  const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [routeData, setRouteData] = useState(null);
   const [routeDataReady, setRouteDataReady] = useState(false);
   const [notesArray, setNotesArray] = useState([]);
@@ -25,7 +24,7 @@ export default function RouteView() {
   const isFirstLoad = useRef(true);
 
   useEffect(() => {
-    document.title = "Trip View";
+    document.title = "Trip me up! - Trip View";
   }, []);
 
   useEffect(() => {

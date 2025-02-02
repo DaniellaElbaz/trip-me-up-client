@@ -9,6 +9,10 @@ function History() {
   const [trips, setTrips] = useState(null);
 
   useEffect(() => {
+    document.title = "Trip me up! - History";
+  }, []);
+
+  useEffect(() => {
     const fetchTrips = async () =>{
       try {
         const response = await fetch(`${CONFIG.SERVER_URL}/route/all`, {
