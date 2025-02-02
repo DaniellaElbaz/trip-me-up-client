@@ -80,9 +80,11 @@ export default function CustomCard({ image, title, subtitle, description,rating,
             sx={{ fontSize: "1.5rem" }}
           />
         </Typography>
-        <Typography variant="body2" color={openNow ? "green" : "red"}>
+        {openNow && 
+          <Typography variant="body2" color={openNow ? "green" : "red"}>
           {openNow ? "🟢 Open Now" : "🔴 Closed"}
-        </Typography>
+          </Typography>
+        }
         <div style={{ textAlign: "left", marginTop: "8px" }}>
 
         {isOpen24Hours ? (

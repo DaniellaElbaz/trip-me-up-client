@@ -18,8 +18,11 @@ export default function PlaceGallery({
   const [isPlaceSwappedHere, setIsPlaceSwappedHere] = useState(false);
   const [deleteDisabled, setDeleteDisabled] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
+  const [openNow, setIsOpenNow] = useState(null);
 
   function isStoreOpen(openingHours) {
+    if(!openingHours)
+      return null;
     const now = new Date();
     const dayIndex = now.getDay();
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -37,7 +40,7 @@ export default function PlaceGallery({
     const [openTimeStr, closeTimeStr] = hours.split(/\s*[–-]\s*/);
     
     if (!openTimeStr || !closeTimeStr) {
-        console.error("Error parsing hours:", hours);
+        //console.error("Error parsing hours:", hours);
         return false;
     }
     
@@ -71,21 +74,10 @@ export default function PlaceGallery({
         (currentHour < closeTime.hour || (currentHour === closeTime.hour && currentMinute <= closeTime.minute))
     );
   }
-const mockOpeningHours = [
-  "Monday: 12:00 AM – 11:59 PM",
-  "Tuesday: 12:00 AM – 11:59 PM",
-  "Wednesday: 12:00 AM – 11:59 PM",
-  "Thursday: 12:00 AM – 11:59 PM",
-  "Friday: 12:00 AM – 11:59 PM",
-  "Saturday: 12:00 AM – 11:59 PM",
-  "Sunday: 12:00 AM – 11:59 PM"
-];
 
-console.log(places[currentPlaceIndex]);
-
-const openingHours = places[currentPlaceIndex].opening_hours || mockOpeningHours;
-const openNow = isStoreOpen(openingHours);
-
+  useEffect(() => setIsOpenNow(isStoreOpen(places[currentPlaceIndex].opening_hours))
+  ,[currentPlaceIndex]);
+  
   const toggleNotes = () => {
     setIsNotesOpen(!isNotesOpen);
   };
@@ -175,7 +167,7 @@ const openNow = isStoreOpen(openingHours);
         description={places[currentPlaceIndex].desc}
         rating={places[currentPlaceIndex].rating}
         openNow={openNow}
-        openingHours={openingHours}
+        openingHours={places[currentPlaceIndex].opening_hours}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
         toggleNotes={toggleNotes}
