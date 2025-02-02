@@ -38,6 +38,7 @@ export default function RouteView() {
         if (!response.ok) {
           throw new Error(response.status);
         }
+        
         const data = await response.json();
         setPermission(data.permission);
         const transformedData = data.route?.[0].places.map(place => ({
@@ -51,12 +52,16 @@ export default function RouteView() {
           icon: place.icon_url,
           name: place.name,
           rating: place.rating,
+          opening_hours:place.opening_hours,
           photos: place.photo_ref,
           desc: (place.description ? place.description : "No Description Provided."),
           notes: (place.notes ? place.notes : [])
         }));
         setRouteData(transformedData);
+        console.log("Full route data from server:", data);
+
         setNotesArray(transformedData.map(place => place.notes));
+        
       } catch (error) {
         console.error("Error fetching route data:", error);
         setRouteData(dummyData); // TODO: Fallback to dummy data for dev, handle differently for final build
@@ -184,6 +189,7 @@ export default function RouteView() {
   }
   
   return (
+    
     <div className="w-screen h-screen flex flex-col overflow-visible">
       <RouteMapSection
         startLocation={startLocation}

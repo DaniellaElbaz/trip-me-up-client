@@ -18,7 +18,42 @@ export default function PlaceGallery({
   const [isPlaceSwappedHere, setIsPlaceSwappedHere] = useState(false);
   const [deleteDisabled, setDeleteDisabled] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
-  
+  function isStoreOpen(openingHours) {
+    const now = new Date();
+    const dayIndex = now.getDay();
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const currentDay = daysOfWeek[dayIndex];
+    const todayHours = openingHours.find(day => day.startsWith(currentDay));
+    if (!todayHours || todayHours.includes("Closed")) {
+        return false;
+    }
+    const hours = todayHours.split(": ")[1];
+    const [openTime, closeTime] = hours.split(" – ").map(time => {
+        const [hour, minute] = time.split(/:| /);
+        const isPM = time.includes("PM");
+        return {
+            hour: (parseInt(hour) % 12) + (isPM ? 12 : 0),
+            minute: parseInt(minute)
+        };
+    });
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    return (currentHour > openTime.hour || (currentHour === openTime.hour && currentMinute >= openTime.minute)) &&
+           (currentHour < closeTime.hour || (currentHour === closeTime.hour && currentMinute <= closeTime.minute));
+}
+const mockOpeningHours = [
+  "Monday: 12:00 AM – 11:59 PM",
+  "Tuesday: 12:00 AM – 11:59 PM",
+  "Wednesday: 12:00 AM – 11:59 PM",
+  "Thursday: 12:00 AM – 11:59 PM",
+  "Friday: 12:00 AM – 11:59 PM",
+  "Saturday: 12:00 AM – 11:59 PM",
+  "Sunday: 12:00 AM – 11:59 PM"
+];
+
+const openingHours = places[currentPlaceIndex].opening_hours?.weekday_text || mockOpeningHours;
+const openNow = isStoreOpen(openingHours);
+
   const toggleNotes = () => {
     setIsNotesOpen(!isNotesOpen);
   };
@@ -106,6 +141,9 @@ export default function PlaceGallery({
         title={places[currentPlaceIndex].name}
         subtitle={places[currentPlaceIndex].formatted_address}
         description={places[currentPlaceIndex].desc}
+        rating={places[currentPlaceIndex].rating}
+        openNow={openNow}
+        openingHours={openingHours}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
         toggleNotes={toggleNotes}

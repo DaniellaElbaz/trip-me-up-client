@@ -1,10 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
+import {  Tooltip, Typography, Box,Card, CardMedia, CardContent, IconButton, Rating } from "@mui/material";
 import { Delete, Close } from "@mui/icons-material";
 import { Note } from "@mui/icons-material";
 
-export default function CustomCard({ image, title, subtitle, description, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
+export default function CustomCard({ image, title, subtitle, description,rating, openNow,openingHours, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
+  const isOpen24Hours = openingHours && openingHours.length === 7 &&
+    openingHours.every(day => day.includes("Open 24 hours"));
+
+   console.log("Opening Hours Data:", openingHours);
   return (
     <Card
       sx={{
@@ -63,28 +67,86 @@ export default function CustomCard({ image, title, subtitle, description, onDele
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
-      </CardContent>
-      
-      {isEditPermission &&
-        <IconButton
-        onClick={onDelete}
-        disabled={isDeleteDisabled}
-        sx={{
-          position: "absolute",
-          bottom: "10px",
-          right: "10px",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          transition: "color 0.3s ease, background-color 0.3s ease",
-          "&:hover": {
-            backgroundColor: "rgba(255, 0, 0, 0.8)",
-            color: "white",
-          },
-        }}
+        <Typography
+          variant="body2"
+          color="text.primary"
+          sx={{ display: "flex", alignItems: "center", gap: "8px",marginTop:"4px" }}
         >
-          <Delete />
-        </IconButton>
+          Rating: {rating ? rating : "No rating available"}
+          <Rating
+            name="read-only-rating"
+            value={rating || 0}
+            precision={0.5}
+            readOnly
+            sx={{ fontSize: "1.5rem" }}
+          />
+        </Typography>
+        <Typography variant="body2" color={openNow ? "green" : "red"}>
+          {openNow ? "🟢 Open Now" : "🔴 Closed"}
+        </Typography>
+        <div style={{ textAlign: "left", marginTop: "8px" }}>
+
+        {isOpen24Hours ? (
+          <Typography variant="body2" color="text.secondary">Open 24/7</Typography>
+        ) : (
+          (openingHours && openingHours.length > 0) ? (
+            <Tooltip
+              title={
+                <Box sx={{
+                  padding: "8px",
+                  backgroundColor: "#fff",
+                  boxShadow: 3,
+                  borderRadius: "8px",
+                  textAlign: "left",
+                  maxWidth: "250px",
+                }}>
+                  {openingHours.map((day, index) => (
+                    <Typography key={index} variant="body2" color="text.secondary">
+                      {day}
+                    </Typography>
+                  ))}
+                </Box>
+              }
+              arrow
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  display: "inline-block",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "#007bff",
+                  "&:hover": { color: "#0056b3" }
+                }}
+              >
+                Opening Hours:
+              </Typography>
+            </Tooltip>
+          ) : (
+            <Typography variant="body2" color="text.secondary">Opening hours not available</Typography>
+          )
+        )}
+      </div>
+      </CardContent>
+      {isEditPermission &&
+       <div className="flex justify-end w-full">
+       <IconButton
+         onClick={onDelete}
+         disabled={isDeleteDisabled}
+         sx={{
+           margin: "10px",
+           backgroundColor: "rgba(255, 255, 255, 0.8)",
+           transition: "color 0.3s ease, background-color 0.3s ease",
+           "&:hover": {
+             backgroundColor: "rgba(255, 0, 0, 0.8)",
+             color: "white",
+           },
+         }}
+       >
+         <Delete />
+       </IconButton>
+     </div>
       }
-      
     </Card>
   );
 }
@@ -94,6 +156,9 @@ CustomCard.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string, // New prop for subtitle
   description: PropTypes.string.isRequired,
+  rating: PropTypes.number,
+  openNow: PropTypes.bool,
+  openingHours: PropTypes.arrayOf(PropTypes.string),
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool.isRequired,
 };
