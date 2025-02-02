@@ -8,7 +8,6 @@ export default function CustomCard({ image, title, subtitle, description,rating,
   const isOpen24Hours = openingHours && openingHours.length === 7 &&
     openingHours.every(day => day.includes("Open 24 hours"));
 
-   console.log("Opening Hours Data:", openingHours);
   return (
     <Card
       sx={{

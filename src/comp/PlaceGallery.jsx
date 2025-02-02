@@ -18,29 +18,59 @@ export default function PlaceGallery({
   const [isPlaceSwappedHere, setIsPlaceSwappedHere] = useState(false);
   const [deleteDisabled, setDeleteDisabled] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
+
   function isStoreOpen(openingHours) {
     const now = new Date();
     const dayIndex = now.getDay();
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const currentDay = daysOfWeek[dayIndex];
+    
+    // Find the string for the current day
     const todayHours = openingHours.find(day => day.startsWith(currentDay));
     if (!todayHours || todayHours.includes("Closed")) {
         return false;
     }
+    
+    // Extract the hours part after the colon and space
     const hours = todayHours.split(": ")[1];
-    const [openTime, closeTime] = hours.split(" – ").map(time => {
-        const [hour, minute] = time.split(/:| /);
-        const isPM = time.includes("PM");
-        return {
-            hour: (parseInt(hour) % 12) + (isPM ? 12 : 0),
-            minute: parseInt(minute)
-        };
-    });
+    // Use a regex to split on any dash (en dash or hyphen) with any surrounding whitespace
+    const [openTimeStr, closeTimeStr] = hours.split(/\s*[–-]\s*/);
+    
+    if (!openTimeStr || !closeTimeStr) {
+        console.error("Error parsing hours:", hours);
+        return false;
+    }
+    
+    // Parse the time strings into objects with hour and minute properties
+    const parseTime = (timeStr) => {
+        const parts = timeStr.trim().split(/\s+/);
+        const [hourPart, minutePart] = parts[0].split(":");
+        let hour = parseInt(hourPart, 10);
+        const minute = parseInt(minutePart, 10);
+        const period = parts[1]; // May be undefined
+        
+        if (period) {
+            if (period.toUpperCase() === "PM" && hour !== 12) {
+                hour += 12;
+            }
+            if (period.toUpperCase() === "AM" && hour === 12) {
+                hour = 0;
+            }
+        }
+        return { hour, minute };
+    };
+
+    const openTime = parseTime(openTimeStr);
+    const closeTime = parseTime(closeTimeStr);
+    
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
-    return (currentHour > openTime.hour || (currentHour === openTime.hour && currentMinute >= openTime.minute)) &&
-           (currentHour < closeTime.hour || (currentHour === closeTime.hour && currentMinute <= closeTime.minute));
-}
+    
+    return (
+        (currentHour > openTime.hour || (currentHour === openTime.hour && currentMinute >= openTime.minute)) &&
+        (currentHour < closeTime.hour || (currentHour === closeTime.hour && currentMinute <= closeTime.minute))
+    );
+  }
 const mockOpeningHours = [
   "Monday: 12:00 AM – 11:59 PM",
   "Tuesday: 12:00 AM – 11:59 PM",
@@ -51,7 +81,9 @@ const mockOpeningHours = [
   "Sunday: 12:00 AM – 11:59 PM"
 ];
 
-const openingHours = places[currentPlaceIndex].opening_hours?.weekday_text || mockOpeningHours;
+console.log(places[currentPlaceIndex]);
+
+const openingHours = places[currentPlaceIndex].opening_hours || mockOpeningHours;
 const openNow = isStoreOpen(openingHours);
 
   const toggleNotes = () => {
