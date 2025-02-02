@@ -74,7 +74,7 @@ export default function Chatbox() {
     return (
       <div
         className="flex flex-col w-full"
-        style={{ height: `calc(100vh - 80px)` }}
+        style={{ height: `calc(100vh - 160px)` }}
       >
         <div className="bg-gray-800 text-white text-center p-4 font-bold">
           Chat Assistant
@@ -82,7 +82,7 @@ export default function Chatbox() {
         <div className="flex-grow overflow-y-auto">
           <MessageList messages={messageHistory} />
         </div>
-          <div className="p-2  border-gray-300 bg-white sticky bottom-0">
+          <div className=" border-gray-300 bg-white sticky bottom-0">
           <MessageInput onSend={handleSendMessage} />
         </div>
       </div>
