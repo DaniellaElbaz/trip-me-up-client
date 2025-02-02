@@ -81,8 +81,6 @@ const mockOpeningHours = [
   "Sunday: 12:00 AM – 11:59 PM"
 ];
 
-console.log(places[currentPlaceIndex]);
-
 const openingHours = places[currentPlaceIndex].opening_hours || mockOpeningHours;
 const openNow = isStoreOpen(openingHours);
 
