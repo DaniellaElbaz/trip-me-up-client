@@ -11,7 +11,7 @@ function TripCard({ trip, onViewRoute }) {
       <div className="w-3/5 p-8 flex flex-col justify-center">
         <h2 className="text-xl font-extrabold text-gray-900 mb-6 font-serif">Trip from {trip.places[0]} to {trip.places[trip.places.length - 1]}</h2>
         <p className="text-gray-600 text-xl mb-6 flex items-center font-light italic">
-          {/*<EventIcon className="mr-2" /> {trip.date} */}
+          <EventIcon className="mr-2" /> {trip.start_date}
         </p>
         <p className="text-gray-800 font-semibold flex items-center text-xl font-mono">
           <PlaceIcon className="mr-3" /> Places:

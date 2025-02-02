@@ -31,10 +31,9 @@ export default function Chatbox() {
         m.text = "Redirecting you to route...";
         (async () => {
           try {
-            console.log(msg.places);
             const jsonBody = {
-              user_id: userId,
-              locations: msg.places,
+              locations: msg.places.places,
+              start_date: msg.start_date
             }
             const response = await fetch(CONFIG.SERVER_URL + "/route/add", {
               method: "POST",
