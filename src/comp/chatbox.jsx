@@ -4,7 +4,8 @@ import useWebSocket from "react-use-websocket";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import CONFIG from "../config";
-
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 export default function Chatbox() {
   let navigate = useNavigate();
 
@@ -76,8 +77,10 @@ export default function Chatbox() {
         className="flex flex-col w-full"
         style={{ height: `calc(100vh - 160px)` }}
       >
-        <div className="bg-gray-800 text-white text-center p-4 font-bold">
-          Chat Assistant
+        <div className="bg-blue-600 text-black sticky p-4 font-bold text-center flex items-center justify-center gap-2">
+        <BeachAccessIcon fontSize="large" />
+          Let's Plan Your Dream Vacation!
+          <FlightTakeoffIcon fontSize="large" />
         </div>
         <div className="flex-grow overflow-y-auto">
           <MessageList messages={messageHistory} />
