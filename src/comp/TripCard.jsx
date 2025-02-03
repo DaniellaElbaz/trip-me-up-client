@@ -3,10 +3,31 @@ import PropTypes from "prop-types";
 import GalleryContainer from "./GalleryContainer";
 import EventIcon from "@mui/icons-material/Event";
 import PlaceIcon from "@mui/icons-material/Place";
-
+import {   IconButton } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 function TripCard({ trip, onViewRoute }) {
   return (
     <div className="flex flex-col md:flex-row justify-between w-full bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+       <div className=" p-2 items-center">
+        <IconButton
+          onClick={() => {
+            const confirmDelete = window.confirm("Are you sure you want to delete this trip?");
+            if (confirmDelete) {
+              onDelete();
+            }
+          }}
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            transition: "color 0.3s ease, background-color 0.3s ease",
+            "&:hover": {
+              backgroundColor: "rgba(255, 0, 0, 0.8)",
+              color: "white",
+            },
+          }}
+        >
+          <Delete />
+        </IconButton>
+      </div>
       <div className="w-full md:w-3/5 p-8 flex flex-col justify-center">
         <h2 className="text-xl font-bold text-gray-900 mb-6">
           Trip from {trip.places[0]} to {trip.places[trip.places.length - 1]}

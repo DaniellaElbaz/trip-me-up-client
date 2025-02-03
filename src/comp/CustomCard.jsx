@@ -131,7 +131,12 @@ export default function CustomCard({ image, title, subtitle, description,rating,
       {isEditPermission &&
        <div className="flex justify-end w-full">
        <IconButton
-         onClick={onDelete}
+          onClick={() => {
+            const confirmDelete = window.confirm("Are you sure you want to delete this trip?");
+            if (confirmDelete) {
+              onDelete();
+            }
+          }}
          disabled={isDeleteDisabled}
          sx={{
            margin: "10px",
