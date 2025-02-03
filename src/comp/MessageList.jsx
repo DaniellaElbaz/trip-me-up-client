@@ -10,6 +10,7 @@ export default function MessageList({ messages }) {
               ? 'self-start bg-gray-300 text-gray-800'
               : 'self-end bg-blue-500 text-white'
           }`}
+          style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
         >
           {message.text}
         </div>

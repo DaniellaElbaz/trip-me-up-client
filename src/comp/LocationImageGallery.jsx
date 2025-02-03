@@ -30,9 +30,9 @@ function LocationImageGallery({ location, locationIndex, image, onLocationSelect
       <Box
         sx={{
           position: "relative",
-          maxWidth: 400,
-          minWidth:400,
-          margin: "50px",
+          maxWidth: { xs: 200, sm: 250, md: 300 , lg:400},
+          minWidth: { xs: 200, sm: 250, md: 300, lg: 400 },
+          margin: { xs: "20px auto", sm: "30px auto", md: "50px auto" },
           padding: "16px",
         }}
       >
@@ -62,7 +62,7 @@ function LocationImageGallery({ location, locationIndex, image, onLocationSelect
             image={image}
             alt={`${location} image`}
             sx={{
-              height: 300,
+              height: { xs: 200, sm: 250, md: 300 },
               objectFit: "cover",
               borderRadius: "16px",
             }}
