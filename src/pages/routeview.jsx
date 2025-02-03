@@ -147,6 +147,7 @@ export default function RouteView() {
         const data = await response.json();
         const newStop = data.places[0];
         newStop.notes = [];
+        newStop.opening_hours = newStop.opening_hours ? newStop.opening_hours.weekday_text : null;
         const newRouteData = [
           ...routeData.slice(0, index),
           newStop,

@@ -86,7 +86,6 @@ export default function CustomCard({ image, title, subtitle, description,rating,
           </Typography>
         }
         <div style={{ textAlign: "left", marginTop: "8px" }}>
-
         {isOpen24Hours ? (
           <Typography variant="body2" color="text.secondary">Open 24/7</Typography>
         ) : (
@@ -115,12 +114,12 @@ export default function CustomCard({ image, title, subtitle, description,rating,
                 sx={{
                   display: "inline-block",
                   cursor: "pointer",
-                  textDecoration: "underline",
-                  color: "#007bff",
+                  fontWeight: "bold",
+                  color: "black",
                   "&:hover": { color: "#0056b3" }
                 }}
               >
-                Opening Hours:
+              Opening Hours 📆
               </Typography>
             </Tooltip>
           ) : (

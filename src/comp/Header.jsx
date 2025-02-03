@@ -6,6 +6,7 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+ 
   return (
     <header className={`w-full z-50 ${isHomePage ? "bg-transparent absolute top-0 left-0" : "bg-white shadow-md"}`}>
       <div className="flex items-center justify-between p-2">
@@ -42,11 +43,13 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
         `}
       </style>
         {/* Logo */}
-        <img 
-          src={isHomePage ? "/images/logo-2.png" : "/images/logo.png"} 
-          alt="App Logo" 
-          className={`${isHomePage ? "h-16" : "h-16"} w-auto `}
-        />
+        <a href="/">
+          <img
+            src={isHomePage ? "/images/logo-2.png" : "/images/logo.png"}
+            alt="App Logo"
+            className="h-16 w-auto cursor-pointer"
+          />
+        </a>
       </div>
     </header>
   );

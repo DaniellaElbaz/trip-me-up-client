@@ -19,17 +19,16 @@ export default function MessageInput({ onSend }) {
     }
   };
   return (
-    <div className="flex items-center p-4 bg-white border-t border-gray-300">
+    <div className="absolute bottom-6 w-full flex items-center bg-white dark:bg-gray-700 border border-gray-300 rounded-full shadow-lg p-2 z-10">
       <input
         type="text"
         placeholder="Type your message..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="flex-grow p-2 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-blue-500 mr-8"
+        className="flex-grow p-3 border-none outline-none rounded-full focus:ring-2 focus:ring-blue-500"
         onKeyDown={handleEnter}
       />
-
-      <IconButton className="ml-8" onClick={handleSend}>
+      <IconButton className=" bg-blue-500 text-white rounded-full hover:bg-blue-600 transition" onClick={handleSend}>
         <ArrowForwardOutlined />
       </IconButton>
     </div>
