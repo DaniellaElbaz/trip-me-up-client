@@ -18,6 +18,8 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
   useEffect(() =>{
     if (!mapRef.current || !selectedLocation) return;
     const { lat, lng } = selectedLocation.geometry.location;
+    const currentZoom = mapRef.current.getZoom();
+    smoothZoom(mapRef.current, 18, currentZoom);
     mapRef.current.panTo(new google.maps.LatLng(lat, lng));
   }, [selectedLocation])
 
@@ -62,6 +64,22 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
     );
   }, [routeReady, startLocation, endLocation, stops]
 );
+
+function smoothZoom(map, targetZoom, currentZoom) {
+  if (currentZoom === targetZoom) return;
+
+  // Determine the zoom direction: zooming in (+1) or out (-1)
+  const step = targetZoom > currentZoom ? 1 : -1;
+
+  // Listen for the zoom change event to continue the animation
+  google.maps.event.addListenerOnce(map, 'zoom_changed', () => {
+    // Use a timeout to create a delay between zoom steps
+    setTimeout(() => smoothZoom(map, targetZoom, currentZoom + step), 80);
+  });
+
+  // Update the map's zoom level
+  map.setZoom(currentZoom);
+}
 
   return (
     <div className="h-screen w-screen">

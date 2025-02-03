@@ -32,6 +32,24 @@ function History() {
     fetchTrips();
   }, []);
 
+  const handleRouteDelete = async (tripId) => {
+    try {
+      const response = await fetch(`${CONFIG.SERVER_URL}/route/delete`, {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+        body: JSON.stringify({ route_id: tripId })
+      });
+      if(!response.ok){
+        throw new Error(response.status);
+      }
+      setTrips(trips.filter((trip) => { return trip.id != tripId }));
+      alert("Route deleted succesfully.");
+    } catch (error) {
+      alert("An error occurred while trying to delete route. Please try again later.");
+    }
+  };
+
   const handleViewRoute = (tripId) => {
     navigate(`/routeview/${tripId}`);
   };
@@ -47,7 +65,7 @@ function History() {
       </h1>
       <div className="grid grid-cols-1 gap-8 p-8">
         {trips.map((trip) => (
-          <TripCard key={trip.id} trip={trip} onViewRoute={handleViewRoute} />
+          <TripCard key={trip.id} trip={trip} onViewRoute={handleViewRoute} onDelete={handleRouteDelete} />
         ))}
       </div>
     </div>

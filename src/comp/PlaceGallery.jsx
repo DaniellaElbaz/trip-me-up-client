@@ -166,7 +166,7 @@ export default function PlaceGallery({
         subtitle={places[currentPlaceIndex].formatted_address}
         description={places[currentPlaceIndex].desc}
         rating={places[currentPlaceIndex].rating}
-        openNow={openNow}
+        openNow={null} // null for now, not sure this feature is needed or possible to implement correctly without too much effort
         openingHours={places[currentPlaceIndex].opening_hours}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}

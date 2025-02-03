@@ -5,7 +5,7 @@ import EventIcon from "@mui/icons-material/Event";
 import PlaceIcon from "@mui/icons-material/Place";
 import {   IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-function TripCard({ trip, onViewRoute }) {
+function TripCard({ trip, onViewRoute, onDelete }) {
   return (
     <div className="flex flex-col md:flex-row justify-between w-full bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105">
        <div className=" p-2 items-center">
@@ -13,7 +13,7 @@ function TripCard({ trip, onViewRoute }) {
           onClick={() => {
             const confirmDelete = window.confirm("Are you sure you want to delete this trip?");
             if (confirmDelete) {
-              onDelete();
+              onDelete(trip.id);
             }
           }}
           sx={{
