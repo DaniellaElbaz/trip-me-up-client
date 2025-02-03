@@ -25,7 +25,7 @@ function History() {
         const data = await response.json();
         setTrips(data.routes);
       } catch (error) {
-        console.error("Error fetching route data:", error);
+        alert("Cannot fetch trips. Please try again later.")
       }
     }
 

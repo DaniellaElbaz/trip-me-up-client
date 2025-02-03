@@ -46,8 +46,7 @@ export default function Chatbox() {
             });
   
             if (!response.ok) {
-              console.error("Response was not ok");
-              console.log(response);
+              alert("Something went wrong. Please try reloading the page.")
             } else {
               const data = await response.json();
               const routeId = data[0]?.id;

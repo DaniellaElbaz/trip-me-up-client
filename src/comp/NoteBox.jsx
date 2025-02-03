@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import dummyData from '../dev/dummyRouteData.json';
 import NoteList from './NoteList';
 import NoteEditor from './NoteEditor';
 import AddNoteButton from './AddNoteButton';

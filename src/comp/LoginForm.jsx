@@ -35,7 +35,6 @@ function LoginForm() {
         alert(`Login failed: ${error}`);
       }
     } catch (err) {
-      console.error("Error during login:", err);
       alert("An error occurred. Please try again later.");
     }
   };

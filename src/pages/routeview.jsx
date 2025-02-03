@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
-import dummyData from '../dev/dummyRouteData.json';
 import RouteMapSection from "../comp/RouteMapSection";
 import BottomSection from "../comp/BottomSection";
 import CONFIG from "../config";
@@ -57,13 +56,11 @@ export default function RouteView() {
           notes: (place.notes ? place.notes : [])
         }));
         setRouteData(transformedData);
-        console.log("Full route data from server:", data);
 
         setNotesArray(transformedData.map(place => place.notes));
         
       } catch (error) {
-        console.error("Error fetching route data:", error);
-        setRouteData(dummyData); // TODO: Fallback to dummy data for dev, handle differently for final build
+        alert("Cannot fetch route data. Does the route exist?");
         setPermission("edit");
       }
     };
@@ -72,7 +69,6 @@ export default function RouteView() {
       fetchRouteData();
       setOptimizeRoute(false);
     } else {
-      setRouteData(dummyData);
       setPermission("edit");
       setOptimizeRoute(false);
     }
@@ -117,11 +113,11 @@ export default function RouteView() {
       if (response.ok) {
         setSaveState("saved");
       } else {
-        console.error(response);
+        alert("There was a problem trying to save. Please try again later.");
         setSaveState("unsaved");
       }
     } catch (error) {
-      console.error("An error occurred:", error);
+      alert("There was a problem trying to save. Please try again later.");
       setSaveState("unsaved");
     }
   }
@@ -162,12 +158,10 @@ export default function RouteView() {
         setRouteData(newRouteData);
         setNotesArray(newNotesData);
       } else {
-        console.error("add stop failed");
-        const errorData = await response.json();
-        console.error("Error details:", errorData);
+        throw("response for add stop was not ok.");
       }
     } catch (error) {
-      console.error("An error occurred:", error);
+      alert("Add stop failed. Please try again later.");
     }
   }
 
@@ -189,7 +183,6 @@ export default function RouteView() {
   }
   
   return (
-    
     <div className="w-screen h-screen flex flex-col overflow-visible">
       <RouteMapSection
         startLocation={startLocation}
