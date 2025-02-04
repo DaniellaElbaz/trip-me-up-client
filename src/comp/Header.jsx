@@ -6,19 +6,23 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
- 
   return (
     <header className={`w-full z-50 ${isHomePage ? "bg-transparent absolute top-0 left-0" : "bg-white shadow-md"}`}>
       <div className="flex items-center justify-between p-2">
-        {/* Hamburger Icon */}
-        {isLoggedIn &&
+       {/* Hamburger Icon */}
+       {isLoggedIn && (
           <button
-          onClick={toggleMenu}
-          className="text-gray-700 bg-gray-100 p-2 rounded-full shadow-lg focus:outline-none hover:bg-gray-200"
+            onClick={toggleMenu}
+            className={`p-2 rounded-full shadow-lg focus:outline-none transition-all duration-300
+              ${isHomePage
+                ? "border-2 border-white bg-transparent text-white hover:bg-gray-200 hover:bg-opacity-30"
+                : "text-gray-700 bg-gray-100 hover:bg-gray-200"}`
+            }
+            style={isHomePage ? { width: "50px", height: "50px", display: "flex", justifyContent: "center", alignItems: "center" } : {}}
           >
-            <Menu />
+            <Menu fontSize="large" />
           </button>
-        }
+        )}
         {/* Login */}
         {!isLoggedIn &&
         <button
