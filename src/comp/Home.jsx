@@ -12,7 +12,23 @@ const images = [
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [preloadedImages, setPreloadedImages] = useState({});
   const navigate = useNavigate();
+
+  // Preload images on component mount
+  useEffect(() => {
+    const loadedImages = {};
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedImages[src] = img;
+        if (Object.keys(loadedImages).length === images.length) {
+          setPreloadedImages(loadedImages);
+        }
+      };
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,21 +54,23 @@ const Home = () => {
         position: "relative",
       }}
     >
-      <div
-        style={{
-          backgroundImage: `url(${images[currentImageIndex]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(30%)",
-          backgroundRepeat: "no-repeat",
-          height: "100vh",
-          width: "100vw",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          transition: "background-image 1s ease-in-out",
-        }}
-      ></div>
+      {Object.keys(preloadedImages).length === images.length && (
+        <div
+          style={{
+            backgroundImage: `url(${images[currentImageIndex]})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "brightness(30%)",
+            backgroundRepeat: "no-repeat",
+            height: "100vh",
+            width: "100vw",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            transition: "background-image 1s ease-in-out",
+          }}
+        />
+      )}
 
       <div
         style={{
