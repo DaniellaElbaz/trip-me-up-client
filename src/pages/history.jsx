@@ -3,6 +3,7 @@ import TripCard from "../comp/TripCard";
 import CONFIG from "../config";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import { ArrowForward } from "@mui/icons-material";
 function History() {
   let navigate = useNavigate();
 
@@ -53,7 +54,9 @@ function History() {
   const handleViewRoute = (tripId) => {
     navigate(`/routeview/${tripId}`);
   };
-
+  const handleButtonClick = () => {
+    navigate("/chat");
+  };
   if (!trips) {
     return (
       <div className="flex flex-col justify-center items-center h-screen">
@@ -62,17 +65,77 @@ function History() {
       </div>
     );
   }
-
   return (
-    <div className=" min-h-screen p-8">
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
+    <div className="p-8">
+      {trips.length === 0 ? (
+        <div className="pt-4 flex flex-col items-center justify-center text-center">
+        <h1 className="text-4xl  text-gray-700 mb-8 leading-relaxed">
+          Looks like it's a bit empty here...   😢 <br />
+          Your next adventure is just a step away! 🌟 <br />
+          Let’s plan your dream vacation today! 🏝️✨
+        </h1>
+        <button
+            onClick={handleButtonClick}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              backgroundColor: "#1E90FF",
+              color: "white",
+              padding: "16px 32px",
+              fontSize: "20px",
+              fontWeight: "bold",
+              border: "none",
+              borderRadius: "50px",
+              cursor: "pointer",
+              boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
+              transition: "all 0.4s ease",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#007BFF";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#1E90FF";
+              e.target.style.color = "white";
+            }}
+          >
+            Trip Me Up Now
+            <span
+              style={{
+                display: "inline-block",
+                animation: "arrowBounce 1s infinite",
+                transition: "transform 0.3s ease",
+              }}
+            >
+              <ArrowForward />
+            </span>
+          </button>
+        </div>
+      ) : (
+        <>
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
         My Vacation History
       </h1>
-      <div className="grid grid-cols-1 gap-8 p-8">
-        {trips.map((trip) => (
-          <TripCard key={trip.id} trip={trip} onViewRoute={handleViewRoute} onDelete={handleRouteDelete} />
-        ))}
-      </div>
+        <div className="grid grid-cols-1 gap-8 p-8">
+          {trips.map((trip) => (
+            <TripCard key={trip.id} trip={trip} onViewRoute={handleViewRoute} onDelete={handleRouteDelete} />
+          ))}
+        </div>
+        </>
+      )}
+
+      <style>
+        {`
+          @keyframes arrowBounce {
+            0%, 100% {
+              transform: translateX(0);
+            }
+            50% {
+              transform: translateX(10px);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

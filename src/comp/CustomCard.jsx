@@ -132,7 +132,7 @@ export default function CustomCard({ image, title, subtitle, description,rating,
        <div className="flex justify-end w-full">
        <IconButton
           onClick={() => {
-            const confirmDelete = window.confirm("Are you sure you want to delete this trip?");
+            const confirmDelete = window.confirm("Are you sure you want to remove this location from your trip?");
             if (confirmDelete) {
               onDelete();
             }
