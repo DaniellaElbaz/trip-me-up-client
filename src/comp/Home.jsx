@@ -3,9 +3,11 @@ import { ArrowForward } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const images = [
-  "https://tse1.mm.bing.net/th?id=OIP.lZTrdupLPv_fqNFiUh1z5AHaE8&w=316&h=316&c=7",
-  "https://tse4.mm.bing.net/th?id=OIP.fV3jLc5SnZi1m4dX8Pt6uQHaGP&w=399&h=399&c=7",
-  "https://tse2.mm.bing.net/th?id=OIP.rSosj2saeeT7A4wM_jSWMAHaFj&w=355&h=355&c=7",
+  "/images/france.jpg",
+  "/images/jerusalem.jpg",
+  "/images/japan.jpg",
+  "/images/peru.jpg",
+  "/images/greece.jpg",
 ];
 
 const Home = () => {
@@ -31,7 +33,7 @@ const Home = () => {
         alignItems: "center",
         flexDirection: "column",
         height: "100vh",
-        width: "100%",
+        width: "100vw",
         overflow: "hidden",
         position: "relative",
       }}
@@ -42,8 +44,9 @@ const Home = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "brightness(30%)",
-          height: "100%",
-          width: "100%",
+          backgroundRepeat: "no-repeat",
+          height: "100vh",
+          width: "100vw",
           position: "absolute",
           top: 0,
           left: 0,

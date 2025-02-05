@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TripCard from "../comp/TripCard";
 import CONFIG from "../config";
 import { useNavigate } from "react-router-dom";
-
+import { CircularProgress } from "@mui/material";
 function History() {
   let navigate = useNavigate();
 
@@ -54,8 +54,13 @@ function History() {
     navigate(`/routeview/${tripId}`);
   };
 
-  if(!trips){
-    return (<h1>Loading data, please wait...</h1>);
+  if (!trips) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <CircularProgress color="primary" size={60} />
+        <p className="mt-4 text-lg text-gray-700">Loading...</p>
+      </div>
+    );
   }
 
   return (

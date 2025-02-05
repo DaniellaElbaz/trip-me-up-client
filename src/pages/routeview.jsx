@@ -4,7 +4,7 @@ import { useLoadScript } from "@react-google-maps/api";
 import RouteMapSection from "../comp/RouteMapSection";
 import BottomSection from "../comp/BottomSection";
 import CONFIG from "../config";
-
+import { CircularProgress } from "@mui/material";
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const libraries = ["places"];
 
@@ -179,7 +179,12 @@ export default function RouteView() {
   });
 
   if (!isLoaded || !routeDataReady) {
-    return <p>Loading, please wait...</p>;
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <CircularProgress color="primary" size={60} />
+        <p className="mt-4 text-lg text-gray-700">Loading...</p>
+      </div>
+    );
   }
   
   return (

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import CONFIG from '../config';
-
+import { CircularProgress } from "@mui/material";
 function ProtectedRoute({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const location = useLocation();
@@ -29,7 +29,12 @@ function ProtectedRoute({ children }) {
     }, []);
 
     if (isAuthenticated === null) {
-        return <h1>Please Wait...</h1>;
+       return (
+             <div className="flex flex-col justify-center items-center h-screen">
+               <CircularProgress color="primary" size={60} />
+               <p className="mt-4 text-lg text-gray-700">Loading...</p>
+             </div>
+           );
     }
 
     if (!isAuthenticated) {

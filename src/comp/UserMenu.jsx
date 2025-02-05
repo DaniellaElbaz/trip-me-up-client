@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Close, Logout, Chat, Map } from "@mui/icons-material";
+import { Close, Logout, Chat, Map, Home} from "@mui/icons-material";
 import Header from "./Header";
 import CONFIG from "../config";
 
@@ -93,7 +93,7 @@ const UserMenu = () => {
                 }
                 onClick={closeMenu}
               >
-                <Chat className="mr-2" /> Home
+                <Home className="mr-2" /> Home
               </NavLink>
               <NavLink
                 to="/chat"
@@ -121,7 +121,7 @@ const UserMenu = () => {
 
             {/* Logout Button */}
             <button
-              className="flex items-center justify-center w-full px-4 py-2 mt-auto bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg"
+              className="flex items-center justify-center w-full px-4 py-7 mt-auto bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg"
               onClick={handleLogout}
             >
               <Logout className="mr-2" /> Logout
