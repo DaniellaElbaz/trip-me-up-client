@@ -146,7 +146,7 @@ function smoothZoom(map, targetZoom, currentZoom) {
         {selectedLocationLocal && (
           <InfoWindow
           position={{
-            lat: selectedLocationLocal.geometry.location.lat + 0.005, // move upwards from exact marker
+            lat: selectedLocationLocal.geometry.location.lat,
             lng: selectedLocationLocal.geometry.location.lng,
           }}
             onCloseClick={() => setSelectedLocationLocal(null)}
