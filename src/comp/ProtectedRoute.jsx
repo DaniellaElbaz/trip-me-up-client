@@ -8,24 +8,24 @@ function ProtectedRoute({ children }) {
 
 
     useEffect(() => {
-        const checkAuth = async () => {
-        try {
-            const response = await fetch(`${CONFIG.SERVER_URL}/user`, { credentials: 'include' }); 
-            if (response.ok) {
-                const data = await response.json();
-                sessionStorage.setItem("userID", data.id);
-                setIsAuthenticated(true);
-            } else {
-                console.log(response);
-                setIsAuthenticated(false);
-            }
-        } catch (err){
-            console.log(err);
-            setIsAuthenticated(false);
-        }
-        };
+        // const checkAuth = async () => {
+        // try {
+        //     const response = await fetch(`${CONFIG.SERVER_URL}/user`, { credentials: 'include' }); 
+        //     if (response.ok) {
+        //         const data = await response.json();
+        //         sessionStorage.setItem("userID", data.id);
+                 setIsAuthenticated(true);
+        //     } else {
+        //         console.log(response);
+        //         setIsAuthenticated(false);
+        //     }
+        // } catch (err){
+        //     console.log(err);
+        //     setIsAuthenticated(false);
+        // }
+        // };
 
-        checkAuth();
+        // checkAuth();
     }, []);
 
     if (isAuthenticated === null) {
@@ -38,7 +38,8 @@ function ProtectedRoute({ children }) {
     }
 
     if (!isAuthenticated) {
-        return <Navigate to="/login" state={{ from: location }} />;
+       // return <Navigate to="/login" state={{ from: location }} />;
+       return <Navigate to="/chat" state={{ from: location }} />;
     }
     return children;
 }
