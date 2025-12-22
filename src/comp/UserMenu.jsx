@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Close, Logout, Chat, Map, Home} from "@mui/icons-material";
 import Header from "./Header";
 import CONFIG from "../config";
+import { AuthContext } from "../AuthContext";
 
 const UserMenu = () => {
+  const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false)
   const storedData = sessionStorage.getItem("userData");
-  let userData = null;
+  let sessionUser = null;
   if(storedData){
-    userData = JSON.parse(storedData);
+    sessionUser = JSON.parse(storedData);
   }
+  let userData = user || sessionUser;
   const navigate = useNavigate();
 
   const toggleMenu = () => {
