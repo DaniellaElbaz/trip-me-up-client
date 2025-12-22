@@ -12,7 +12,7 @@ export default function Chatbox() {
   const [messageHistory, setMessageHistory] = useState([]);
   const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
   const [webSocketUrl, setWebSocketUrl] = useState(
-    "wss://trip-me-up-server.onrender.com/api/chat/conversation",
+    "wss://trip-me-up-server-e7ip.onrender.com/api/chat/conversation",
   );
   const { sendMessage, lastMessage, readyState } = useWebSocket(webSocketUrl);
 
