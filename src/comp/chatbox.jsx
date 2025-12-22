@@ -6,11 +6,14 @@ import MessageInput from "./MessageInput";
 import CONFIG from "../config";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import { AuthContext } from "../AuthContext";
+
 export default function Chatbox() {
   let navigate = useNavigate();
-
+  const { user } = useContext(AuthContext);
   const [messageHistory, setMessageHistory] = useState([]);
-  const [userId, setUserId] = useState(sessionStorage.getItem("userID"));
+  const storedUserId = sessionStorage.getItem("userID");
+  const userId = user ? user.id : storedUserId;
   const [webSocketUrl, setWebSocketUrl] = useState(
     "wss://trip-me-up-server-e7ip.onrender.com/api/chat/conversation",
   );
