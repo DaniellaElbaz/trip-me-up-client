@@ -5,12 +5,16 @@ import Header from "./Header";
 import CONFIG from "../config";
 import { AuthContext } from "../AuthContext";
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutSuccess } from '../store/userSlice';
+
 const UserMenu = () => {
+  const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false)
   const [persistentUser, setPersistentUser] = useLocalStorage("userData", null);
-  let userData = user || persistentUser;
+  const { userData, isLoggedIn } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -38,6 +42,7 @@ const UserMenu = () => {
         credentials: "include",
       });
       if (response.ok) {
+        dispatch(logoutSuccess());
         navigate("/login");
       } else {
         alert(`Logout failed...`);
@@ -50,7 +55,7 @@ const UserMenu = () => {
   return (
     <div className="relative" style={{ zIndex: 100, position: 'relative' }}>
       {/* Header */}
-      <Header toggleMenu={toggleMenu} isLoggedIn={userData ? true : false}/>
+      <Header toggleMenu={toggleMenu} isLoggedIn={isLoggedIn}/>
 
       {/* Sidebar */}
       {isOpen && (
