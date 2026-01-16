@@ -1,16 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Close, Logout, Chat, Map, Home} from "@mui/icons-material";
 import Header from "./Header";
 import CONFIG from "../config";
-import { AuthContext } from "../AuthContext";
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutSuccess } from '../store/userSlice';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
-  const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false)
   const [persistentUser, setPersistentUser] = useLocalStorage("userData", null);
