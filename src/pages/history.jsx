@@ -4,50 +4,36 @@ import CONFIG from "../config";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
+import useFetch from "../hooks/useFetch";
 function History() {
   let navigate = useNavigate();
 
-  const [trips, setTrips] = useState(null);
 
   useEffect(() => {
     document.title = "Trip me up! - History";
   }, []);
 
-  useEffect(() => {
-    const fetchTrips = async () =>{
-      try {
-        const response = await fetch(`${CONFIG.SERVER_URL}/route/all`, {
-          method: "GET",
-          credentials: "include"
-        });
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        const data = await response.json();
-        setTrips(data.routes);
-      } catch (error) {
-        alert("Cannot fetch trips. Please try again later.")
-      }
-    }
+  const { data, loading, error, refetch } = useFetch(`${CONFIG.SERVER_URL}/route/all`, {
+    method: "GET",
+    credentials: "include"
+  });
 
-    fetchTrips();
-  }, []);
 
-  const handleRouteDelete = async (tripId) => {
+const handleRouteDelete = async (tripId) => {
     try {
       const response = await fetch(`${CONFIG.SERVER_URL}/route/delete`, {
         method: "DELETE",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ route_id: tripId })
       });
-      if(!response.ok){
-        throw new Error(response.status);
-      }
-      setTrips(trips.filter((trip) => { return trip.id != tripId }));
-      alert("Route deleted succesfully.");
+      
+      if (!response.ok) throw new Error(response.status);
+
+      alert("Route deleted successfully.");
+      refetch();
     } catch (error) {
-      alert("An error occurred while trying to delete route. Please try again later.");
+      alert("An error occurred while trying to delete route.");
     }
   };
 
@@ -57,7 +43,7 @@ function History() {
   const handleButtonClick = () => {
     navigate("/chat");
   };
-  if (!trips) {
+if (loading) {
     return (
       <div className="flex flex-col justify-center items-center h-screen">
         <CircularProgress color="primary" size={60} />
@@ -65,6 +51,10 @@ function History() {
       </div>
     );
   }
+  if (error) {
+  return <div className="text-center p-10 text-red-500">Error loading trips. Please try again.</div>;
+}
+  const trips = data?.routes || [];
   return (
     <div className="p-8">
       {trips.length === 0 ? (

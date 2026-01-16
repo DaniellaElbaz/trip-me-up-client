@@ -9,8 +9,10 @@ import History from './pages/history.jsx';
 import Chat from './pages/chat.jsx';
 import HomePage from './pages/homepage.jsx';
 import './App.css';
+import useLocalStorage from './hooks/useLocalStorage';
 
 function AppContent() {
+  const [lastVisit, setLastVisit] = useLocalStorage("lastVisitTimestamp", new Date().toISOString());
   useEffect(() => {
     document.title = 'Trip me up!';
   }, []);
