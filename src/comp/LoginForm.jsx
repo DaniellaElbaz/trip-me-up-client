@@ -4,6 +4,8 @@ import { TEInput, TERipple } from "tw-elements-react";
 import Avatar from "./Avatar";
 import CONFIG from "../config";
 import FlipCardRegister from "./FlipCardRegister";
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../store/userSlice';
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -11,6 +13,7 @@ function LoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isFlipped, setIsFlipped] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -27,6 +30,7 @@ function LoginForm() {
 
       if (response.ok) {
         const userData = await response.json();
+        dispatch(loginSuccess(userData.userdata));
         sessionStorage.setItem("userData", JSON.stringify(userData.userdata));
         const redirectPath = location.state?.from?.pathname || "/";
         navigate(redirectPath);
