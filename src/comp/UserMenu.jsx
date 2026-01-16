@@ -4,17 +4,13 @@ import { Close, Logout, Chat, Map, Home} from "@mui/icons-material";
 import Header from "./Header";
 import CONFIG from "../config";
 import { AuthContext } from "../AuthContext";
-
+import useLocalStorage from '../hooks/useLocalStorage';
 const UserMenu = () => {
   const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false)
-  const storedData = sessionStorage.getItem("userData");
-  let sessionUser = null;
-  if(storedData){
-    sessionUser = JSON.parse(storedData);
-  }
-  let userData = user || sessionUser;
+  const [persistentUser, setPersistentUser] = useLocalStorage("userData", null);
+  let userData = user || persistentUser;
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -29,8 +25,10 @@ const UserMenu = () => {
     }, 1);
   };
   const handleLogout = async () => {
+    setPersistentUser(null);
     sessionStorage.setItem("userData", null);
     sessionStorage.setItem("userID", null);
+    sessionStorage.removeItem("userID");
     try {
       const response = await fetch(`${CONFIG.SERVER_URL}/logout`, {
         method: "GET",
