@@ -13,22 +13,7 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
   return (
     <header className={`w-full z-50 ${isHomePage ? "bg-transparent absolute top-0 left-0" : "bg-white shadow-md"}`}>
     <div className="flex items-center justify-between p-2">
-
-            <div className="flex items-center gap-3">
-              {isLoggedIn && (
-                <div className={`rounded-full p-1 ${isHomePage ? "" : "bg-gray-50"}`}>
-                    <IconButton 
-                      onClick={() => console.log("Favorites clicked")} 
-                      sx={{ color: isHomePage ? "white" : "gray" }}
-                    >
-                      <Badge badgeContent={favoritesCount} color="error">
-                        <Favorite />
-                      </Badge>
-                    </IconButton>
-                </div>
-              )}
-
-              {/* Hamburger Icon */}
+    {/* Hamburger Icon */}
               {isLoggedIn && (
                 <button
                   onClick={toggleMenu}
@@ -57,6 +42,21 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
                   Login
                 </button>
               }
+            <div className="flex items-center gap-3">
+              {isLoggedIn && (
+                <div className={`rounded-full p-1 ${isHomePage ? "" : "bg-gray-50"}`}>
+                    <IconButton 
+                      onClick={() => console.log("Favorites clicked")} 
+                      sx={{ color: isHomePage ? "white" : "gray" }}
+                    >
+                      <Badge badgeContent={favoritesCount} color="error">
+                        <Favorite />
+                      </Badge>
+                    </IconButton>
+                </div>
+              )}
+
+              
             </div>
             <style>
               {`
@@ -67,7 +67,7 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
                 }
               `}
             </style>
-  <a href="/">
+          <a href="/">
             <img
               src={isHomePage ? "/images/logo-2.png" : "/images/logo.png"}
               alt="App Logo"
