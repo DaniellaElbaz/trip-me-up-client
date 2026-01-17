@@ -6,17 +6,25 @@ import CONFIG from "../config";
 import FlipCardRegister from "./FlipCardRegister";
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../store/userSlice';
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const [isFlipped, setIsFlipped] = useState(false);
   const dispatch = useDispatch();
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  
+  const [rememberedUser, setRememberedUser] = useLocalStorage("lastUsername", "");
+
+  const [username, setUsername] = useState(rememberedUser);
+  const [password, setPassword] = useState("");
+
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
+
+    setRememberedUser(username);
 
     try {
       const response = await fetch(`${CONFIG.SERVER_URL}/login`, {
@@ -24,7 +32,7 @@ function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username:username, password:password }),
+        body: JSON.stringify({ username: username, password: password }),
         credentials: "include",
       });
 
@@ -50,7 +58,7 @@ function LoginForm() {
   return (
     <div
       style={{
-        perspective: "1000px", // Adds 3D perspective
+        perspective: "1000px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
