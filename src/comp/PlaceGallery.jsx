@@ -20,37 +20,43 @@ export default function PlaceGallery({
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const [openNow, setIsOpenNow] = useState(null);
 
-  function isStoreOpen(openingHours) {
-    if(!openingHours)
-      return null;
+  function isStoreOpen(rawOpeningHours) {
+    if (!rawOpeningHours) return null;
+
+    let openingHours = rawOpeningHours;
+
+    if (typeof rawOpeningHours === 'string') {
+        openingHours = rawOpeningHours.split(',').map(day => day.trim());
+    }
+
+    if (!Array.isArray(openingHours)) return null;
+
     const now = new Date();
     const dayIndex = now.getDay();
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const currentDay = daysOfWeek[dayIndex];
     
-    // Find the string for the current day
     const todayHours = openingHours.find(day => day.startsWith(currentDay));
+    
     if (!todayHours || todayHours.includes("Closed")) {
         return false;
     }
     
-    // Extract the hours part after the colon and space
+    if (!todayHours.includes(": ")) return false;
+
     const hours = todayHours.split(": ")[1];
-    // Use a regex to split on any dash (en dash or hyphen) with any surrounding whitespace
     const [openTimeStr, closeTimeStr] = hours.split(/\s*[–-]\s*/);
     
     if (!openTimeStr || !closeTimeStr) {
-        //console.error("Error parsing hours:", hours);
         return false;
     }
     
-    // Parse the time strings into objects with hour and minute properties
     const parseTime = (timeStr) => {
         const parts = timeStr.trim().split(/\s+/);
         const [hourPart, minutePart] = parts[0].split(":");
         let hour = parseInt(hourPart, 10);
         const minute = parseInt(minutePart, 10);
-        const period = parts[1]; // May be undefined
+        const period = parts[1]; 
         
         if (period) {
             if (period.toUpperCase() === "PM" && hour !== 12) {
@@ -74,9 +80,13 @@ export default function PlaceGallery({
         (currentHour < closeTime.hour || (currentHour === closeTime.hour && currentMinute <= closeTime.minute))
     );
   }
+  // --------------------------------
 
-  useEffect(() => setIsOpenNow(isStoreOpen(places[currentPlaceIndex].opening_hours))
-  ,[currentPlaceIndex]);
+  useEffect(() => {
+    if (places && places[currentPlaceIndex]) {
+        setIsOpenNow(isStoreOpen(places[currentPlaceIndex]?.opening_hours));
+    }
+  }, [currentPlaceIndex, places]);
   
   const toggleNotes = () => {
     setIsNotesOpen(!isNotesOpen);
@@ -101,7 +111,9 @@ export default function PlaceGallery({
   }, [currentPlaceIndex])
 
   const handleNext = () => {
-    if (imageIndex == places[currentPlaceIndex].photos.length - 1) {
+    const photosLength = places[currentPlaceIndex]?.photos?.length || 0;
+
+    if (imageIndex >= photosLength - 1) {
       onNextPlace();
       setImageIndex(0);
     }
@@ -113,7 +125,10 @@ export default function PlaceGallery({
   const handlePrev = () => {
     if (imageIndex == 0) {
       let prevIndex = currentPlaceIndex > 0 ? currentPlaceIndex - 1 : places.length - 1;
-      let prevLastImageIndex = places[prevIndex].photos.length - 1;
+      
+      const prevPhotos = places[prevIndex]?.photos || [];
+      let prevLastImageIndex = prevPhotos.length > 0 ? prevPhotos.length - 1 : 0;
+      
       setImageIndex(prevLastImageIndex);
       setIsPlaceSwappedHere(true);
       onPrevPlace();
@@ -122,6 +137,11 @@ export default function PlaceGallery({
       setImageIndex(imageIndex - 1);
     }
   };
+
+  const currentPlace = places[currentPlaceIndex];
+  const safeImage = (currentPlace?.photos && currentPlace.photos.length > 0) 
+                    ? currentPlace.photos[imageIndex] 
+                    : ""; 
 
   return (
     <Box
@@ -159,15 +179,14 @@ export default function PlaceGallery({
         <ArrowBack />
       </IconButton>
 
-      {/* CustomCard for Image Display */}
       <CustomCard
-        image={places[currentPlaceIndex].photos[imageIndex]}
-        title={places[currentPlaceIndex].name}
-        subtitle={places[currentPlaceIndex].formatted_address}
-        description={places[currentPlaceIndex].desc}
-        rating={places[currentPlaceIndex].rating}
-        openNow={null} // null for now, not sure this feature is needed or possible to implement correctly without too much effort
-        openingHours={places[currentPlaceIndex].opening_hours}
+        image={safeImage} 
+        title={currentPlace?.name || ""}
+        subtitle={currentPlace?.formatted_address || ""}
+        description={currentPlace?.desc || ""}
+        rating={currentPlace?.rating || 0}
+        openNow={null} 
+        openingHours={currentPlace?.opening_hours}
         onDelete={() => onDelete(currentPlaceIndex)}
         isDeleteDisabled={deleteDisabled}
         toggleNotes={toggleNotes}
@@ -179,7 +198,7 @@ export default function PlaceGallery({
           isNotesOpen={isNotesOpen} 
           toggleNotes={toggleNotes} 
           currentLocationIndex={currentPlaceIndex} 
-          currentLocationName={places[currentPlaceIndex].name}
+          currentLocationName={currentPlace?.name}
           notesArray={notesArray} 
           setNotesArray={setNotesArray}
         />
@@ -200,4 +219,3 @@ export default function PlaceGallery({
     </Box>
   );
 }
-
