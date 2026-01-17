@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button  } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import SideBarTimeline from "./SideBarTimeline";
 import PlaceGallery from "./PlaceGallery";
 import CONFIG from "../config";
 import BoxC from '@mui/material/Box';
 import StatefulSaveButton from "./SaveButton";
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function BottomSection({
   startLocation,
@@ -23,6 +24,8 @@ export default function BottomSection({
   setNotesArray
 }) {
   const allStops = [startLocation, ...stops, endLocation];
+  
+  const [isDarkMode] = useLocalStorage("darkMode", false);
 
   const handleNext = () => {
     setSelectedIndex((prev) =>
@@ -55,19 +58,21 @@ export default function BottomSection({
       }}
       onWheel={handleScroll}
     >
-      <div className="flex flex-col bg-white p-6 gap-6 overflow-x-auto">
+      <div className={`flex flex-col p-6 gap-6 overflow-x-auto transition-colors duration-300
+        ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+        
       <div className="h-full max-h-1/2 min-h-1/5 overflow-y-auto">
 
-    {/* buttons */}
-    {isEditPermission && 
-    <BoxC sx={{ '& > button': { m: 1 } }}>
-    <StatefulSaveButton 
-      buttonState={saveState}
-      onSave={handleRouteUpdate}
-    />
-    </BoxC>
-    }
-    </div>
+      {/* buttons */}
+      {isEditPermission && 
+      <BoxC sx={{ '& > button': { m: 1 } }}>
+      <StatefulSaveButton 
+        buttonState={saveState}
+        onSave={handleRouteUpdate}
+      />
+      </BoxC>
+      }
+      </div>
         <SideBarTimeline
           stops={allStops.map((stop) => stop.name)}
           onSelectStop={setSelectedIndex}
@@ -89,3 +94,4 @@ export default function BottomSection({
     </Box>
   );
 }
+

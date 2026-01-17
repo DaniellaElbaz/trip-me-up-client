@@ -19,10 +19,7 @@ const UserMenu = () => {
   const { data: randomFact, request: fetchFact } = useApi();
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const closeMenu = () => setIsOpen(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -58,69 +55,69 @@ const UserMenu = () => {
     } catch (error) { console.error(error); }
   }
 
-  // צבעים מוגדרים מראש כדי למנוע בעיות Tailwind
-  const menuBg = isDarkMode ? "bg-gray-900" : "bg-white";
-  const textColor = isDarkMode ? "text-gray-100" : "text-gray-800";
-  const hoverColor = isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100";
-  const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
-
   return (
     <div className="relative" style={{ zIndex: 100 }}>
       <Header toggleMenu={toggleMenu} isLoggedIn={isLoggedIn}/>
       {isOpen && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" style={{ zIndex: 99 }} onClick={closeMenu}></div>
-          <div className={`fixed top-0 left-0 h-screen w-64 shadow-2xl transform transition-transform duration-300 ${menuBg} ${textColor}`} style={{ zIndex: 100 }}>
+          <div className="fixed inset-0 bg-black bg-opacity-50" style={{ zIndex: 99 }} onClick={closeMenu}></div>
+          
+          <div 
+            className={`fixed top-0 left-0 h-screen w-64 shadow-2xl transform transition-transform duration-300 ease-in-out`} 
+            style={{ 
+                zIndex: 100,
+                backgroundColor: isDarkMode ? "#1f2937" : "#ffffff", 
+                color: isDarkMode ? "#ffffff" : "#000000"
+            }}
+          >
             
-            <button onClick={closeMenu} className={`absolute top-4 right-4 p-2 rounded-full shadow-md ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-gray-600"}`}>
+            <button onClick={closeMenu} className={`absolute top-4 right-4 p-2 rounded-full ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-200 text-black"}`}>
               <Close />
             </button>
 
-            <div className={`flex flex-col items-center p-6 border-b ${borderColor}`}>
-              <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="User" className="w-16 h-16 rounded-full mb-2 shadow-lg border-2 border-blue-500" />
+            <div className={`flex flex-col items-center p-6 border-b ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
+              <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="User" className="w-16 h-16 rounded-full mb-2 border-2 border-blue-500" />
               <p className="text-lg font-bold">{userData ? userData.name : "Guest"}</p>
             </div>
 
-            <div className={`px-6 py-4 border-b ${borderColor} flex justify-between items-center`}>
-                <span className="font-semibold flex items-center gap-2">
-                    {isDarkMode ? "🌙 Dark" : "☀️ Light"} Mode
-                </span>
-                
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked={isDarkMode} onChange={(e) => setIsDarkMode(e.target.checked)} className="sr-only peer" />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                </label>
+            <div className={`px-6 py-4 border-b ${isDarkMode ? "border-gray-600" : "border-gray-200"} flex justify-between items-center`}>
+                <span className="font-semibold">🌙 Dark Mode</span>
+                <input 
+                    type="checkbox" 
+                    checked={isDarkMode} 
+                    onChange={(e) => setIsDarkMode(e.target.checked)}
+                    className="w-5 h-5 cursor-pointer"
+                />
             </div>
 
             <nav className="flex-grow p-4 space-y-2">
-              <NavLink to="/" onClick={closeMenu} className={({ isActive }) => `flex items-center px-4 py-3 rounded-lg transition-colors ${isActive ? "bg-blue-500 text-white" : hoverColor}`}>
+              <NavLink to="/" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg hover:bg-opacity-10 ${isDarkMode ? "hover:bg-white" : "hover:bg-black"}`}>
                 <Home className="mr-3" /> Home
               </NavLink>
-              <NavLink to="/chat" onClick={closeMenu} className={({ isActive }) => `flex items-center px-4 py-3 rounded-lg transition-colors ${isActive ? "bg-blue-500 text-white" : hoverColor}`}>
+              <NavLink to="/chat" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg hover:bg-opacity-10 ${isDarkMode ? "hover:bg-white" : "hover:bg-black"}`}>
                 <Chat className="mr-3" /> Chat
               </NavLink>
-              <NavLink to="/history" onClick={closeMenu} className={({ isActive }) => `flex items-center px-4 py-3 rounded-lg transition-colors ${isActive ? "bg-blue-500 text-white" : hoverColor}`}>
+              <NavLink to="/history" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg hover:bg-opacity-10 ${isDarkMode ? "hover:bg-white" : "hover:bg-black"}`}>
                 <Map className="mr-3" /> History
               </NavLink>
               
-              {/* תיקון לכפתור מחיקה: צבע אדום חזק */}
               <button 
                 onClick={handleClearFavorites} 
-                className={`flex items-center w-full px-4 py-3 rounded-lg transition-colors ${hoverColor} text-red-600 font-bold`}
+                className={`flex items-center w-full px-4 py-3 rounded-lg font-bold transition-colors
+                  ${isDarkMode ? "text-red-400 hover:bg-gray-700" : "text-red-600 hover:bg-gray-100"}`}
               >
                 <Delete className="mr-3" /> Clear Favorites
               </button>
             </nav>
 
-            <div className={`p-4 text-xs text-center border-t ${borderColor} opacity-70`}>
+            <div className={`p-4 text-xs text-center border-t opacity-70 ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
                 <Lightbulb fontSize="small" className="text-yellow-500 mb-1" /> 
                 <p className="italic">{randomFact ? randomFact.text : "Loading..."}</p>
             </div>
 
             <div className="p-4">
-                {/* תיקון לכפתור התנתקות: הסרת Gradient, שימוש בצבע רקע רגיל */}
                 <button 
-                    className="flex items-center justify-center w-full px-4 py-3 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700 transition-colors" 
+                    className="flex items-center justify-center w-full px-4 py-3 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700" 
                     onClick={handleLogout}
                 >
                 <Logout className="mr-2" /> Logout
