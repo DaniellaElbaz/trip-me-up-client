@@ -12,24 +12,16 @@ import { useApi } from '../hooks/useApi';
 const UserMenu = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const [closing, setClosing] = useState(false)
   const [persistentUser, setPersistentUser] = useLocalStorage("userData", null);
   const { userData, isLoggedIn } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useLocalStorage("darkMode", false);
-  
   const { data: randomFact, request: fetchFact } = useApi();
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
+  const toggleMenu = () => setIsOpen(!isOpen);
+  
   const closeMenu = () => {
-    setClosing(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setClosing(false);
-    }, 1);
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -38,7 +30,7 @@ const UserMenu = () => {
     }
   }, [isOpen, fetchFact]);
 
-useEffect(() => {
+  useEffect(() => {
     if (isDarkMode) {
       document.body.style.backgroundColor = "#121212";
       document.body.style.color = "#e0e0e0";
@@ -58,29 +50,16 @@ useEffect(() => {
 
   const handleLogout = async () => {
     setPersistentUser(null);
-    sessionStorage.setItem("userData", null);
-    sessionStorage.setItem("userID", null);
-    sessionStorage.removeItem("userID");
+    sessionStorage.clear();
     try {
-      const response = await fetch(`${CONFIG.SERVER_URL}/logout`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      if (response.ok) {
-        dispatch(logoutSuccess());
-        navigate("/login");
-      } else {
-        alert(`Logout failed...`);
-      }
-    } catch (error) {
-      alert(`Logout failed...`);
-    }
+      await fetch(`${CONFIG.SERVER_URL}/logout`, { method: "GET" });
+      dispatch(logoutSuccess());
+      navigate("/login");
+    } catch (error) { console.error(error); }
   }
 
- const menuBg = isDarkMode ? "bg-gray-900" : "bg-white";
+  // צבעים מוגדרים מראש כדי למנוע בעיות Tailwind
+  const menuBg = isDarkMode ? "bg-gray-900" : "bg-white";
   const textColor = isDarkMode ? "text-gray-100" : "text-gray-800";
   const hoverColor = isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100";
   const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
@@ -109,7 +88,7 @@ useEffect(() => {
                 
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" checked={isDarkMode} onChange={(e) => setIsDarkMode(e.target.checked)} className="sr-only peer" />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
             </div>
 
@@ -124,9 +103,10 @@ useEffect(() => {
                 <Map className="mr-3" /> History
               </NavLink>
               
+              {/* תיקון לכפתור מחיקה: צבע אדום חזק */}
               <button 
                 onClick={handleClearFavorites} 
-                className={`flex items-center w-full px-4 py-3 rounded-lg transition-colors ${hoverColor} ${isDarkMode ? "text-red-400" : "text-red-600"}`}
+                className={`flex items-center w-full px-4 py-3 rounded-lg transition-colors ${hoverColor} text-red-600 font-bold`}
               >
                 <Delete className="mr-3" /> Clear Favorites
               </button>
@@ -138,7 +118,11 @@ useEffect(() => {
             </div>
 
             <div className="p-4">
-                <button className="flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg shadow-lg hover:from-red-600 hover:to-red-700 transition-all" onClick={handleLogout}>
+                {/* תיקון לכפתור התנתקות: הסרת Gradient, שימוש בצבע רקע רגיל */}
+                <button 
+                    className="flex items-center justify-center w-full px-4 py-3 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700 transition-colors" 
+                    onClick={handleLogout}
+                >
                 <Logout className="mr-2" /> Logout
                 </button>
             </div>
