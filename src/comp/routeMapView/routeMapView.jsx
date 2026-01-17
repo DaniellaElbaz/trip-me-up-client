@@ -2,11 +2,93 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { GoogleMap, DirectionsRenderer, Marker, InfoWindow } from "@react-google-maps/api";
 import PropTypes from "prop-types";
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const mapContainerStyle = {
   width: "100%",
   height: "72vh",
 };
+
+const darkMapStyles = [
+  { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+  { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#d59563" }],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#d59563" }],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "geometry",
+    stylers: [{ color: "#263c3f" }],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#6b9a76" }],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [{ color: "#38414e" }],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#212a37" }],
+  },
+  {
+    featureType: "road",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#9ca5b3" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry",
+    stylers: [{ color: "#746855" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#1f2835" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#f3d19c" }],
+  },
+  {
+    featureType: "transit",
+    elementType: "geometry",
+    stylers: [{ color: "#2f3948" }],
+  },
+  {
+    featureType: "transit.station",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#d59563" }],
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [{ color: "#17263c" }],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#515c6d" }],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.stroke",
+    stylers: [{ color: "#17263c" }],
+  },
+];
 
 export default function RouteMapView({ startLocation, endLocation, stops, optimize, selectedLocation, setSelectedLocation }) {
   const mapRef = useRef();
@@ -14,6 +96,8 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
   const [routeReady, setRouteReady] = useState(false);
   const [directions, setDirections] = useState();
   const [selectedLocationLocal, setSelectedLocationLocal] = useState(null);
+
+  const [isDarkMode] = useLocalStorage("darkMode", false);
 
   useEffect(() =>{
     if (!mapRef.current || !selectedLocation) return;
@@ -53,31 +137,24 @@ export default function RouteMapView({ startLocation, endLocation, stops, optimi
          stopover: true,
        })),
        optimizeWaypoints: optimize,
-     },
+      },
       (result, status) => {
        if (status === "OK" && result) {
          setDirections(result);
        } else {
          console.error(`Failed to fetch directions: ${status}`);
        }
-     }
+      }
     );
   }, [routeReady, startLocation, endLocation, stops]
 );
 
 function smoothZoom(map, targetZoom, currentZoom) {
   if (currentZoom === targetZoom) return;
-
-  // Determine the zoom direction: zooming in (+1) or out (-1)
   const step = targetZoom > currentZoom ? 1 : -1;
-
-  // Listen for the zoom change event to continue the animation
   google.maps.event.addListenerOnce(map, 'zoom_changed', () => {
-    // Use a timeout to create a delay between zoom steps
     setTimeout(() => smoothZoom(map, targetZoom, currentZoom + step), 80);
   });
-
-  // Update the map's zoom level
   map.setZoom(currentZoom);
 }
 
@@ -88,7 +165,8 @@ function smoothZoom(map, targetZoom, currentZoom) {
         onLoad={onLoad}
         options={{
           gestureHandling: "greedy",
-          zoomControl: true, 
+          zoomControl: true,
+          styles: isDarkMode ? darkMapStyles : [], 
         }}
       >
         {directions && (
@@ -112,7 +190,7 @@ function smoothZoom(map, targetZoom, currentZoom) {
             scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={() => {
-            setSelectedLocation(0); // sets selected place index to first
+            setSelectedLocation(0); 
             setSelectedLocationLocal(startLocation);
           }} 
         />
@@ -139,7 +217,7 @@ function smoothZoom(map, targetZoom, currentZoom) {
             scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={() => {
-            setSelectedLocation(stops.length + 1) // sets selected place index to last
+            setSelectedLocation(stops.length + 1)
             setSelectedLocationLocal(endLocation);
           }} 
         />
@@ -151,9 +229,17 @@ function smoothZoom(map, targetZoom, currentZoom) {
           }}
             onCloseClick={() => setSelectedLocationLocal(null)}
           >
-            <div style={{ maxWidth: "200px", padding: "16px", marginTop: "3px", borderRadius: "8px", backgroundColor: "#F3F4F6", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
+            <div style={{ 
+                maxWidth: "200px", 
+                padding: "16px", 
+                marginTop: "3px", 
+                borderRadius: "8px", 
+                backgroundColor: isDarkMode ? "#333" : "#F3F4F6",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                color: isDarkMode ? "#fff" : "#000"
+            }}>
               {/* title */}
-              <h3 style={{ fontSize: "18px", fontWeight: "600", color: "black", margin: "0 0 8px 0" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: "600", margin: "0 0 8px 0", color: "inherit" }}>
                 {selectedLocationLocal.name}
               </h3>
               {/* photo */}
@@ -171,7 +257,7 @@ function smoothZoom(map, targetZoom, currentZoom) {
                 />
               )}
               {/* address */}
-              <p style={{ fontSize: "14px", color: "black", margin: "0" }}>
+              <p style={{ fontSize: "14px", margin: "0", color: isDarkMode ? "#ccc" : "black" }}>
                 {selectedLocationLocal.formatted_address}
               </p>
             </div>
@@ -182,7 +268,6 @@ function smoothZoom(map, targetZoom, currentZoom) {
   );
 }
 
-// PropTypes
 const LocationPropTypes = PropTypes.shape({
   formatted_address: PropTypes.string.isRequired,
   geometry: PropTypes.shape({
