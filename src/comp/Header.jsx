@@ -1,14 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Menu } from "@mui/icons-material";
+import { Menu, Favorite } from "@mui/icons-material";
+import { Badge, IconButton } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const Header = ({ toggleMenu, isLoggedIn }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const favoritesCount = useSelector((state) => state.favorites.items.length);
   return (
     <header className={`w-full z-50 ${isHomePage ? "bg-transparent absolute top-0 left-0" : "bg-white shadow-md"}`}>
-      <div className="flex items-center justify-between p-2">
+      <div className="flex items-center gap-3">
        {/* Hamburger Icon */}
        {isLoggedIn && (
           <button
@@ -23,6 +27,18 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
             <Menu fontSize="large" />
           </button>
         )}
+        {isLoggedIn && (
+             <div className={`rounded-full p-1 ${isHomePage ? "" : "bg-gray-50"}`}>
+                <IconButton 
+                  onClick={() => console.log("Navigate to favorites page if exists")}
+                  sx={{ color: isHomePage ? "white" : "gray" }}
+                >
+                  <Badge badgeContent={favoritesCount} color="error">
+                    <Favorite />
+                  </Badge>
+                </IconButton>
+             </div>
+          )}
         {/* Login */}
         {!isLoggedIn &&
         <button

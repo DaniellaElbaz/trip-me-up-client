@@ -1,11 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {  Tooltip, Typography, Box,Card, CardMedia, CardContent, IconButton, Rating } from "@mui/material";
-import { Delete, Close, Note } from "@mui/icons-material";;
-
-export default function CustomCard({ image, title, subtitle, description,rating, openNow,openingHours, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
-let safeOpeningHours = [];
+import { Tooltip, Typography, Box, Card, CardMedia, CardContent, IconButton, Rating } from "@mui/material";
+import { Delete, Note, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../store/favoritesSlice";
+export default function CustomCard({ image, title, subtitle, description, rating, openNow, openingHours, onDelete, isDeleteDisabled, toggleNotes, isEditPermission }) {
   
+  const dispatch = useDispatch();
+  
+  const isFavorite = useSelector((state) => 
+    state.favorites.items.some((item) => item.name === title)
+  );
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(title));
+    } else {
+      dispatch(addFavorite({ 
+        name: title, 
+        image: image, 
+        description: description,
+        rating: rating 
+      }));
+    }
+  };
+  let safeOpeningHours = [];
   if (openingHours) {
       if (Array.isArray(openingHours)) {
           safeOpeningHours = openingHours;
@@ -40,6 +59,18 @@ let safeOpeningHours = [];
           objectFit: "cover",
         }}
       />
+      <IconButton
+        onClick={handleFavoriteClick}
+        sx={{
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          "&:hover": { backgroundColor: "rgba(255, 255, 255, 1)" },
+        }}
+      >
+        {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
+      </IconButton>
       {isEditPermission &&
         <IconButton
         onClick={toggleNotes}
