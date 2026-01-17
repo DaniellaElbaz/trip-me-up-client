@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { GoogleMap, DirectionsRenderer, Marker, InfoWindow } from "@react-google-maps/api";
 import PropTypes from "prop-types";
-import useLocalStorage from '../hooks/useLocalStorage';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const mapContainerStyle = {
   width: "100%",
