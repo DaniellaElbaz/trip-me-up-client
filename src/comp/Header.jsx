@@ -13,6 +13,7 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
   return (
     <header className={`w-full z-50 ${isHomePage ? "bg-transparent absolute top-0 left-0" : "bg-white shadow-md"}`}>
     <div className="flex items-center justify-between p-2">
+      <div className="flex items-center gap-3">
     {/* Hamburger Icon */}
               {isLoggedIn && (
                 <button
@@ -42,7 +43,7 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
                   Login
                 </button>
               }
-            <div className="flex items-center gap-3">
+            
               {isLoggedIn && (
                 <div className={`rounded-full p-1 ${isHomePage ? "" : "bg-gray-50"}`}>
                     <IconButton 
@@ -55,8 +56,6 @@ const Header = ({ toggleMenu, isLoggedIn }) => {
                     </IconButton>
                 </div>
               )}
-
-              
             </div>
             <style>
               {`
