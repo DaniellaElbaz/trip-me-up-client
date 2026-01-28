@@ -3,7 +3,7 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import CustomCard from "./CustomCard";
 import NoteBox from "./NoteBox";
-
+import useLocalStorage from '../hooks/useLocalStorage';
 export default function PlaceGallery({
   places,
   currentPlaceIndex,
@@ -19,7 +19,7 @@ export default function PlaceGallery({
   const [deleteDisabled, setDeleteDisabled] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const [openNow, setIsOpenNow] = useState(null);
-
+  const [isDarkMode] = useLocalStorage("darkMode", false);
   function isStoreOpen(rawOpeningHours) {
     if (!rawOpeningHours) return null;
 
@@ -153,6 +153,8 @@ export default function PlaceGallery({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        backgroundColor: "transparent", 
+        color: isDarkMode ? "white" : "black",
       }}
     >
       <Box
@@ -165,6 +167,8 @@ export default function PlaceGallery({
         width: "80vh",
         height: "100%",
         overflow: "hidden",
+        backgroundColor: "transparent", 
+        color: isDarkMode ? "white" : "black",
       }}
     >
       <IconButton
