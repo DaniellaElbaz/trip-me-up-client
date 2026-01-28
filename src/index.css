@@ -57,7 +57,6 @@ button {
   transition: all 0.3s ease;
 }
 
-/* מניעת "טקסט שחור על רקע שחור" ברמת ה-CSS */
-h1, h2, h3, p, span {
-  color: inherit; /* יורש מה-body שמקבל את המשתנה --text-color */
+h1, h2, h3, p, span, div {
+  color: inherit;
 }
