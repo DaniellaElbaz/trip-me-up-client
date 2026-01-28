@@ -58,8 +58,7 @@ export default function BottomSection({
       }}
       onWheel={handleScroll}
     >
-      <div className={`flex flex-col p-6 gap-6 overflow-x-auto transition-colors duration-300
-        ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+     <div className={`flex flex-col p-6 gap-6 overflow-x-auto transition-all duration-300 ${isDarkMode ? "dark bg-gray-900 text-white" : "bg-white text-black"}`}>
         
       <div className="h-full max-h-1/2 min-h-1/5 overflow-y-auto">
 
@@ -73,23 +72,28 @@ export default function BottomSection({
       </BoxC>
       }
       </div>
-        <SideBarTimeline
-          stops={allStops.map((stop) => stop.name)}
-          onSelectStop={setSelectedIndex}
-          selectedIndex={selectedIndex}
-          onStopAdded={handleStopAdded}
-          isEditPermission={isEditPermission}
-        />
-        <PlaceGallery
-          places={allStops}
-          currentPlaceIndex={selectedIndex}
-          onNextPlace={handleNext} 
-          onPrevPlace={handlePrev} 
-          onDelete={handleDelete}
-          isEditPermission={isEditPermission}
-          notesArray={notesArray}
-          setNotesArray={setNotesArray}
-        />
+        <div className="bg-transparent">
+          <SideBarTimeline
+            stops={allStops.map((stop) => stop.name)}
+            onSelectStop={setSelectedIndex}
+            selectedIndex={selectedIndex}
+            onStopAdded={handleStopAdded}
+            isEditPermission={isEditPermission}
+          />
+        </div>
+
+        <div className="bg-transparent">
+          <PlaceGallery
+            places={allStops}
+            currentPlaceIndex={selectedIndex}
+            onNextPlace={handleNext} 
+            onPrevPlace={handlePrev} 
+            onDelete={handleDelete}
+            isEditPermission={isEditPermission}
+            notesArray={notesArray}
+            setNotesArray={setNotesArray}
+          />
+        </div>
       </div>
     </Box>
   );
