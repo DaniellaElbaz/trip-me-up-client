@@ -72,7 +72,7 @@ return (
             
             <button 
               onClick={closeMenu} 
-              className={`absolute top-4 right-4 p-2 rounded-full border transition-all "bg-gray-200 border-gray-300 text-black hover:bg-gray-300"}`}
+              className={`absolute top-4 right-4 p-2 rounded-full border transition-all "bg-gray-200 border-red-600 text-black hover:bg-gray-300"}`}
             >
               <Close />
             </button>
@@ -104,12 +104,11 @@ return (
               </NavLink>
               
               <hr className={isDarkMode ? "border-gray-700" : "border-gray-200"} />
-
               <button 
                 onClick={handleClearFavorites} 
                 className={`flex items-center w-full px-4 py-3 rounded-lg font-bold border transition-all
-                  ${isDarkMode 
-                    ? "border-gray-700" : "border-gray-200"}`}
+                  bg-gray-500 text-white hover:bg-gray-600 
+                  ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}
               >
                 <Delete className="mr-3" /> Clear Favorites
               </button>
