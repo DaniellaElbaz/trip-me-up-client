@@ -26,14 +26,11 @@ const UserMenu = () => {
         fetchFact("https://uselessfacts.jsph.pl/api/v2/facts/random");
     }
   }, [isOpen, fetchFact]);
-
   useEffect(() => {
     if (isDarkMode) {
-      document.body.style.backgroundColor = "#121212";
-      document.body.style.color = "#e0e0e0";
+      document.documentElement.classList.add('dark');
     } else {
-      document.body.style.backgroundColor = "#f5f5f5";
-      document.body.style.color = "#000";
+      document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
 
