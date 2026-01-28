@@ -54,8 +54,7 @@ const UserMenu = () => {
       navigate("/login");
     } catch (error) { console.error(error); }
   }
-
-  return (
+return (
     <div className="relative" style={{ zIndex: 100 }}>
       <Header toggleMenu={toggleMenu} isLoggedIn={isLoggedIn}/>
       {isOpen && (
@@ -63,20 +62,26 @@ const UserMenu = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50" style={{ zIndex: 99 }} onClick={closeMenu}></div>
           
           <div 
-            className={`fixed top-0 left-0 h-screen w-64 shadow-2xl transform transition-transform duration-300 ease-in-out`} 
+            className="fixed top-0 left-0 h-screen w-64 shadow-2xl transform transition-transform duration-300 ease-in-out" 
             style={{ 
                 zIndex: 100,
-                backgroundColor: isDarkMode ? "#1f2937" : "#ffffff", 
+                backgroundColor: isDarkMode ? "#1f2937" : "#ffffff",
                 color: isDarkMode ? "#ffffff" : "#000000"
             }}
           >
             
-            <button onClick={closeMenu} className={`absolute top-4 right-4 p-2 rounded-full ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-200 text-black"}`}>
+            <button 
+              onClick={closeMenu} 
+              className={`absolute top-4 right-4 p-2 rounded-full border transition-all
+                ${isDarkMode 
+                  ? "bg-gray-600 border-gray-500 text-white hover:bg-gray-500" 
+                  : "bg-gray-200 border-gray-300 text-black hover:bg-gray-300"}`}
+            >
               <Close />
             </button>
 
             <div className={`flex flex-col items-center p-6 border-b ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
-              <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="User" className="w-16 h-16 rounded-full mb-2 border-2 border-blue-500" />
+              <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="User" className="w-16 h-16 rounded-full mb-2 border-2 border-blue-500 shadow-md" />
               <p className="text-lg font-bold">{userData ? userData.name : "Guest"}</p>
             </div>
 
@@ -90,21 +95,25 @@ const UserMenu = () => {
                 />
             </div>
 
-            <nav className="flex-grow p-4 space-y-2">
-              <NavLink to="/" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg hover:bg-opacity-10 ${isDarkMode ? "hover:bg-white" : "hover:bg-black"}`}>
+            <nav className="flex-grow p-4 space-y-3">
+              <NavLink to="/" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg transition-colors ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}>
                 <Home className="mr-3" /> Home
               </NavLink>
-              <NavLink to="/chat" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg hover:bg-opacity-10 ${isDarkMode ? "hover:bg-white" : "hover:bg-black"}`}>
+              <NavLink to="/chat" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg transition-colors ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}>
                 <Chat className="mr-3" /> Chat
               </NavLink>
-              <NavLink to="/history" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg hover:bg-opacity-10 ${isDarkMode ? "hover:bg-white" : "hover:bg-black"}`}>
+              <NavLink to="/history" onClick={closeMenu} className={`flex items-center px-4 py-3 rounded-lg transition-colors ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}>
                 <Map className="mr-3" /> History
               </NavLink>
               
+              <hr className={isDarkMode ? "border-gray-700" : "border-gray-200"} />
+
               <button 
                 onClick={handleClearFavorites} 
-                className={`flex items-center w-full px-4 py-3 rounded-lg font-bold transition-colors
-                  ${isDarkMode ? "text-red-400 hover:bg-gray-700" : "text-red-600 hover:bg-gray-100"}`}
+                className={`flex items-center w-full px-4 py-3 rounded-lg font-bold border transition-all
+                  ${isDarkMode 
+                    ? "text-red-400 border-red-900 bg-red-950 bg-opacity-20 hover:bg-red-900 hover:text-white" 
+                    : "text-red-600 border-red-100 bg-red-50 hover:bg-red-600 hover:text-white"}`}
               >
                 <Delete className="mr-3" /> Clear Favorites
               </button>
@@ -112,12 +121,12 @@ const UserMenu = () => {
 
             <div className={`p-4 text-xs text-center border-t opacity-70 ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
                 <Lightbulb fontSize="small" className="text-yellow-500 mb-1" /> 
-                <p className="italic">{randomFact ? randomFact.text : "Loading..."}</p>
+                <p className="italic">{randomFact ? randomFact.text : "Loading fact..."}</p>
             </div>
 
             <div className="p-4">
                 <button 
-                    className="flex items-center justify-center w-full px-4 py-3 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700" 
+                    className="flex items-center justify-center w-full px-4 py-3 bg-red-600 text-white font-bold rounded-lg shadow-md hover:bg-red-700 transition-transform active:scale-95" 
                     onClick={handleLogout}
                 >
                 <Logout className="mr-2" /> Logout
