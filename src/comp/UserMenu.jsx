@@ -72,10 +72,7 @@ return (
             
             <button 
               onClick={closeMenu} 
-              className={`absolute top-4 right-4 p-2 rounded-full border transition-all
-                ${isDarkMode 
-                  ? "bg-gray-600 border-gray-500 text-white hover:bg-gray-500" 
-                  : "bg-gray-200 border-gray-300 text-black hover:bg-gray-300"}`}
+              className={`absolute top-4 right-4 p-2 rounded-full border transition-all "bg-gray-200 border-gray-300 text-black hover:bg-gray-300"}`}
             >
               <Close />
             </button>
@@ -112,8 +109,7 @@ return (
                 onClick={handleClearFavorites} 
                 className={`flex items-center w-full px-4 py-3 rounded-lg font-bold border transition-all
                   ${isDarkMode 
-                    ? "text-red-400 border-red-900 bg-red-950 bg-opacity-20 hover:bg-red-900 hover:text-white" 
-                    : "text-red-600 border-red-100 bg-red-50 hover:bg-red-600 hover:text-white"}`}
+                    ? "border-gray-700" : "border-gray-200"}`}
               >
                 <Delete className="mr-3" /> Clear Favorites
               </button>
