@@ -60,3 +60,12 @@ button {
 h1, h2, h3, p, span, div {
   color: inherit;
 }
+.dark .MuiPaper-root, 
+.dark .MuiCard-root {
+    background-color: #111827 !important; /* צבע אפור כהה מאוד של Tailwind */
+    color: white !important;
+}
+
+.dark div {
+    border-color: #374151 !important; /* צבע גבול כהה */
+}
