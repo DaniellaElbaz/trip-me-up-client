@@ -107,8 +107,8 @@ return (
               <button 
                 onClick={handleClearFavorites} 
                 className={`flex items-center w-full px-4 py-3 rounded-lg font-bold border transition-all
-                  bg-gray-500 text-white hover:bg-gray-600 
-                  ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}
+                  bg-gray-500 text-black hover:bg-gray-700 
+                  ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
               >
                 <Delete className="mr-3" /> Clear Favorites
               </button>
